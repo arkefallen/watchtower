@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --watchtower-background: #0b0d0f;
+  --watchtower-foreground: #e5e7e6;
+  --watchtower-muted: #8b9290;
+  --watchtower-amber: #d5a84c;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--watchtower-background);
+  color: var(--watchtower-foreground);
+  font-family: "Geist", "Segoe UI", sans-serif;
+}
+button, a { font: inherit; }

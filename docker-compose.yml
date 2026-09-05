@@ -1,0 +1,94 @@
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: watchtower
+      POSTGRES_PASSWORD: watchtower
+      POSTGRES_DB: watchtower
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U watchtower -d watchtower"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:8
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  migrate:
+    build:
+      context: .
+      target: runtime
+    environment:
+      DATABASE_URL: postgresql://watchtower:watchtower@postgres:5432/watchtower
+      ETHERSCAN_API_KEY: ${ETHERSCAN_API_KEY:-development-placeholder}
+      ALCHEMY_API_KEY: ${ALCHEMY_API_KEY:-}
+      BLOCKSCOUT_API_KEY: ${BLOCKSCOUT_API_KEY:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    user: "0:0"
+    volumes:
+      - ./backups:/app/backups
+    restart: "no"
+    command: ["sh", "-c", "if [ -f prisma/schema.prisma ]; then node_modules/.bin/tsx scripts/backup.ts && node_modules/.bin/prisma migrate deploy; else echo 'No Prisma schema yet; migration deferred to P0-T04'; fi"]
+
+  app:
+    build:
+      context: .
+      target: runtime
+    environment:
+      DATABASE_URL: postgresql://watchtower:watchtower@postgres:5432/watchtower
+      REDIS_URL: redis://redis:6379
+      ETHERSCAN_API_KEY: ${ETHERSCAN_API_KEY:-development-placeholder}
+      ALCHEMY_API_KEY: ${ALCHEMY_API_KEY:-}
+      BLOCKSCOUT_API_KEY: ${BLOCKSCOUT_API_KEY:-}
+      NEXT_TELEMETRY_DISABLED: "1"
+      HOSTNAME: 0.0.0.0
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  worker:
+    build:
+      context: .
+      target: runtime
+    environment:
+      DATABASE_URL: postgresql://watchtower:watchtower@postgres:5432/watchtower
+      REDIS_URL: redis://redis:6379
+      ETHERSCAN_API_KEY: ${ETHERSCAN_API_KEY:-development-placeholder}
+      ALCHEMY_API_KEY: ${ALCHEMY_API_KEY:-}
+      BLOCKSCOUT_API_KEY: ${BLOCKSCOUT_API_KEY:-}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    command: ["node_modules/.bin/tsx", "src/worker.ts"]
+    healthcheck:
+      disable: true
+
+volumes:
+  postgres-data:
+  redis-data:

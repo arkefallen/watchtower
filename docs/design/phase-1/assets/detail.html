@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watchtower | vitalik.eth</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-surface": "#e2e2e5",
+                        "text-muted": "#929BA3",
+                        "status-error": "#D87870",
+                        "on-tertiary-container": "#404246",
+                        "secondary-container": "#42474c",
+                        "text-primary": "#E8ECEF",
+                        "primary-fixed-dim": "#f0bf5f",
+                        "border-hairline": "#30373D",
+                        "surface-dim": "#121416",
+                        "tertiary": "#c9cace",
+                        "on-tertiary-fixed-variant": "#44474a",
+                        "on-surface-variant": "#d2c5b1",
+                        "secondary": "#c2c7cc",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#4f4637",
+                        "surface-container": "#1e2022",
+                        "tertiary-fixed": "#e1e2e6",
+                        "surface-variant": "#333537",
+                        "secondary-fixed": "#dfe3e8",
+                        "surface-tint": "#f0bf5f",
+                        "outline": "#9b8f7d",
+                        "inverse-on-surface": "#2f3133",
+                        "on-primary-container": "#583e00",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "primary-fixed": "#ffdea6",
+                        "background": "#121416",
+                        "surface-container-low": "#1a1c1e",
+                        "on-tertiary": "#2e3134",
+                        "status-success": "#79B79A",
+                        "on-background": "#e2e2e5",
+                        "on-primary": "#412d00",
+                        "on-secondary-container": "#b1b6bb",
+                        "on-secondary-fixed": "#171c20",
+                        "primary": "#f5c363",
+                        "on-secondary": "#2c3135",
+                        "surface-container-highest": "#333537",
+                        "surface-bright": "#38393c",
+                        "tertiary-fixed-dim": "#c5c6ca",
+                        "secondary-fixed-dim": "#c2c7cc",
+                        "surface": "#121416",
+                        "on-secondary-fixed-variant": "#42474c",
+                        "error-container": "#93000a",
+                        "on-primary-fixed": "#271900",
+                        "on-error": "#690005",
+                        "tertiary-container": "#adafb3",
+                        "on-tertiary-fixed": "#191c1f",
+                        "on-surface": "#e2e2e5",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#d7a84b",
+                        "inverse-primary": "#7b5800",
+                        "surface-container-high": "#282a2c",
+                        "surface-container-lowest": "#0c0e10"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "none": "0px"
+                    },
+                    spacing: {
+                        "panel-padding": "12px",
+                        "margin-base": "24px",
+                        "sidebar-width": "240px",
+                        "gutter": "16px",
+                        "max-width": "1440px"
+                    },
+                    fontFamily: {
+                        "mono-label": ["Geist Mono"],
+                        "mono-data": ["Geist Mono"],
+                        "body-lg": ["Geist"],
+                        "body-sm": ["Geist"],
+                        "headline-sm": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "ui-label": ["Geist"],
+                        "headline-md": ["Geist"]
+                    },
+                    fontSize: {
+                        "mono-label": ["12px", { "lineHeight": "1", "fontWeight": "500" }],
+                        "mono-data": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "ui-label": ["12px", { "lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Geist', sans-serif; background-color: #101214; color: #E8ECEF; }
+        .font-mono { font-family: 'Geist Mono', monospace; }
+        
+        /* Copy Interaction */
+        .copy-cell { position: relative; cursor: pointer; }
+        .copy-cell:active { transform: translateY(-1px); }
+        .copy-feedback {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #D7A84B; color: #101214;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.2s;
+            font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 600;
+        }
+        .copy-cell.copied .copy-feedback { opacity: 1; z-index: 10; }
+        
+        /* Button Styles */
+        .btn {
+            height: 40px; display: inline-flex; align-items: center; justify-content: center;
+            padding: 0 16px; border-radius: 0; font-family: 'Geist', sans-serif;
+            font-size: 12px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.02em; transition: transform 0.1s, background-color 0.2s;
+            cursor: pointer;
+        }
+        .btn:active { transform: translateY(-1px); }
+        .btn-primary { background-color: #D7A84B; color: #171A1D; }
+        .btn-primary:hover { background-color: #f5c363; }
+        .btn-secondary { background-color: transparent; border: 1px solid #30373D; color: #E8ECEF; }
+        .btn-secondary:hover { border-color: #D7A84B; }
+        
+        /* Heatmap Grid */
+        .heatmap-grid { display: grid; grid-template-columns: auto repeat(24, 1fr); gap: 2px; }
+        .heatmap-cell { aspect-ratio: 1; border: 1px solid #30373D; }
+        
+        /* Focus Ring */
+        *:focus-visible { outline: 2px solid #D7A84B; outline-offset: -2px; }
+    </style>
+</head>
+<body class="bg-background text-text-primary h-screen w-screen overflow-hidden flex selection:bg-primary-container selection:text-on-primary-container">
+<!-- JSON: SideNavBar -->
+<nav aria-label="Main Navigation" class="fixed left-0 top-0 h-screen w-sidebar-width flex flex-col border-r border-border-hairline bg-surface-container-low z-20 hidden md:flex rounded-none shadow-none">
+<div class="h-16 flex items-center px-4 border-b border-border-hairline">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-none border border-border-hairline overflow-hidden bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-size: 20px;">visibility</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary tracking-tighter uppercase leading-none m-0">WATCHTOWER</h1>
+<span class="font-mono-label text-mono-label text-text-muted text-[10px] uppercase">EVM_INTEL_CORE</span>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-4">
+<ul class="flex flex-col gap-1">
+<li>
+<a class="text-text-muted hover:text-on-surface flex items-center px-4 py-3 font-ui-label text-ui-label uppercase tracking-widest hover:bg-surface-container-highest transition-colors duration-100 active:translate-y-[-1px] rounded-none" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+                        Dashboard
+                    </a>
+</li>
+<li>
+<a aria-current="page" class="text-primary border-l-2 border-primary bg-surface-variant flex items-center px-4 py-3 font-ui-label text-ui-label uppercase tracking-widest hover:bg-surface-container-highest transition-colors duration-100 active:translate-y-[-1px] rounded-none" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+                        Wallets
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-on-surface flex items-center px-4 py-3 font-ui-label text-ui-label uppercase tracking-widest hover:bg-surface-container-highest transition-colors duration-100 active:translate-y-[-1px] rounded-none" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" style="font-variation-settings: 'FILL' 0;">hub</span>
+                        Clusters
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-on-surface flex items-center px-4 py-3 font-ui-label text-ui-label uppercase tracking-widest hover:bg-surface-container-highest transition-colors duration-100 active:translate-y-[-1px] rounded-none" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" style="font-variation-settings: 'FILL' 0;">monitoring</span>
+                        Graph
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-on-surface flex items-center px-4 py-3 font-ui-label text-ui-label uppercase tracking-widest hover:bg-surface-container-highest transition-colors duration-100 active:translate-y-[-1px] rounded-none" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" style="font-variation-settings: 'FILL' 0;">radar</span>
+                        Radar
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-on-surface flex items-center px-4 py-3 font-ui-label text-ui-label uppercase tracking-widest hover:bg-surface-container-highest transition-colors duration-100 active:translate-y-[-1px] rounded-none" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" style="font-variation-settings: 'FILL' 0;">notifications</span>
+                        Alerts
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-on-surface flex items-center px-4 py-3 font-ui-label text-ui-label uppercase tracking-widest hover:bg-surface-container-highest transition-colors duration-100 active:translate-y-[-1px] rounded-none" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" style="font-variation-settings: 'FILL' 0;">my_location</span>
+                        Self-tracking
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-on-surface flex items-center px-4 py-3 font-ui-label text-ui-label uppercase tracking-widest hover:bg-surface-container-highest transition-colors duration-100 active:translate-y-[-1px] rounded-none" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" style="font-variation-settings: 'FILL' 0;">search</span>
+                        Token lookup
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-on-surface flex items-center px-4 py-3 font-ui-label text-ui-label uppercase tracking-widest hover:bg-surface-container-highest transition-colors duration-100 active:translate-y-[-1px] rounded-none" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" style="font-variation-settings: 'FILL' 0;">settings</span>
+                        Settings
+                    </a>
+</li>
+<li>
+<a class="text-text-muted hover:text-on-surface flex items-center px-4 py-3 font-ui-label text-ui-label uppercase tracking-widest hover:bg-surface-container-highest transition-colors duration-100 active:translate-y-[-1px] rounded-none" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" style="font-variation-settings: 'FILL' 0;">health_and_safety</span>
+                        Health
+                    </a>
+</li>
+</ul>
+</div>
+<div class="p-4 border-t border-border-hairline">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-none bg-surface-container border border-border-hairline flex items-center justify-center overflow-hidden">
+<img alt="Operator Profile" class="w-full h-full object-cover grayscale opacity-80" data-alt="A dark minimalist headshot silhouette profile avatar against a deep space grey background, monochromatic and low key lighting, industrial UI style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr4IMF5sP-K00fU0xfyhJ59flJb4QJcxYacP4Wf5I7weZShkPZI8KZnPGU8iM8toTJ6N8OoIO23XvMEa7hraVyhUMZD-uGfSAr9toTqWz8d59YCz31TpxOe9mJVTNnDTaK_Gh7uffL66-gn8gUdXLHTiZeR-V0FuQtQMWvCC2zxkG7yBBIuDiFoagyFsMoVyKvxLtxM4sIWuOBw_gSfR7U3x0fJ7P_496Q_sLHo59-ZUiS0GBiPAfkLVYfT89bp50yg2j7AqF89dLL"/>
+</div>
+<div>
+<div class="font-ui-label text-ui-label text-text-primary">OP-774</div>
+<div class="font-mono-label text-mono-label text-status-success flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-status-success rounded-full inline-block"></span> ONLINE
+                    </div>
+</div>
+</div>
+</div>
+</nav>
+<!-- JSON: TopAppBar -->
+<header class="fixed top-0 right-0 left-0 md:left-sidebar-width h-16 flex justify-between items-center px-gutter w-full border-b border-border-hairline bg-surface z-10 rounded-none shadow-none">
+<div class="flex-1 flex items-center gap-4">
+<!-- Mobile Menu Trigger (Hidden on Desktop) -->
+<button aria-label="Open Menu" class="md:hidden text-text-muted hover:text-primary transition-colors h-10 w-10 flex items-center justify-center border border-border-hairline rounded-none bg-surface-container-low">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="font-headline-sm text-headline-sm font-bold text-primary hidden md:block">OBSERVATORY_V1</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<button aria-label="terminal" class="h-10 w-10 flex items-center justify-center text-text-muted hover:text-primary transition-colors border border-border-hairline bg-surface-container-low rounded-none active:translate-y-[-1px] transition-transform">
+<span class="material-symbols-outlined text-lg">terminal</span>
+</button>
+<button aria-label="database" class="h-10 w-10 flex items-center justify-center text-text-muted hover:text-primary transition-colors border border-border-hairline bg-surface-container-low rounded-none active:translate-y-[-1px] transition-transform">
+<span class="material-symbols-outlined text-lg">database</span>
+</button>
+<button aria-label="sync" class="h-10 w-10 flex items-center justify-center text-text-muted hover:text-primary transition-colors border border-border-hairline bg-surface-container-low rounded-none active:translate-y-[-1px] transition-transform">
+<span class="material-symbols-outlined text-lg">sync</span>
+</button>
+</div>
+<button class="btn btn-primary font-mono-label text-mono-label uppercase hidden md:inline-flex rounded-none">
+                DECODE_TX
+            </button>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 ml-0 md:ml-sidebar-width mt-16 overflow-y-auto bg-background p-4 md:p-6 lg:p-8 flex flex-col gap-6 max-w-[1440px] mx-auto w-full">
+<!-- Breadcrumb -->
+<div class="font-mono-label text-mono-label text-text-muted flex items-center gap-2">
+<span class="hover:text-primary cursor-pointer transition-colors">WATCHTOWER</span>
+<span class="text-border-hairline">/</span>
+<span class="hover:text-primary cursor-pointer transition-colors text-primary font-bold">WALLETS</span>
+<span class="text-border-hairline">/</span>
+<span class="hover:text-primary cursor-pointer transition-colors">BASE</span>
+<span class="text-border-hairline">/</span>
+<span class="text-text-primary">0XD8DA...6045</span>
+</div>
+<!-- Top Identity Header -->
+<section class="bg-surface-container-low border border-border-hairline p-6 flex flex-col xl:flex-row justify-between gap-6 items-start xl:items-center rounded-none shadow-none">
+<div class="flex flex-col gap-3">
+<div class="flex flex-wrap items-center gap-3">
+<h2 class="font-headline-md text-headline-md text-text-primary m-0">vitalik.eth</h2>
+<div class="flex items-center gap-2 font-mono-data text-mono-data text-text-muted bg-surface-container px-2 py-1 border border-border-hairline copy-cell" onclick="this.classList.add('copied'); setTimeout(() =&gt; this.classList.remove('copied'), 1000);">
+<span>0xd8da6bf26964af9d7eed9e03e53415d37aa96045</span>
+<span class="material-symbols-outlined text-sm">content_copy</span>
+<span class="material-symbols-outlined text-sm hover:text-primary">open_in_new</span>
+<div class="copy-feedback rounded-none">COPIED</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2 font-mono-label text-mono-label">
+<span class="px-2 py-1 border border-border-hairline bg-surface text-text-primary uppercase">BASE</span>
+<span class="px-2 py-1 border border-primary-container bg-surface text-primary-container uppercase">SMART-RIDER [W]</span>
+<span class="px-2 py-1 border border-primary-container bg-primary-container text-on-primary-container uppercase flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">hub</span>
+                        Cluster #04
+                    </span>
+<span class="px-2 py-1 border border-border-hairline bg-surface text-text-primary uppercase flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-status-error rounded-full inline-block"></span>
+                        ARMED (A1)
+                    </span>
+<span class="px-2 py-1 border border-border-hairline bg-surface text-text-primary uppercase flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-status-success rounded-full inline-block"></span>
+                        SYNCED 14m ago
+                    </span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="btn btn-secondary flex items-center gap-2 rounded-none">
+<span class="material-symbols-outlined text-sm">sync</span>
+                    Re-sync (Inc)
+                </button>
+<button class="btn btn-secondary flex items-center gap-2 rounded-none">
+<span class="material-symbols-outlined text-sm">edit</span>
+                    Edit Tags
+                </button>
+<button class="btn btn-secondary text-status-error border-status-error hover:border-status-error hover:bg-[#3d1a16] flex items-center gap-2 rounded-none">
+<span class="material-symbols-outlined text-sm">delete</span>
+                    Delete
+                </button>
+</div>
+</section>
+<!-- Tag Editor Toolbar -->
+<section class="bg-background border border-border-hairline p-4 rounded-none shadow-none">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+<div class="flex flex-col gap-1">
+<label class="font-ui-label text-ui-label text-text-muted uppercase">Classification</label>
+<div class="flex border border-border-hairline bg-surface h-10">
+<select class="bg-transparent border-r border-border-hairline text-text-primary font-mono-data text-mono-data px-2 outline-none w-1/3 rounded-none focus:ring-2 focus:ring-primary-container">
+<option>SMART</option>
+<option>DUMB</option>
+</select>
+<select class="bg-transparent border-r border-border-hairline text-text-primary font-mono-data text-mono-data px-2 outline-none w-1/3 rounded-none focus:ring-2 focus:ring-primary-container">
+<option>RIDER</option>
+<option>LEADER</option>
+</select>
+<select class="bg-transparent text-text-primary font-mono-data text-mono-data px-2 outline-none w-1/3 rounded-none focus:ring-2 focus:ring-primary-container">
+<option>W (Whale)</option>
+<option>D (Dolphin)</option>
+<option>S (Shrimp)</option>
+</select>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-ui-label text-ui-label text-text-muted uppercase">Label</label>
+<input class="h-10 bg-surface border border-border-hairline text-text-primary font-mono-data text-mono-data px-3 outline-none rounded-none focus:ring-2 focus:ring-primary-container focus:border-transparent" type="text" value="Vitalik Primary"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-ui-label text-ui-label text-text-muted uppercase">Notes</label>
+<input class="h-10 bg-surface border border-border-hairline text-text-primary font-mono-data text-mono-data px-3 outline-none rounded-none focus:ring-2 focus:ring-primary-container focus:border-transparent" type="text" value="High conviction test wallet"/>
+</div>
+<div class="flex items-center gap-4 h-10 px-2">
+<label class="flex items-center gap-2 font-mono-label text-mono-label text-text-primary cursor-pointer uppercase">
+<input checked="" class="rounded-none border-border-hairline bg-surface text-primary-container focus:ring-primary-container focus:ring-offset-background cursor-pointer h-4 w-4" type="checkbox"/>
+                        Watch Priority
+                    </label>
+<label class="flex items-center gap-2 font-mono-label text-mono-label text-text-primary cursor-pointer uppercase">
+<input checked="" class="rounded-none border-border-hairline bg-surface text-primary-container focus:ring-primary-container focus:ring-offset-background cursor-pointer h-4 w-4" type="checkbox"/>
+                        Is Self
+                    </label>
+</div>
+</div>
+</section>
+<!-- Main Content Area: Grid Layout -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<!-- Left Column (Stats & Timeline) -->
+<div class="xl:col-span-2 flex flex-col gap-6">
+<!-- Profile Statistics Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1px] bg-border-hairline border border-border-hairline rounded-none shadow-none">
+<div class="bg-surface-container-low p-4 flex flex-col gap-2 rounded-none hover:bg-surface transition-colors">
+<div class="font-ui-label text-ui-label text-text-muted uppercase flex items-center justify-between">
+                            First Tx Date
+                            <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-primary">2023-08-09</div>
+<div class="font-mono-label text-mono-label text-text-muted">Block #2,140,512 | 574 days ago</div>
+</div>
+<div class="bg-surface-container-low p-4 flex flex-col gap-2 rounded-none hover:bg-surface transition-colors">
+<div class="font-ui-label text-ui-label text-text-muted uppercase flex items-center justify-between">
+                            Age at 1st Memecoin
+                            <span class="material-symbols-outlined text-[14px]">hourglass_empty</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-primary text-xl">142 days</div>
+<div class="font-mono-label text-mono-label text-text-muted">Time to degneracy</div>
+</div>
+<div class="bg-surface-container-low p-4 flex flex-col gap-2 rounded-none hover:bg-surface transition-colors">
+<div class="font-ui-label text-ui-label text-text-muted uppercase flex items-center justify-between">
+                            Total Ingested Txs
+                            <span class="material-symbols-outlined text-[14px]">list_alt</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-primary text-xl">1,420 txs</div>
+<div class="font-mono-label text-mono-label text-text-muted">980 N | 312 I | 128 E20</div>
+</div>
+<div class="bg-surface-container-low p-4 flex flex-col gap-2 rounded-none hover:bg-surface transition-colors">
+<div class="font-ui-label text-ui-label text-text-muted uppercase flex items-center justify-between">
+                            Distinct Tokens Traded
+                            <span class="material-symbols-outlined text-[14px]">token</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-primary text-xl">38 tokens</div>
+<div class="font-mono-label text-mono-label text-text-muted">Across all tracked DEXs</div>
+</div>
+<div class="bg-surface-container-low p-4 flex flex-col gap-2 rounded-none hover:bg-surface transition-colors">
+<div class="font-ui-label text-ui-label text-text-muted uppercase flex items-center justify-between">
+                            Current Parked Stables
+                            <span class="material-symbols-outlined text-[14px]">account_balance</span>
+</div>
+<div class="font-mono-data text-mono-data text-primary-container text-xl">$142,500.00 USDC</div>
+<div class="font-mono-label text-mono-label text-text-muted">Peak: $350,000.00</div>
+</div>
+<div class="bg-surface-container-low p-4 flex flex-col gap-2 rounded-none hover:bg-surface transition-colors">
+<div class="font-ui-label text-ui-label text-text-muted uppercase flex items-center justify-between">
+                            Dormancy Status
+                            <span class="material-symbols-outlined text-[14px]">vital_signs</span>
+</div>
+<div class="font-mono-data text-mono-data text-status-success flex items-center gap-2 text-xl">
+<span class="w-2 h-2 bg-status-success rounded-full"></span> ACTIVE
+                        </div>
+<div class="font-mono-label text-mono-label text-text-muted">Last trade 2h ago</div>
+</div>
+</section>
+<!-- Activity Heatmap Component -->
+<section class="bg-surface-container border border-border-hairline p-4 rounded-none shadow-none flex flex-col gap-4">
+<div class="flex flex-wrap items-center justify-between gap-4 border-b border-border-hairline pb-4">
+<h3 class="font-ui-label text-ui-label text-text-primary uppercase tracking-widest m-0">ONCHAIN ACTIVITY HEATMAP</h3>
+<div class="flex items-center gap-4">
+<div class="font-mono-label text-mono-label text-text-muted">Local Time: Asia/Jakarta (UTC+7)</div>
+<div class="flex border border-border-hairline rounded-none">
+<button class="btn btn-primary h-8 px-3 text-[10px]">Habitual (Full)</button>
+<button class="btn btn-secondary h-8 px-3 text-[10px] border-0 border-l border-border-hairline">Rolling 7d</button>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<div class="heatmap-grid min-w-[700px]">
+<!-- Header Row (Hours) -->
+<div class="font-mono-label text-mono-label text-text-muted text-[10px] text-right pr-2"></div>
+<script>
+                                for(let i=0; i<24; i++) {
+                                    document.write(`<div class="font-mono-label text-mono-label text-text-muted text-[10px] text-center">${i.toString().padStart(2, '0')}</div>`);
+                                }
+                            </script>
+<!-- Day Rows -->
+<script>
+                                const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+                                const colors = ['bg-surface-container-lowest', 'bg-[#4A3A1A]', 'bg-[#85621F]', 'bg-primary-container'];
+                                
+                                days.forEach(day => {
+                                    document.write(`<div class="font-mono-label text-mono-label text-text-muted text-[10px] text-right pr-2 flex items-center justify-end h-6">${day}</div>`);
+                                    for(let h=0; h<24; h++) {
+                                        // Fake data generation: bias towards weekdays 13-17
+                                        let intensity = 0;
+                                        if(day !== 'SUN' && day !== 'SAT') {
+                                            if(h >= 13 && h <= 17) intensity = Math.floor(Math.random() * 2) + 2; // 2 or 3
+                                            else if(h >= 9 && h <= 20) intensity = Math.floor(Math.random() * 2) + 1; // 1 or 2
+                                            else intensity = Math.floor(Math.random() * 2); // 0 or 1
+                                        } else {
+                                            intensity = Math.floor(Math.random() * 2); // 0 or 1 on weekends
+                                        }
+                                        document.write(`<div class="heatmap-cell ${colors[intensity]} hover:border-primary-container transition-colors cursor-crosshair" title="${day} ${h}:00 - Intensity: ${intensity}"></div>`);
+                                    }
+                                });
+                            </script>
+</div>
+</div>
+<div class="font-mono-label text-mono-label text-text-muted text-right mt-2">
+                        Summary: Habitual peak: Weekdays 13:00 - 17:00 UTC+7.
+                    </div>
+</section>
+</div>
+<!-- Right Column (Evidence Rail - Timeline) -->
+<div class="xl:col-span-1 border border-border-hairline bg-surface-container-low rounded-none shadow-none flex flex-col h-[600px] xl:h-auto">
+<div class="p-4 border-b border-border-hairline bg-surface flex justify-between items-center">
+<h3 class="font-ui-label text-ui-label text-text-primary uppercase tracking-widest m-0">STABLECOIN PARKING</h3>
+<span class="material-symbols-outlined text-text-muted text-sm">filter_list</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+<!-- Event 1 -->
+<div class="border border-border-hairline bg-surface p-3 flex flex-col gap-2 rounded-none hover:border-primary-container transition-colors relative group">
+<div class="absolute top-0 left-0 w-1 h-full bg-status-success"></div>
+<div class="flex justify-between items-center pl-2">
+<div class="font-mono-label text-mono-label text-text-muted">2026-09-04 16:32</div>
+<div class="font-mono-label text-mono-label text-status-success uppercase">[INFLOW]</div>
+</div>
+<div class="font-mono-data text-mono-data text-status-success text-lg pl-2">+$50,000.00 USDC</div>
+<div class="border-t border-border-hairline mt-1 pt-2 pl-2 grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 items-baseline">
+<span class="font-mono-label text-mono-label text-text-muted">C_PARTY:</span>
+<span class="font-mono-data text-mono-data text-text-primary text-right truncate">Binance 14</span>
+<span class="font-mono-label text-mono-label text-text-muted">TX_HASH:</span>
+<div class="font-mono-data text-mono-data text-text-primary text-right truncate copy-cell" onclick="this.classList.add('copied'); setTimeout(() =&gt; this.classList.remove('copied'), 1000);">
+                                0x8f2...3a1
+                                <div class="copy-feedback">COPIED</div>
+</div>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="border border-border-hairline bg-surface p-3 flex flex-col gap-2 rounded-none hover:border-primary-container transition-colors relative group">
+<div class="absolute top-0 left-0 w-1 h-full bg-status-error"></div>
+<div class="flex justify-between items-center pl-2">
+<div class="font-mono-label text-mono-label text-text-muted">2026-08-28 11:15</div>
+<div class="font-mono-label text-mono-label text-status-error uppercase">[OUTFLOW]</div>
+</div>
+<div class="font-mono-data text-mono-data text-status-error text-lg pl-2">-$25,000.00 USDC</div>
+<div class="border-t border-border-hairline mt-1 pt-2 pl-2 grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 items-baseline">
+<span class="font-mono-label text-mono-label text-text-muted">C_PARTY:</span>
+<span class="font-mono-data text-mono-data text-text-primary text-right truncate">Uniswap V3 Pool</span>
+<span class="font-mono-label text-mono-label text-text-muted">TX_HASH:</span>
+<div class="font-mono-data text-mono-data text-text-primary text-right truncate copy-cell" onclick="this.classList.add('copied'); setTimeout(() =&gt; this.classList.remove('copied'), 1000);">
+                                0x1b4...8c9
+                                <div class="copy-feedback">COPIED</div>
+</div>
+</div>
+</div>
+<!-- Event 3 -->
+<div class="border border-border-hairline bg-surface p-3 flex flex-col gap-2 rounded-none hover:border-primary-container transition-colors relative group">
+<div class="absolute top-0 left-0 w-1 h-full bg-status-success"></div>
+<div class="flex justify-between items-center pl-2">
+<div class="font-mono-label text-mono-label text-text-muted">2026-08-10 09:04</div>
+<div class="font-mono-label text-mono-label text-status-success uppercase">[INFLOW]</div>
+</div>
+<div class="font-mono-data text-mono-data text-status-success text-lg pl-2">+$117,500.00 USDC</div>
+<div class="border-t border-border-hairline mt-1 pt-2 pl-2 grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 items-baseline">
+<span class="font-mono-label text-mono-label text-text-muted">C_PARTY:</span>
+<span class="font-mono-data text-mono-data text-primary-container text-right truncate">0x33b...aa90 (Cluster #04)</span>
+<span class="font-mono-label text-mono-label text-text-muted">TX_HASH:</span>
+<div class="font-mono-data text-mono-data text-text-primary text-right truncate copy-cell" onclick="this.classList.add('copied'); setTimeout(() =&gt; this.classList.remove('copied'), 1000);">
+                                0x99a...1e2
+                                <div class="copy-feedback">COPIED</div>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-4 flex justify-center">
+<button class="btn btn-secondary w-full rounded-none font-mono-label text-mono-label">LOAD_MORE_EVENTS</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

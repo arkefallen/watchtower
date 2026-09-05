@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watchtower Console - Wallet Intake</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffdea6",
+                        "tertiary-fixed": "#e1e2e6",
+                        "surface-dim": "#121416",
+                        "background": "#121416",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "inverse-primary": "#7b5800",
+                        "surface-container-highest": "#333537",
+                        "outline-variant": "#4f4637",
+                        "on-surface-variant": "#d2c5b1",
+                        "on-primary-container": "#583e00",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#f0bf5f",
+                        "tertiary-container": "#adafb3",
+                        "surface-container-low": "#1a1c1e",
+                        "surface-bright": "#38393c",
+                        "inverse-surface": "#e2e2e5",
+                        "status-success": "#79B79A",
+                        "outline": "#9b8f7d",
+                        "primary-container": "#d7a84b",
+                        "text-muted": "#929BA3",
+                        "surface-variant": "#333537",
+                        "on-tertiary-fixed-variant": "#44474a",
+                        "on-secondary-container": "#b1b6bb",
+                        "surface-tint": "#f0bf5f",
+                        "surface-container-lowest": "#0c0e10",
+                        "secondary-fixed": "#dfe3e8",
+                        "surface-container": "#1e2022",
+                        "secondary": "#c2c7cc",
+                        "on-background": "#e2e2e5",
+                        "on-tertiary-container": "#404246",
+                        "on-secondary-fixed-variant": "#42474c",
+                        "surface-container-high": "#282a2c",
+                        "on-surface": "#e2e2e5",
+                        "on-primary": "#412d00",
+                        "on-secondary": "#2c3135",
+                        "surface": "#121416",
+                        "on-error": "#690005",
+                        "tertiary": "#c9cace",
+                        "border-hairline": "#30373D",
+                        "on-tertiary-fixed": "#191c1f",
+                        "secondary-fixed-dim": "#c2c7cc",
+                        "error": "#ffb4ab",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed": "#271900",
+                        "inverse-on-surface": "#2f3133",
+                        "on-tertiary": "#2e3134",
+                        "tertiary-fixed-dim": "#c5c6ca",
+                        "secondary-container": "#42474c",
+                        "on-secondary-fixed": "#171c20",
+                        "text-primary": "#E8ECEF",
+                        "primary": "#f5c363",
+                        "status-error": "#D87870"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "margin-base": "24px",
+                        "gutter": "16px",
+                        "sidebar-width": "240px",
+                        "max-width": "1440px",
+                        "panel-padding": "12px"
+                    },
+                    "fontFamily": {
+                        "ui-label": ["Geist", "sans-serif"],
+                        "mono-label": ["Geist Mono", "monospace"],
+                        "mono-data": ["Geist Mono", "monospace"],
+                        "headline-lg": ["Geist", "sans-serif"],
+                        "body-lg": ["Geist", "sans-serif"],
+                        "headline-sm": ["Geist", "sans-serif"],
+                        "headline-md": ["Geist", "sans-serif"],
+                        "body-sm": ["Geist", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "ui-label": ["12px", { "lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "mono-label": ["12px", { "lineHeight": "1", "fontWeight": "500" }],
+                        "mono-data": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-sm antialiased h-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low fixed left-0 top-0 h-screen w-[240px] border-r border-border-hairline flat no shadows flex flex-col z-20">
+<div class="p-margin-base border-b border-border-hairline h-12 flex items-center shrink-0">
+<span class="font-headline-sm text-headline-sm text-primary uppercase tracking-tighter">Watchtower</span>
+</div>
+<div class="px-margin-base py-3 border-b border-border-hairline shrink-0">
+<span class="font-ui-label text-ui-label text-on-surface-variant">Onchain Intelligence</span>
+</div>
+<ul class="flex-1 overflow-y-auto py-2">
+<li>
+<a class="flex items-center gap-3 px-margin-base py-3 font-ui-label text-ui-label text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface active:translate-y-[-1px] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-margin-base py-3 font-ui-label text-ui-label text-primary bg-surface-container-highest border-l-2 border-primary active:translate-y-[-1px] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+                    Wallets
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-margin-base py-3 font-ui-label text-ui-label text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface active:translate-y-[-1px] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+                    Clusters
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-margin-base py-3 font-ui-label text-ui-label text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface active:translate-y-[-1px] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+                    Graph
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-margin-base py-3 font-ui-label text-ui-label text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface active:translate-y-[-1px] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="radar">radar</span>
+                    Radar
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-margin-base py-3 font-ui-label text-ui-label text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface active:translate-y-[-1px] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                    Alerts
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-margin-base py-3 font-ui-label text-ui-label text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface active:translate-y-[-1px] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+                    Self-tracking
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-margin-base py-3 font-ui-label text-ui-label text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface active:translate-y-[-1px] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+                    Token lookup
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-margin-base py-3 font-ui-label text-ui-label text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface active:translate-y-[-1px] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-margin-base py-3 font-ui-label text-ui-label text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface active:translate-y-[-1px] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="health_and_safety">health_and_safety</span>
+                    Health
+                </a>
+</li>
+</ul>
+</nav>
+<!-- TopAppBar -->
+<header class="bg-surface border-b border-border-hairline flat no shadows fixed top-0 right-0 left-[240px] h-12 flex items-center justify-between px-margin-base w-[calc(100%-240px)] z-10">
+<div class="flex items-center gap-2 font-mono-label text-mono-label text-on-surface-variant uppercase tracking-widest">
+<span>WATCHTOWER</span>
+<span class="text-border-hairline">/</span>
+<span>WALLETS</span>
+<span class="text-border-hairline">/</span>
+<span class="text-primary">INTAKE</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="h-10 px-4 border border-border-hairline text-on-surface font-ui-label text-ui-label hover:border-primary transition-colors flex items-center gap-2 bg-surface-container-low">
+<span class="material-symbols-outlined text-[16px]" data-icon="arrow_back">arrow_back</span>
+                Back to Wallets
+            </button>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="refresh">refresh</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="download">download</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="ml-[240px] mt-12 w-full h-[calc(100vh-48px)] overflow-y-auto bg-background p-margin-base">
+<div class="mb-gutter">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">WALLET INTAKE</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Register individual wallets or batch import via CSV format</p>
+</div>
+<div class="grid grid-cols-12 gap-0 border border-border-hairline bg-surface-container-low h-[calc(100%-80px)] min-h-[600px]">
+<!-- Left Column: Single Address Intake (Approx 45%) -->
+<div class="col-span-5 border-r border-border-hairline p-margin-base flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-gutter uppercase tracking-tight">Single Address Intake</h2>
+<div class="space-y-gutter flex-1">
+<!-- Address Input -->
+<div>
+<label class="block font-ui-label text-ui-label text-on-surface mb-2 uppercase">Address / ENS</label>
+<input class="w-full h-10 bg-surface border border-border-hairline px-3 font-mono-data text-mono-data text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container" type="text" value="vitalik.eth"/>
+<p class="mt-2 font-mono-label text-mono-label text-status-success flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check</span>
+                            Resolved to 0xd8da6bf26964af9d7eed9e03e53415d37aa96045 via L1 Universal Resolver
+                        </p>
+</div>
+<!-- Chain Selector -->
+<div>
+<label class="block font-ui-label text-ui-label text-on-surface mb-2 uppercase">Target Chain</label>
+<select class="w-full h-10 bg-surface border border-border-hairline px-3 font-mono-data text-mono-data text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container appearance-none">
+<option>Base (Chain 8453)</option>
+<option>Ethereum (Chain 1)</option>
+<option>Arbitrum (Chain 42161)</option>
+</select>
+</div>
+<!-- Label Input -->
+<div>
+<label class="block font-ui-label text-ui-label text-on-surface mb-2 uppercase">Internal Label</label>
+<input class="w-full h-10 bg-surface border border-border-hairline px-3 font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container" type="text" value="Vitalik Primary"/>
+</div>
+<!-- Flags -->
+<div class="space-y-3 pt-2">
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-4 h-4 border border-border-hairline flex items-center justify-center bg-primary-container group-hover:border-primary-container transition-colors">
+<span class="material-symbols-outlined text-[14px] text-on-primary">check</span>
+</div>
+<span class="font-ui-label text-ui-label text-on-surface uppercase">High Watch Priority</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-4 h-4 border border-border-hairline bg-surface flex items-center justify-center group-hover:border-primary-container transition-colors">
+</div>
+<span class="font-ui-label text-ui-label text-on-surface-variant uppercase">Is Self</span>
+</label>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full h-10 bg-primary-container text-on-primary font-ui-label text-ui-label uppercase tracking-widest hover:brightness-110 active:translate-y-[-1px] transition-all mt-gutter">
+                    Add Wallet &amp; Start Ingestion
+                </button>
+</div>
+<!-- Right Column: Batch Import (Approx 55%) -->
+<div class="col-span-7 p-margin-base flex flex-col bg-surface">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-gutter uppercase tracking-tight flex justify-between items-center">
+<span>Batch Import (CSV / Raw)</span>
+<span class="font-mono-label text-mono-label text-on-surface-variant bg-surface-container-high px-2 py-1 border border-border-hairline">FORMAT: address,chain,label</span>
+</h2>
+<!-- Textarea -->
+<div class="flex-1 relative mb-4">
+<textarea class="w-full h-full bg-surface-container-lowest border border-border-hairline p-4 font-mono-data text-mono-data text-on-surface-variant focus:outline-none focus:border-primary-container resize-none leading-relaxed" spellcheck="false">0x71c7656ec7ab88b098defb751b7401b5f6d8976f,eth,Fund_A
+0x89205a3a3b2a69de6d1238997a31f24d2777492c,base,Fund_B
+0xbad_invalid_address,base,Malformed
+0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc,arb,Fund_C
+... (91 more entries)</textarea>
+<!-- Validation Callout Floating Over Textarea -->
+<div class="absolute bottom-4 left-4 right-4 bg-surface-container-highest border border-status-error p-3 shadow-lg">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-status-error text-[18px]">error</span>
+<div>
+<p class="font-ui-label text-ui-label text-status-error uppercase mb-1">Validation Issues Found (1 invalid line)</p>
+<p class="font-mono-label text-mono-label text-on-surface-variant">Line 3: Invalid hex address length</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Stats & Action -->
+<div class="flex items-center justify-between pt-2 border-t border-border-hairline mt-auto">
+<div class="flex gap-4 font-mono-label text-mono-label">
+<span class="text-status-success flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-status-success block"></span> 95 Valid</span>
+<span class="text-primary-container flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary-container block"></span> 2 Duplicates</span>
+<span class="text-status-error flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-status-error block"></span> 1 Invalid</span>
+</div>
+<button class="h-10 px-6 border border-border-hairline bg-surface-container-low text-on-surface font-ui-label text-ui-label uppercase tracking-widest hover:border-primary-container hover:text-primary-container active:translate-y-[-1px] transition-all">
+                        Start Batch Intake (95 Wallets)
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Pipeline Progress (Docked Bottom Right) -->
+<div class="fixed bottom-margin-base right-margin-base w-[400px] bg-surface-container-high border border-border-hairline border-t-2 border-t-primary-container shadow-2xl z-50 flex flex-col">
+<div class="p-3 border-b border-border-hairline flex justify-between items-center bg-surface-container-highest">
+<h3 class="font-ui-label text-ui-label text-on-surface uppercase tracking-wider">BATCH INTAKE PROGRESS</h3>
+<span class="font-mono-label text-mono-label text-on-surface-variant bg-surface border border-border-hairline px-2 py-0.5">Job #intake-9821</span>
+</div>
+<div class="p-4 space-y-4">
+<!-- Progress Bar -->
+<div>
+<div class="flex justify-between items-center mb-1">
+<span class="font-mono-label text-mono-label text-on-surface-variant">Stage 9/14: trace:funding</span>
+<span class="font-mono-label text-mono-label text-primary-container animate-pulse">[● RUNNING 68%]</span>
+</div>
+<div class="w-full h-1 bg-surface border border-border-hairline overflow-hidden">
+<div class="h-full bg-primary-container w-[68%] transition-all duration-500 ease-out"></div>
+</div>
+</div>
+<!-- Stages List -->
+<div class="h-32 overflow-y-auto pr-2 space-y-2 border border-border-hairline bg-surface-container-lowest p-2">
+<div class="flex items-center gap-2 font-mono-label text-mono-label text-on-surface-variant opacity-50">
+<span class="material-symbols-outlined text-[14px] text-status-success">check</span>
+<span>1-7: Initialization &amp; RPC Checks</span>
+</div>
+<div class="flex items-center gap-2 font-mono-label text-mono-label text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-status-success">check</span>
+<span>Stage 8: tx:history_pull</span>
+</div>
+<div class="flex items-center gap-2 font-mono-label text-mono-label text-primary-container">
+<span class="material-symbols-outlined text-[14px] animate-spin">sync</span>
+<span>Stage 9: trace:funding</span>
+</div>
+<div class="flex items-center gap-2 font-mono-label text-mono-label text-on-surface-variant opacity-50">
+<span class="w-3.5 h-3.5 border border-border-hairline inline-block"></span>
+<span>Stage 10: entity:clustering</span>
+</div>
+<div class="flex items-center gap-2 font-mono-label text-mono-label text-on-surface-variant opacity-50">
+<span class="w-3.5 h-3.5 border border-border-hairline inline-block"></span>
+<span>Stage 11: db:commit</span>
+</div>
+</div>
+<!-- Notice -->
+<p class="font-mono-label text-mono-label text-on-surface-variant flex justify-between items-center">
+<span>Intake runs asynchronously...</span>
+<a class="text-primary-container hover:underline flex items-center gap-1" href="#">
+                    View in Bull Board <span class="material-symbols-outlined text-[12px]">north_east</span>
+</a>
+</p>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "transfers": [
+    {
+      "blockNum": "0x10",
+      "uniqueId": "0xfixture:0",
+      "hash": "0xfixture",
+      "from": "0x0000000000000000000000000000000000000001",
+      "to": "0x0000000000000000000000000000000000000002",
+      "value": 1,
+      "asset": "ETH",
+      "category": "external",
+      "rawContract": { "address": null, "value": "0x1", "decimal": 18 },
+      "metadata": { "blockTimestamp": "2026-01-01T00:00:00.000Z" }
+    }
+    ],
+    "pageKey": "fixture-next-page"
+  }
+}

@@ -1,0 +1,12 @@
+.agents
+agents
+node_modules
+.next
+*.tsbuildinfo
+playwright-report
+test-results
+/\.env
+/backups
+AGENTS.md
+/scripts
+skills-lock.json

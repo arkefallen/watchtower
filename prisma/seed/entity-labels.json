@@ -1,0 +1,50 @@
+[
+  {
+    "address": "0xf977814e90da44bfa03b6295a0616a897441acec",
+    "chain": "bsc",
+    "kind": "CEX",
+    "name": "Binance Hot Wallet 20",
+    "isTerminal": true,
+    "notes": "Public BscScan label; reviewed 2026-09-05."
+  },
+  {
+    "address": "0x10ed43c718714eb63d5aa57b78b54704e256024e",
+    "chain": "bsc",
+    "kind": "ROUTER",
+    "name": "PancakeSwap V2 Router",
+    "isTerminal": true,
+    "notes": "PancakeSwap canonical BNB Smart Chain router."
+  },
+  {
+    "address": "0x2626664c2603336e57b271c5c0b26f421741e481",
+    "chain": "base",
+    "kind": "ROUTER",
+    "name": "Uniswap V3 SwapRouter02",
+    "isTerminal": true,
+    "notes": "Uniswap canonical Base deployment."
+  },
+  {
+    "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "chain": "base",
+    "kind": "CONTRACT",
+    "name": "USDC",
+    "isTerminal": true,
+    "notes": "Configured stablecoin contract."
+  },
+  {
+    "address": "0x55d398326f99059ff775485246999027b3197955",
+    "chain": "bsc",
+    "kind": "CONTRACT",
+    "name": "USDT",
+    "isTerminal": true,
+    "notes": "Configured stablecoin contract."
+  },
+  {
+    "address": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+    "chain": "robinhood",
+    "kind": "CONTRACT",
+    "name": "USDG",
+    "isTerminal": true,
+    "notes": "Configured stablecoin contract. Robinhood entity labels are otherwise unavailable."
+  }
+]

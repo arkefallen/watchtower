@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watchtower Health Console - Loading</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed": "#ffdea6",
+                        "primary-container": "#d7a84b",
+                        "on-secondary-fixed-variant": "#42474c",
+                        "surface-dim": "#121416",
+                        "outline-variant": "#4f4637",
+                        "surface-tint": "#f0bf5f",
+                        "on-background": "#e2e2e5",
+                        "on-secondary": "#2c3135",
+                        "surface-container-high": "#282a2c",
+                        "surface-container-low": "#1a1c1e",
+                        "border-hairline": "#30373D",
+                        "secondary-fixed-dim": "#c2c7cc",
+                        "on-tertiary-fixed-variant": "#44474a",
+                        "on-tertiary": "#2e3134",
+                        "on-error": "#690005",
+                        "surface-container-highest": "#333537",
+                        "secondary-fixed": "#dfe3e8",
+                        "tertiary": "#c9cace",
+                        "on-surface-variant": "#d2c5b1",
+                        "on-secondary-container": "#b1b6bb",
+                        "status-error": "#D87870",
+                        "inverse-on-surface": "#2f3133",
+                        "on-primary-fixed": "#271900",
+                        "text-muted": "#929BA3",
+                        "secondary-container": "#42474c",
+                        "surface-bright": "#38393c",
+                        "tertiary-fixed": "#e1e2e6",
+                        "inverse-surface": "#e2e2e5",
+                        "on-primary-container": "#583e00",
+                        "status-success": "#79B79A",
+                        "secondary": "#c2c7cc",
+                        "tertiary-fixed-dim": "#c5c6ca",
+                        "surface-variant": "#333537",
+                        "on-tertiary-fixed": "#191c1f",
+                        "background": "#121416",
+                        "surface": "#121416",
+                        "surface-container": "#1e2022",
+                        "error": "#ffb4ab",
+                        "primary-fixed-dim": "#f0bf5f",
+                        "inverse-primary": "#7b5800",
+                        "text-primary": "#E8ECEF",
+                        "surface-container-lowest": "#0c0e10",
+                        "on-primary": "#412d00",
+                        "on-error-container": "#ffdad6",
+                        "outline": "#9b8f7d",
+                        "on-secondary-fixed": "#171c20",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#adafb3",
+                        "on-surface": "#e2e2e5",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "on-tertiary-container": "#404246",
+                        "primary": "#f5c363"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-base": "24px",
+                        "panel-padding": "12px",
+                        "gutter": "16px",
+                        "sidebar-width": "240px",
+                        "max-width": "1440px"
+                    },
+                    fontFamily: {
+                        "mono-data": ["Geist Mono"],
+                        "body-sm": ["Geist"],
+                        "ui-label": ["Geist"],
+                        "mono-label": ["Geist Mono"],
+                        "headline-sm": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-lg": ["Geist"]
+                    },
+                    fontSize: {
+                        "mono-data": ["14px", { lineHeight: "1.4", fontWeight: "400" }],
+                        "body-sm": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+                        "ui-label": ["12px", { lineHeight: "1", letterSpacing: "0.02em", fontWeight: "600" }],
+                        "mono-label": ["12px", { lineHeight: "1", fontWeight: "500" }],
+                        "headline-sm": ["20px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "headline-md": ["24px", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "headline-lg": ["32px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-lg": ["16px", { lineHeight: "1.5", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        @keyframes skeleton-pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.1; }
+        }
+        .animate-skeleton {
+            animation: skeleton-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background h-screen overflow-hidden flex w-full max-w-max-width mx-auto font-body-sm text-body-sm">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low dark:bg-surface-container-low fixed left-0 top-0 h-full w-[240px] border-r border-border-hairline flex flex-col py-panel-padding space-y-2 z-10 shrink-0">
+<div class="px-gutter pb-6 border-b border-border-hairline mb-4">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary tracking-tighter uppercase">WATCHTOWER</h1>
+<p class="font-ui-label text-ui-label text-text-muted tracking-wider mt-1 uppercase">ONCHAIN INTEL</p>
+</div>
+<div class="flex-1 overflow-y-auto space-y-1">
+<a class="block py-2 text-text-muted hover:text-text-primary pl-4 transition-colors duration-150 font-ui-label text-ui-label uppercase tracking-wider hover:bg-surface-container-high" href="#">Dashboard</a>
+<a class="block py-2 text-text-muted hover:text-text-primary pl-4 transition-colors duration-150 font-ui-label text-ui-label uppercase tracking-wider hover:bg-surface-container-high" href="#">Wallets</a>
+<a class="block py-2 text-text-muted hover:text-text-primary pl-4 transition-colors duration-150 font-ui-label text-ui-label uppercase tracking-wider hover:bg-surface-container-high" href="#">Clusters</a>
+<a class="block py-2 text-text-muted hover:text-text-primary pl-4 transition-colors duration-150 font-ui-label text-ui-label uppercase tracking-wider hover:bg-surface-container-high" href="#">Graph</a>
+<a class="block py-2 text-text-muted hover:text-text-primary pl-4 transition-colors duration-150 font-ui-label text-ui-label uppercase tracking-wider hover:bg-surface-container-high" href="#">Radar</a>
+<a class="block py-2 text-text-muted hover:text-text-primary pl-4 transition-colors duration-150 font-ui-label text-ui-label uppercase tracking-wider hover:bg-surface-container-high" href="#">Alerts</a>
+<a class="block py-2 text-text-muted hover:text-text-primary pl-4 transition-colors duration-150 font-ui-label text-ui-label uppercase tracking-wider hover:bg-surface-container-high" href="#">Self-tracking</a>
+<a class="block py-2 text-text-muted hover:text-text-primary pl-4 transition-colors duration-150 font-ui-label text-ui-label uppercase tracking-wider hover:bg-surface-container-high" href="#">Token lookup</a>
+<a class="block py-2 text-text-muted hover:text-text-primary pl-4 transition-colors duration-150 font-ui-label text-ui-label uppercase tracking-wider hover:bg-surface-container-high" href="#">Settings</a>
+<div class="mt-8 pt-4 border-t border-border-hairline">
+<a class="block py-2 text-primary font-bold border-l-2 border-primary pl-3 bg-surface-variant font-ui-label text-ui-label uppercase tracking-wider translate-y-[-1px] transition-transform duration-100" href="#">
+<span class="inline-block animate-skeleton w-2 h-2 rounded-full bg-primary-container mr-2"></span>
+                    HEALTH: LOADING
+                </a>
+</div>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="ml-sidebar-width flex-1 flex h-full">
+<!-- Center Content (Status) -->
+<div class="flex-1 flex flex-col h-full overflow-y-auto p-margin-base">
+<!-- Header -->
+<div class="flex justify-between items-end border-b border-border-hairline pb-4 mb-6">
+<div>
+<h2 class="font-headline-md text-headline-md text-text-primary uppercase">System Health</h2>
+<p class="font-mono-label text-mono-label text-text-muted mt-1 uppercase">ESTABLISHING CONNECTION...</p>
+</div>
+<!-- Timestamp Toggle (Disabled/Loading) -->
+<div class="flex border border-border-hairline rounded bg-surface-container-low overflow-hidden opacity-50 cursor-not-allowed">
+<div class="px-3 py-1 font-mono-label text-mono-label text-text-muted border-r border-border-hairline">LOCAL</div>
+<div class="px-3 py-1 font-mono-label text-mono-label text-text-muted border-r border-border-hairline">UTC</div>
+<div class="px-3 py-1 font-mono-label text-mono-label text-text-muted bg-surface-variant text-on-surface">BLK</div>
+</div>
+</div>
+<!-- Core Infrastructure -->
+<section class="mb-8">
+<h3 class="font-ui-label text-ui-label text-text-muted uppercase tracking-wider mb-3">Core Infrastructure</h3>
+<div class="grid grid-cols-3 gap-4">
+<!-- DB -->
+<div class="border border-border-hairline bg-surface-container-low p-4 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="font-mono-label text-mono-label text-text-primary uppercase">DATABASE</span>
+<div class="w-6 h-6 bg-surface-variant animate-skeleton rounded-full"></div>
+</div>
+<div>
+<div class="h-3 w-16 bg-surface-variant animate-skeleton mb-2"></div>
+<div class="h-5 w-24 bg-surface-variant animate-skeleton"></div>
+</div>
+</div>
+<!-- Redis -->
+<div class="border border-border-hairline bg-surface-container-low p-4 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="font-mono-label text-mono-label text-text-primary uppercase">REDIS</span>
+<div class="w-6 h-6 bg-surface-variant animate-skeleton rounded-full"></div>
+</div>
+<div>
+<div class="h-3 w-20 bg-surface-variant animate-skeleton mb-2"></div>
+<div class="h-5 w-16 bg-surface-variant animate-skeleton"></div>
+</div>
+</div>
+<!-- BullMQ -->
+<div class="border border-border-hairline bg-surface-container-low p-4 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="font-mono-label text-mono-label text-text-primary uppercase">BULLMQ</span>
+<div class="w-6 h-6 bg-surface-variant animate-skeleton rounded-full"></div>
+</div>
+<div>
+<div class="h-3 w-12 bg-surface-variant animate-skeleton mb-2"></div>
+<div class="h-5 w-20 bg-surface-variant animate-skeleton"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Provider Quotas -->
+<section>
+<h3 class="font-ui-label text-ui-label text-text-muted uppercase tracking-wider mb-3">Provider Quotas</h3>
+<div class="border border-border-hairline bg-surface-container-low">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-border-hairline bg-surface-container-high">
+<th class="py-2 px-4 font-mono-label text-mono-label text-text-muted uppercase w-1/4">Provider</th>
+<th class="py-2 px-4 font-mono-label text-mono-label text-text-muted uppercase w-1/4 text-right">Calls Today</th>
+<th class="py-2 px-4 font-mono-label text-mono-label text-text-muted uppercase w-1/4 text-right">Rate Limit</th>
+<th class="py-2 px-4 font-mono-label text-mono-label text-text-muted uppercase w-1/4 text-right">Remaining</th>
+</tr>
+</thead>
+<tbody class="font-mono-data text-mono-data">
+<!-- Etherscan -->
+<tr class="border-b border-border-hairline">
+<td class="py-3 px-4 text-text-primary uppercase">Etherscan</td>
+<td class="py-3 px-4 text-right"><div class="h-4 w-16 bg-surface-variant animate-skeleton ml-auto"></div></td>
+<td class="py-3 px-4 text-right"><div class="h-4 w-20 bg-surface-variant animate-skeleton ml-auto"></div></td>
+<td class="py-3 px-4 text-right"><div class="h-4 w-12 bg-surface-variant animate-skeleton ml-auto"></div></td>
+</tr>
+<!-- Robinhood -->
+<tr class="border-b border-border-hairline">
+<td class="py-3 px-4 text-text-primary uppercase">Robinhood</td>
+<td class="py-3 px-4 text-right"><div class="h-4 w-24 bg-surface-variant animate-skeleton ml-auto"></div></td>
+<td class="py-3 px-4 text-right"><div class="h-4 w-16 bg-surface-variant animate-skeleton ml-auto"></div></td>
+<td class="py-3 px-4 text-right"><div class="h-4 w-20 bg-surface-variant animate-skeleton ml-auto"></div></td>
+</tr>
+<!-- DexScreener -->
+<tr>
+<td class="py-3 px-4 text-text-primary uppercase">DexScreener</td>
+<td class="py-3 px-4 text-right"><div class="h-4 w-12 bg-surface-variant animate-skeleton ml-auto"></div></td>
+<td class="py-3 px-4 text-right"><div class="h-4 w-24 bg-surface-variant animate-skeleton ml-auto"></div></td>
+<td class="py-3 px-4 text-right"><div class="h-4 w-16 bg-surface-variant animate-skeleton ml-auto"></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Evidence Rail (Right Sidebar) -->
+<aside class="w-[320px] border-l border-border-hairline bg-surface-dim flex flex-col h-full shrink-0">
+<div class="p-panel-padding border-b border-border-hairline">
+<h3 class="font-ui-label text-ui-label text-text-muted uppercase tracking-wider">System Metadata</h3>
+</div>
+<div class="p-panel-padding space-y-6 flex-1 overflow-y-auto">
+<!-- Migration Version -->
+<div>
+<div class="font-mono-label text-mono-label text-text-muted uppercase mb-1">MIGRATION_VERSION</div>
+<div class="h-5 w-32 bg-surface-variant animate-skeleton"></div>
+</div>
+<!-- Last Sync -->
+<div>
+<div class="font-mono-label text-mono-label text-text-muted uppercase mb-1">LAST_GLOBAL_SYNC</div>
+<div class="h-5 w-48 bg-surface-variant animate-skeleton"></div>
+</div>
+<!-- Active Nodes -->
+<div>
+<div class="font-mono-label text-mono-label text-text-muted uppercase mb-1">ACTIVE_NODES</div>
+<div class="h-5 w-12 bg-surface-variant animate-skeleton"></div>
+</div>
+</div>
+</aside>
+</main>
+</body></html>
