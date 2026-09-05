@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 
 export interface AddressChipProps {
   address: string;
@@ -10,6 +11,7 @@ export interface AddressChipProps {
   truncate?: boolean;
   showCopy?: boolean;
   showExplorer?: boolean;
+  internalLink?: boolean;
   className?: string;
 }
 
@@ -40,6 +42,7 @@ export function AddressChip({
   truncate = true,
   showCopy = true,
   showExplorer = true,
+  internalLink = false,
   className = "",
 }: AddressChipProps) {
   const [copied, setCopied] = useState(false);
@@ -76,12 +79,29 @@ export function AddressChip({
       )}
       <div className="flex flex-col">
         {ensName && (
-          <span className="font-sans font-semibold text-[#E8ECEF] text-[13px] leading-tight">
-            {ensName}
-          </span>
+          internalLink ? (
+            <Link
+              href={`/wallets/${chain}/${address}`}
+              className="font-sans font-semibold text-[#E8ECEF] text-[13px] leading-tight hover:text-[#D7A84B] transition-colors"
+            >
+              {ensName}
+            </Link>
+          ) : (
+            <span className="font-sans font-semibold text-[#E8ECEF] text-[13px] leading-tight">
+              {ensName}
+            </span>
+          )
         )}
         <div className="inline-flex items-center gap-1.5 text-[#929BA3] hover:text-[#D7A84B] transition-colors group">
-          {showExplorer ? (
+          {internalLink ? (
+            <Link
+              href={`/wallets/${chain}/${address}`}
+              className="hover:underline font-mono text-[#E8ECEF] hover:text-[#D7A84B]"
+              title={`View wallet profile (${address})`}
+            >
+              {displayAddr}
+            </Link>
+          ) : showExplorer ? (
             <a
               href={getExplorerUrl(address, chain)}
               target="_blank"
@@ -93,6 +113,19 @@ export function AddressChip({
             </a>
           ) : (
             <span className="font-mono">{displayAddr}</span>
+          )}
+
+          {showExplorer && internalLink && (
+            <a
+              href={getExplorerUrl(address, chain)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#929BA3] hover:text-[#D7A84B] text-[11px]"
+              title={`View on explorer (${address})`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              ↗
+            </a>
           )}
 
           {showCopy && (

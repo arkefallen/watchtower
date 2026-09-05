@@ -7,6 +7,8 @@ import { fundingRouter } from "./routers/funding";
 import { clusterRouter } from "./routers/cluster";
 import { graphRouter } from "./routers/graph";
 import { radarRouter } from "./routers/radar";
+import { alertRouter } from "./routers/alert";
+import { settingsRouter } from "./routers/settings";
 
 export const appRouter = router({
   health: healthRouter,
@@ -16,6 +18,8 @@ export const appRouter = router({
   cluster: clusterRouter,
   graph: graphRouter,
   radar: radarRouter,
+  alert: alertRouter,
+  settings: settingsRouter,
 });
 
 export type AppRouter = typeof appRouter;

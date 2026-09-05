@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watchtower - Narrative Radar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&family=Geist+Mono:wght@400;500&display=swap');
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#f0bf5f",
+                        "on-secondary": "#2c3135",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed": "#271900",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "secondary-fixed-dim": "#c2c7cc",
+                        "inverse-surface": "#e2e2e5",
+                        "tertiary-fixed-dim": "#c5c6ca",
+                        "on-tertiary-fixed": "#191c1f",
+                        "status-success": "#79B79A",
+                        "primary-container": "#d7a84b",
+                        "inverse-primary": "#7b5800",
+                        "surface-container": "#1e2022",
+                        "surface-variant": "#333537",
+                        "error-container": "#93000a",
+                        "surface-tint": "#f0bf5f",
+                        "surface-container-low": "#1a1c1e",
+                        "on-secondary-fixed-variant": "#42474c",
+                        "secondary": "#c2c7cc",
+                        "on-tertiary": "#2e3134",
+                        "secondary-container": "#42474c",
+                        "on-background": "#e2e2e5",
+                        "surface-bright": "#38393c",
+                        "outline": "#9b8f7d",
+                        "tertiary-fixed": "#e1e2e6",
+                        "tertiary": "#c9cace",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#121416",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#dfe3e8",
+                        "on-surface": "#e2e2e5",
+                        "on-secondary-container": "#b1b6bb",
+                        "text-primary": "#E8ECEF",
+                        "surface": "#121416",
+                        "background": "#121416",
+                        "on-primary": "#412d00",
+                        "primary-fixed": "#ffdea6",
+                        "surface-container-lowest": "#0c0e10",
+                        "surface-container-high": "#282a2c",
+                        "tertiary-container": "#adafb3",
+                        "inverse-on-surface": "#2f3133",
+                        "status-error": "#D87870",
+                        "outline-variant": "#4f4637",
+                        "surface-container-highest": "#333537",
+                        "primary": "#f5c363",
+                        "on-surface-variant": "#d2c5b1",
+                        "text-muted": "#929BA3",
+                        "on-secondary-fixed": "#171c20",
+                        "on-tertiary-container": "#404246",
+                        "on-tertiary-fixed-variant": "#44474a",
+                        "on-primary-container": "#583e00",
+                        "border-hairline": "#30373D"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "max-width": "1440px",
+                        "margin-base": "24px",
+                        "sidebar-width": "240px",
+                        "panel-padding": "12px"
+                    },
+                    "fontFamily": {
+                        "ui-label": ["Geist"],
+                        "headline-sm": ["Geist"],
+                        "body-sm": ["Geist"],
+                        "mono-data": ["Geist Mono"],
+                        "body-lg": ["Geist"],
+                        "mono-label": ["Geist Mono"],
+                        "headline-md": ["Geist"],
+                        "headline-lg": ["Geist"]
+                    },
+                    "fontSize": {
+                        "ui-label": ["12px", { "lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-sm": ["20px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "mono-data": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "mono-label": ["12px", { "lineHeight": "1", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #30373D; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #d7a84b; }
+        * { border-radius: 0 !important; }
+    </style>
+</head>
+<body class="bg-background text-text-primary h-screen w-full flex overflow-hidden font-ui-label selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low dark:bg-surface-container-low fixed left-0 top-0 h-full w-[240px] border-r border-border-hairline flex flex-col z-50">
+<div class="h-14 px-gutter flex items-center gap-3 border-b border-border-hairline">
+<span class="material-symbols-outlined text-primary-container">visibility</span>
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">WATCHTOWER</div>
+<div class="font-mono-label text-mono-label text-text-muted mt-0.5">EVM INTEL CORE</div>
+</div>
+</div>
+<div class="flex-1 py-4 flex flex-col gap-1 overflow-y-auto custom-scrollbar">
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-gutter py-2.5 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+<span class="font-ui-label text-ui-label">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-gutter py-2.5 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span class="font-ui-label text-ui-label">Wallets</span>
+</a>
+<a class="flex items-center gap-3 px-gutter py-2.5 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">hub</span>
+<span class="font-ui-label text-ui-label">Clusters</span>
+</a>
+<a class="flex items-center gap-3 px-gutter py-2.5 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">schema</span>
+<span class="font-ui-label text-ui-label">Graph</span>
+</a>
+<!-- Active -->
+<a class="flex items-center gap-3 px-gutter py-2.5 text-primary border-l-2 border-primary bg-surface-container-highest transition-transform duration-100 translate-y-[-1px]" href="#">
+<span class="material-symbols-outlined text-[18px] text-primary">radar</span>
+<span class="font-ui-label text-ui-label">Radar</span>
+</a>
+<a class="flex items-center gap-3 px-gutter py-2.5 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">notifications</span>
+<span class="font-ui-label text-ui-label">Alerts</span>
+</a>
+<a class="flex items-center gap-3 px-gutter py-2.5 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">my_location</span>
+<span class="font-ui-label text-ui-label">Self-tracking</span>
+</a>
+<a class="flex items-center gap-3 px-gutter py-2.5 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span class="font-ui-label text-ui-label">Token lookup</span>
+</a>
+<a class="flex items-center gap-3 px-gutter py-2.5 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span class="font-ui-label text-ui-label">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-gutter py-2.5 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">health_and_safety</span>
+<span class="font-ui-label text-ui-label">Health</span>
+</a>
+</div>
+<div class="mt-auto border-t border-border-hairline p-gutter text-text-muted flex items-center gap-2">
+<span class="material-symbols-outlined text-[10px] text-status-success" style="font-variation-settings: 'FILL' 1;">circle</span>
+<span class="font-mono-label text-[10px]">CORE ONLINE v0.1.0</span>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-[240px] flex flex-col h-full bg-surface">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface flex justify-between items-center w-full px-gutter h-14 border-b border-border-hairline shrink-0">
+<div class="font-headline-md text-headline-md text-primary font-bold">NARRATIVE RADAR</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center w-8 h-8">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center w-8 h-8">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Workspace Scrollable Area -->
+<main class="flex-1 overflow-y-auto custom-scrollbar p-margin-base flex flex-col gap-margin-base max-w-[calc(1440px-240px)] mx-auto w-full">
+<!-- Intelligence Banner & Controls -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border-hairline pb-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary mb-1">NARRATIVE RADAR</h1>
+<p class="font-body-sm text-body-sm text-text-muted">Real-time onchain movement detection across monitored entities.</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center border border-border-hairline bg-surface-container-low h-10 px-1">
+<button class="px-3 h-8 text-text-muted hover:text-text-primary font-mono-label text-mono-label transition-colors">1H</button>
+<button class="px-3 h-8 text-text-muted hover:text-text-primary font-mono-label text-mono-label transition-colors">6H</button>
+<button class="px-3 h-8 bg-surface-variant text-primary-container font-mono-label text-mono-label border border-border-hairline">24H</button>
+<button class="px-3 h-8 text-text-muted hover:text-text-primary font-mono-label text-mono-label transition-colors">48H</button>
+</div>
+<div class="relative h-10 w-48">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-[18px]">search</span>
+<input class="w-full h-full bg-surface-container-low border border-border-hairline text-text-primary pl-9 pr-3 font-mono-label text-mono-label focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-colors placeholder:text-text-muted" placeholder="Filter entities, tokens..." type="text"/>
+</div>
+<div class="flex items-center gap-2 h-10 px-3 border border-border-hairline bg-surface-container-low">
+<span class="material-symbols-outlined text-[10px] text-status-success animate-pulse" style="font-variation-settings: 'FILL' 1;">circle</span>
+<span class="font-mono-label text-mono-label text-status-success">STREAMING</span>
+</div>
+</div>
+</div>
+<!-- Top KPI Bar -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<!-- KPI 1 -->
+<div class="border border-border-hairline bg-surface-container-low p-4 flex flex-col gap-2">
+<div class="font-ui-label text-ui-label text-text-muted tracking-wider uppercase">Radar Breadth (24H)</div>
+<div class="font-mono-data text-headline-sm text-text-primary">42.0% <span class="text-text-muted text-body-sm">(21/50)</span></div>
+</div>
+<!-- KPI 2 -->
+<div class="border border-border-hairline bg-surface-container-low p-4 flex flex-col gap-2">
+<div class="font-ui-label text-ui-label text-text-muted tracking-wider uppercase">Co-Accumulation Signals</div>
+<div class="font-mono-data text-headline-sm text-primary-container">3 Active Groups</div>
+</div>
+<!-- KPI 3 -->
+<div class="border border-border-hairline bg-surface-container-low p-4 flex flex-col gap-2 relative">
+<div class="font-ui-label text-ui-label text-text-muted tracking-wider uppercase flex items-center gap-2">
+                        Cluster Co-Entry Warnings
+                        <span class="material-symbols-outlined text-[12px] text-primary-container" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="font-mono-data text-headline-sm text-status-error flex items-center gap-2">
+<span class="material-symbols-outlined text-[10px]" style="font-variation-settings: 'FILL' 1;">circle</span>
+                        1 Coordinated Entry
+                    </div>
+</div>
+<!-- KPI 4 -->
+<div class="border border-border-hairline bg-surface-container-low p-4 flex flex-col gap-2">
+<div class="font-ui-label text-ui-label text-text-muted tracking-wider uppercase">Netflow Leader (24H)</div>
+<div class="font-mono-data text-headline-sm text-status-success flex items-baseline gap-2">
+                        PEPE <span class="text-body-sm">(+$248.5K)</span>
+</div>
+</div>
+</div>
+<!-- Main Split Content -->
+<div class="flex flex-col lg:flex-row gap-margin-base flex-1 min-h-0">
+<!-- Left Column: Movement Feed (65%) -->
+<div class="lg:w-[65%] flex flex-col border border-border-hairline bg-surface-container-low min-h-[500px]">
+<div class="border-b border-border-hairline px-4 h-12 flex items-center justify-between bg-surface-container-highest shrink-0">
+<div class="font-ui-label text-ui-label tracking-wider uppercase">Movement Feed</div>
+<div class="flex gap-4">
+<button class="text-primary-container font-ui-label text-ui-label uppercase">All Actions</button>
+<button class="text-text-muted hover:text-text-primary font-ui-label text-ui-label uppercase transition-colors">Swaps</button>
+<button class="text-text-muted hover:text-text-primary font-ui-label text-ui-label uppercase transition-colors">Stable Park/Spend</button>
+<button class="text-text-muted hover:text-text-primary font-ui-label text-ui-label uppercase transition-colors">CEX Flows</button>
+</div>
+</div>
+<div class="flex-1 overflow-x-auto overflow-y-auto custom-scrollbar">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead class="sticky top-0 bg-surface-container-low border-b border-border-hairline z-10">
+<tr>
+<th class="py-3 px-4 font-ui-label text-mono-label text-text-muted whitespace-nowrap">TIME (LOC)</th>
+<th class="py-3 px-4 font-ui-label text-mono-label text-text-muted">WALLET</th>
+<th class="py-3 px-4 font-ui-label text-mono-label text-text-muted">ACTION</th>
+<th class="py-3 px-4 font-ui-label text-mono-label text-text-muted">TOKEN</th>
+<th class="py-3 px-4 font-ui-label text-mono-label text-text-muted text-right">AMOUNT USD</th>
+<th class="py-3 px-4 font-ui-label text-mono-label text-text-muted text-right">MCAP AT ACTION</th>
+<th class="py-3 px-4 font-ui-label text-mono-label text-text-muted text-right">AGE</th>
+<th class="py-3 px-4 font-ui-label text-mono-label text-text-muted text-center">TX</th>
+</tr>
+</thead>
+<tbody class="font-mono-data text-mono-data">
+<!-- Row 1 -->
+<tr class="border-b border-border-hairline hover:bg-surface-variant/50 transition-colors group">
+<td class="py-3 px-4 text-text-muted whitespace-nowrap">14:23:45</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<span class="text-text-primary hover:text-primary-container cursor-pointer transition-colors">vitalik.eth</span>
+<span class="bg-surface-variant border border-border-hairline px-1.5 py-0.5 text-[10px] text-primary-container flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">smart_toy</span> SMART-RIDER [W]
+                                            </span>
+</div>
+</td>
+<td class="py-3 px-4"><span class="text-status-success bg-status-success/10 px-2 py-0.5 border border-status-success/20">BUY</span></td>
+<td class="py-3 px-4 flex items-center gap-2">
+<div class="w-4 h-4 bg-surface-variant border border-border-hairline rounded-full flex items-center justify-center text-[8px] text-text-muted">🐸</div>
+                                        PEPE
+                                    </td>
+<td class="py-3 px-4 text-right">$42,500.00</td>
+<td class="py-3 px-4 text-right text-text-muted">$3.2B</td>
+<td class="py-3 px-4 text-right text-text-muted">342d</td>
+<td class="py-3 px-4 text-center">
+<a class="text-text-muted hover:text-primary-container transition-colors inline-block opacity-0 group-hover:opacity-100" href="#">
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-border-hairline hover:bg-surface-variant/50 transition-colors group">
+<td class="py-3 px-4 text-text-muted whitespace-nowrap">14:18:12</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<span class="text-text-primary hover:text-primary-container cursor-pointer transition-colors truncate w-24" title="0x71c...a1b2">0x71c...a1b2</span>
+<span class="bg-surface-variant border border-border-hairline px-1.5 py-0.5 text-[10px] text-status-error flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">warning</span> CLUSTER #04
+                                            </span>
+</div>
+</td>
+<td class="py-3 px-4"><span class="text-status-success bg-status-success/10 px-2 py-0.5 border border-status-success/20">BUY</span></td>
+<td class="py-3 px-4 flex items-center gap-2">
+<div class="w-4 h-4 bg-surface-variant border border-border-hairline rounded-full flex items-center justify-center text-[8px] text-text-muted">🐸</div>
+                                        PEPE
+                                    </td>
+<td class="py-3 px-4 text-right">$18,200.00</td>
+<td class="py-3 px-4 text-right text-text-muted">$3.2B</td>
+<td class="py-3 px-4 text-right text-text-muted">342d</td>
+<td class="py-3 px-4 text-center">
+<a class="text-text-muted hover:text-primary-container transition-colors inline-block opacity-0 group-hover:opacity-100" href="#">
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-border-hairline hover:bg-surface-variant/50 transition-colors group">
+<td class="py-3 px-4 text-text-muted whitespace-nowrap">14:05:55</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<span class="text-text-primary hover:text-primary-container cursor-pointer transition-colors truncate w-24" title="0x33b...aa90">0x33b...aa90</span>
+</div>
+</td>
+<td class="py-3 px-4"><span class="text-primary-container bg-primary-container/10 px-2 py-0.5 border border-primary-container/20">STABLE_PARK</span></td>
+<td class="py-3 px-4 flex items-center gap-2">
+<div class="w-4 h-4 bg-[#2775CA] border border-border-hairline rounded-full flex items-center justify-center text-[8px] text-white font-sans">$</div>
+                                        USDC
+                                    </td>
+<td class="py-3 px-4 text-right">$150,000.00</td>
+<td class="py-3 px-4 text-right text-text-muted">-</td>
+<td class="py-3 px-4 text-right text-text-muted">-</td>
+<td class="py-3 px-4 text-center">
+<a class="text-text-muted hover:text-primary-container transition-colors inline-block opacity-0 group-hover:opacity-100" href="#">
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Column: Detections & Radar (35%) -->
+<div class="lg:w-[35%] flex flex-col gap-margin-base">
+<!-- Co-Accumulation Detections -->
+<div class="flex flex-col border border-border-hairline bg-surface-container-low">
+<div class="border-b border-border-hairline px-4 h-12 flex items-center bg-surface-container-highest shrink-0">
+<div class="font-ui-label text-ui-label tracking-wider uppercase text-primary-container flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">group_work</span>
+                                Co-Accumulation Detections
+                            </div>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<!-- Card 1 -->
+<div class="border border-border-hairline bg-surface p-3 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div>
+<div class="font-mono-label text-mono-label text-text-muted mb-1">TARGET ASSET</div>
+<div class="font-headline-sm text-text-primary flex items-center gap-2">
+                                            PEPE
+                                            <span class="font-mono-data text-body-sm text-status-success">+$60.7K</span>
+</div>
+</div>
+<div class="text-right">
+<div class="font-mono-label text-mono-label text-text-muted mb-1">ENTITIES</div>
+<div class="font-mono-data text-body-lg text-text-primary">2 Wallets</div>
+</div>
+</div>
+<div class="border-t border-border-hairline pt-3 mt-1">
+<div class="font-mono-label text-[10px] text-text-muted mb-2 uppercase">Independence Evidence</div>
+<ul class="font-mono-data text-[11px] text-text-primary flex flex-col gap-1.5">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-status-success">check_circle</span> Different Root Funders</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-status-success">check_circle</span> Zero Direct Edges</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-status-success">check_circle</span> Distinct Clusters</li>
+</ul>
+</div>
+</div>
+<!-- Card 2 (Warning) -->
+<div class="border border-status-error/30 bg-error-container/10 p-3 flex flex-col gap-3 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-status-error"></div>
+<div class="pl-2">
+<div class="font-ui-label text-ui-label text-status-error mb-1 uppercase flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span> Cluster Co-Entry Detected
+                                    </div>
+<div class="font-headline-sm text-text-primary mb-2">WOJAK</div>
+<div class="font-mono-data text-body-sm text-text-muted">
+<strong class="text-text-primary">2 wallets</strong> from <strong class="text-status-error">Cluster #04</strong> initiated buy sequences within <strong class="text-text-primary">18 mins</strong> of each other. Highly coordinated behavior suspected.
+                                    </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Netflow Radar Table -->
+<div class="flex flex-col border border-border-hairline bg-surface-container-low flex-1">
+<div class="border-b border-border-hairline px-4 h-12 flex items-center justify-between bg-surface-container-highest shrink-0">
+<div class="font-ui-label text-ui-label tracking-wider uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">swap_vert</span>
+                                Netflow Radar
+                            </div>
+<div class="flex gap-2">
+<button class="px-2 py-1 text-primary-container bg-surface-variant border border-border-hairline font-mono-label text-[10px]">24H</button>
+<button class="px-2 py-1 text-text-muted hover:text-text-primary font-mono-label text-[10px] transition-colors">7D</button>
+<button class="px-2 py-1 text-text-muted hover:text-text-primary font-mono-label text-[10px] transition-colors">30D</button>
+</div>
+</div>
+<div class="p-0 overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<tbody class="font-mono-data text-mono-data">
+<tr class="border-b border-border-hairline hover:bg-surface-variant/50 transition-colors">
+<td class="py-2 px-4 flex items-center gap-2 font-body-sm text-text-primary">
+<div class="w-4 h-4 bg-surface-variant border border-border-hairline rounded-full flex items-center justify-center text-[8px] text-text-muted">🐸</div>
+                                            PEPE
+                                        </td>
+<td class="py-2 px-4 text-right text-status-success">+$248.5K</td>
+</tr>
+<tr class="border-b border-border-hairline hover:bg-surface-variant/50 transition-colors">
+<td class="py-2 px-4 flex items-center gap-2 font-body-sm text-text-primary">
+<div class="w-4 h-4 bg-[#0052FF] border border-border-hairline rounded-full flex items-center justify-center text-[8px] text-white">B</div>
+                                            BRETT
+                                        </td>
+<td class="py-2 px-4 text-right text-status-error">-$84.2K</td>
+</tr>
+<tr class="border-b border-border-hairline hover:bg-surface-variant/50 transition-colors">
+<td class="py-2 px-4 flex items-center gap-2 font-body-sm text-text-primary">
+<div class="w-4 h-4 bg-[#8A2BE2] border border-border-hairline rounded-full flex items-center justify-center text-[8px] text-white">D</div>
+                                            DEGEN
+                                        </td>
+<td class="py-2 px-4 text-right text-status-success">+$32.1K</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -180,8 +180,14 @@ export default function WalletIntakePage() {
 
           <form onSubmit={handleSingleSubmit} className="space-y-4 flex-1 flex flex-col">
             {singleSuccessMsg && (
-              <div className="p-3 bg-[#79B79A]/20 border border-[#79B79A] text-[#79B79A] font-mono text-[12px]">
-                {singleSuccessMsg}
+              <div className="p-3 bg-[#79B79A]/20 border border-[#79B79A] text-[#79B79A] font-mono text-[12px] flex items-center justify-between">
+                <span>{singleSuccessMsg}</span>
+                <Link
+                  href={`/wallets/${singleChain}/${singleInput.trim()}`}
+                  className="px-2 py-1 bg-[#79B79A] text-[#101214] font-bold text-[11px] uppercase tracking-wider font-['Geist'] hover:brightness-110"
+                >
+                  View Profile →
+                </Link>
               </div>
             )}
             {addSingleMutation.isError && (
