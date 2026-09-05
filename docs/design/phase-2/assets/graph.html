@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watchtower - Interaction Graph</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "status-error": "#D87870",
+                "on-tertiary": "#2e3134",
+                "error": "#ffb4ab",
+                "surface-container-high": "#282a2c",
+                "error-container": "#93000a",
+                "surface-variant": "#333537",
+                "inverse-primary": "#7b5800",
+                "surface-container-lowest": "#0c0e10",
+                "outline": "#9b8f7d",
+                "inverse-surface": "#e2e2e5",
+                "tertiary-fixed-dim": "#c5c6ca",
+                "secondary-container": "#42474c",
+                "surface-dim": "#121416",
+                "on-background": "#e2e2e5",
+                "on-primary-container": "#583e00",
+                "secondary-fixed": "#dfe3e8",
+                "on-secondary-container": "#b1b6bb",
+                "text-primary": "#E8ECEF",
+                "on-error-container": "#ffdad6",
+                "secondary-fixed-dim": "#c2c7cc",
+                "on-surface": "#e2e2e5",
+                "on-tertiary-container": "#404246",
+                "on-secondary-fixed-variant": "#42474c",
+                "surface-container": "#1e2022",
+                "primary": "#f5c363",
+                "on-primary-fixed": "#271900",
+                "on-tertiary-fixed": "#191c1f",
+                "on-primary-fixed-variant": "#5d4200",
+                "surface-container-highest": "#333537",
+                "primary-container": "#d7a84b",
+                "on-tertiary-fixed-variant": "#44474a",
+                "tertiary": "#c9cace",
+                "on-error": "#690005",
+                "background": "#121416",
+                "surface-container-low": "#1a1c1e",
+                "on-primary": "#412d00",
+                "status-success": "#79B79A",
+                "primary-fixed-dim": "#f0bf5f",
+                "on-secondary-fixed": "#171c20",
+                "border-hairline": "#30373D",
+                "on-secondary": "#2c3135",
+                "secondary": "#c2c7cc",
+                "primary-fixed": "#ffdea6",
+                "surface": "#121416",
+                "text-muted": "#929BA3",
+                "tertiary-container": "#adafb3",
+                "inverse-on-surface": "#2f3133",
+                "tertiary-fixed": "#e1e2e6",
+                "on-surface-variant": "#d2c5b1",
+                "surface-tint": "#f0bf5f",
+                "outline-variant": "#4f4637",
+                "surface-bright": "#38393c"
+              },
+              "borderRadius": {
+                "DEFAULT": "0px",
+                "lg": "0px",
+                "xl": "0px",
+                "full": "0px"
+              },
+              "spacing": {
+                "margin-base": "24px",
+                "max-width": "1440px",
+                "gutter": "16px",
+                "sidebar-width": "240px",
+                "panel-padding": "12px"
+              },
+              "fontFamily": {
+                "body-lg": ["Geist"],
+                "ui-label": ["Geist"],
+                "headline-sm": ["Geist"],
+                "mono-data": ["Geist Mono"],
+                "mono-label": ["Geist Mono"],
+                "headline-md": ["Geist"],
+                "body-sm": ["Geist"],
+                "headline-lg": ["Geist"]
+              },
+              "fontSize": {
+                "body-lg": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                "ui-label": ["12px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                "headline-sm": ["20px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                "mono-data": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                "mono-label": ["12px", {"lineHeight": "1", "fontWeight": "500"}],
+                "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                "headline-lg": ["32px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for data dense panels */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #101214; }
+        ::-webkit-scrollbar-thumb { background: #30373D; border-radius: 0px; }
+        ::-webkit-scrollbar-thumb:hover { background: #42474c; }
+        
+        .bg-grid-pattern {
+            background-image: radial-gradient(#30373D 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .border-dashed-custom {
+            border-style: dashed;
+            border-width: 1px;
+            border-color: #D7A84B;
+        }
+    </style>
+</head>
+<body class="bg-background text-text-primary font-body-sm antialiased h-screen w-screen overflow-hidden flex selection:bg-primary-container selection:text-on-primary-container">
+<!-- SIDE NAV (Shared Component 1) -->
+<nav class="flex flex-col h-screen w-sidebar-width fixed left-0 top-0 z-40 bg-surface-dim border-r border-border-hairline flat no shadows">
+<div class="p-margin-base border-b border-border-hairline">
+<h1 class="font-headline-sm text-headline-sm tracking-tighter text-primary">WATCHTOWER</h1>
+<p class="font-ui-label text-ui-label text-text-muted mt-1 uppercase">V.2.0.4-STABLE</p>
+</div>
+<div class="flex-1 py-4 flex flex-col gap-1 overflow-y-auto">
+<a class="px-margin-base py-3 flex items-center gap-3 font-ui-label text-ui-label text-text-muted font-normal hover:bg-surface-container hover:text-text-primary active:translate-y-px transition-transform duration-75" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="uppercase">Overview</span>
+</a>
+<a class="px-margin-base py-3 flex items-center gap-3 font-ui-label text-ui-label text-text-muted font-normal hover:bg-surface-container hover:text-text-primary active:translate-y-px transition-transform duration-75" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">visibility</span>
+<span class="uppercase">Monitor</span>
+</a>
+<a class="px-margin-base py-3 flex items-center gap-3 font-ui-label text-ui-label text-primary font-bold border-l-2 border-primary bg-surface-container-high hover:bg-surface-container hover:text-text-primary active:translate-y-px transition-transform duration-75" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+<span class="uppercase">Analytics</span>
+</a>
+<a class="px-margin-base py-3 flex items-center gap-3 font-ui-label text-ui-label text-text-muted font-normal hover:bg-surface-container hover:text-text-primary active:translate-y-px transition-transform duration-75" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">swap_horiz</span>
+<span class="uppercase">Transactions</span>
+</a>
+<a class="px-margin-base py-3 flex items-center gap-3 font-ui-label text-ui-label text-text-muted font-normal hover:bg-surface-container hover:text-text-primary active:translate-y-px transition-transform duration-75" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">database</span>
+<span class="uppercase">Registry</span>
+</a>
+<a class="px-margin-base py-3 flex items-center gap-3 font-ui-label text-ui-label text-text-muted font-normal hover:bg-surface-container hover:text-text-primary active:translate-y-px transition-transform duration-75" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="uppercase">Settings</span>
+</a>
+</div>
+<div class="p-margin-base border-t border-border-hairline flex flex-col gap-2">
+<button class="w-full bg-primary-container text-on-primary-container font-ui-label text-ui-label h-10 uppercase flex items-center justify-center gap-2 hover:bg-primary-fixed transition-colors active:translate-y-px">
+<span class="material-symbols-outlined text-[16px]">radar</span>
+                INITIATE SCAN
+            </button>
+<div class="flex items-center gap-2 mt-4 text-text-muted font-ui-label text-ui-label">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="uppercase">Status</span>
+<span class="ml-auto material-symbols-outlined text-[16px]">terminal</span>
+<span class="uppercase">Logs</span>
+</div>
+</div>
+</nav>
+<!-- MAIN WORKSPACE -->
+<main class="ml-sidebar-width w-[calc(100%-240px)] h-full flex flex-col bg-surface relative">
+<!-- TOP TOOLBAR -->
+<header class="h-[60px] min-h-[60px] bg-surface border-b border-border-hairline flex items-center justify-between px-margin-base w-full z-10">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">INTERACTION GRAPH</h2>
+<p class="font-mono-label text-mono-label text-text-muted mt-1 uppercase">Bubble map of direct wallet-to-wallet transfers and cluster compounds</p>
+</div>
+<div class="flex items-center gap-4">
+<!-- Filters -->
+<div class="flex items-center border border-border-hairline h-8 bg-surface-container-low font-mono-label text-mono-label">
+<button class="px-3 h-full hover:bg-surface-container text-text-muted border-r border-border-hairline transition-colors">24H</button>
+<button class="px-3 h-full hover:bg-surface-container text-text-muted border-r border-border-hairline transition-colors">7D</button>
+<button class="px-3 h-full bg-surface-variant text-primary font-bold border-r border-border-hairline transition-colors">30D</button>
+<button class="px-3 h-full hover:bg-surface-container text-text-muted transition-colors">ALL</button>
+</div>
+<div class="flex items-center h-8 border border-border-hairline bg-surface-container-low px-3 font-mono-label text-mono-label text-text-muted">
+                    Min USD: <span class="text-on-surface ml-2">$100</span>
+</div>
+<div class="flex items-center h-8 border border-border-hairline bg-surface-container-low px-3 font-mono-label text-mono-label text-text-muted cursor-pointer hover:bg-surface-container transition-colors">
+                    Token: All <span class="material-symbols-outlined text-[14px] ml-1">arrow_drop_down</span>
+</div>
+<div class="flex items-center border border-border-hairline h-8 bg-surface-container-low font-mono-label text-mono-label">
+<button class="px-3 h-full bg-surface-variant text-primary font-bold border-r border-border-hairline transition-colors">Both</button>
+<button class="px-3 h-full hover:bg-surface-container text-text-muted border-r border-border-hairline transition-colors">A → B</button>
+<button class="px-3 h-full hover:bg-surface-container text-text-muted transition-colors">B → A</button>
+</div>
+<!-- Actions -->
+<button class="h-8 px-4 border border-border-hairline text-text-primary font-ui-label text-ui-label uppercase hover:bg-surface-container active:translate-y-px transition-all">Fit View</button>
+<button class="h-8 px-4 border border-primary text-primary font-ui-label text-ui-label uppercase hover:bg-primary-container hover:text-on-primary-container active:translate-y-px transition-all flex items-center gap-2">
+                    Export PNG
+                    <span class="material-symbols-outlined text-[16px]">download</span>
+</button>
+</div>
+</header>
+<!-- GRAPH CANVAS & RIGHT PANEL CONTAINER -->
+<div class="flex-1 flex w-full h-[calc(100%-60px)] overflow-hidden relative">
+<!-- GRAPH CANVAS -->
+<section class="flex-1 bg-background bg-grid-pattern relative overflow-hidden h-full">
+<!-- Simulated SVG Graph Elements (Absolute positioning for demo) -->
+<div class="absolute inset-0 z-0">
+<!-- Cluster Compound Box -->
+<div class="absolute top-[20%] left-[20%] w-[400px] h-[300px] border-dashed-custom bg-surface-container-low/20 p-2 flex flex-col pointer-events-none">
+<span class="font-mono-label text-mono-label text-primary uppercase bg-surface px-1 self-start -mt-4 ml-2">Cluster #04</span>
+</div>
+<!-- Edges (SVG Lines) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 1;">
+<defs>
+<marker id="arrowhead" markerheight="7" markerwidth="10" orient="auto" refx="9" refy="3.5">
+<polygon fill="#929BA3" points="0 0, 10 3.5, 0 7"></polygon>
+</marker>
+<marker id="arrowhead-red" markerheight="7" markerwidth="10" orient="auto" refx="9" refy="3.5">
+<polygon fill="#D87870" points="0 0, 10 3.5, 0 7"></polygon>
+</marker>
+</defs>
+<!-- Node 1 to Node 2 -->
+<line marker-end="url(#arrowhead)" stroke="#929BA3" stroke-width="2" x1="30%" x2="45%" y1="40%" y2="55%"></line>
+<!-- Node 1 to Node 3 -->
+<line stroke="#30373D" stroke-dasharray="4" stroke-width="1" x1="30%" x2="60%" y1="40%" y2="30%"></line>
+<!-- Node 2 to Node 4 -->
+<line marker-end="url(#arrowhead-red)" stroke="#D87870" stroke-width="3" x1="45%" x2="70%" y1="55%" y2="70%"></line>
+</svg>
+<!-- Edge Labels (Absolute positioned divs over SVG) -->
+<div class="absolute top-[45%] left-[36%] bg-surface-dim border border-border-hairline px-2 py-1 font-mono-label text-[10px] text-text-muted z-10 transform -translate-x-1/2 -translate-y-1/2">PEPE · $45.2K</div>
+<div class="absolute top-[32%] left-[45%] bg-surface-dim border border-border-hairline px-2 py-1 font-mono-label text-[10px] text-text-muted z-10 transform -translate-x-1/2 -translate-y-1/2">USDC · $12.0K</div>
+<div class="absolute top-[60%] left-[58%] bg-surface-dim border border-status-error px-2 py-1 font-mono-label text-[10px] text-status-error z-10 transform -translate-x-1/2 -translate-y-1/2">ETH · $1.5K</div>
+<!-- Nodes -->
+<!-- Node 1: vitalik.eth -->
+<div class="absolute top-[40%] left-[30%] transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 group">
+<div class="w-20 h-20 bg-surface-container border-2 border-primary ring-2 ring-primary ring-offset-2 ring-offset-background flex items-center justify-center shadow-lg transition-transform hover:scale-105">
+<span class="material-symbols-outlined text-primary text-[32px]">account_balance_wallet</span>
+</div>
+<div class="bg-surface-dim border border-primary px-3 py-1 flex flex-col items-center">
+<span class="font-mono-label text-mono-label text-on-surface">vitalik.eth</span>
+<span class="font-mono-data text-[10px] text-primary">$142.5K</span>
+</div>
+</div>
+<!-- Node 2: 0x71c...a1b2 -->
+<div class="absolute top-[55%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 hover:scale-105 transition-transform">
+<div class="w-16 h-16 bg-surface-container border-2 border-status-error flex items-center justify-center">
+<span class="material-symbols-outlined text-status-error text-[24px]">gavel</span>
+</div>
+<div class="bg-surface-dim border border-border-hairline px-2 py-1 flex flex-col items-center">
+<span class="font-mono-label text-[10px] text-on-surface">0x71c...a1b2</span>
+</div>
+</div>
+<!-- Node 3: arbiscan.eth -->
+<div class="absolute top-[30%] left-[60%] transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 hover:scale-105 transition-transform">
+<div class="w-16 h-16 bg-[#1A2F33] border-2 border-[#4DB6AC] flex items-center justify-center opacity-80">
+<span class="material-symbols-outlined text-[#4DB6AC] text-[24px]">hub</span>
+</div>
+<div class="bg-surface-dim border border-border-hairline px-2 py-1 flex flex-col items-center">
+<span class="font-mono-label text-[10px] text-on-surface">arbiscan.eth</span>
+<span class="font-mono-data text-[10px] text-[#4DB6AC]">Cluster #12</span>
+</div>
+</div>
+<!-- Node 4: 0x99a...beef -->
+<div class="absolute top-[70%] left-[70%] transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 hover:scale-105 transition-transform">
+<div class="w-10 h-10 bg-surface-container-low border border-border-hairline flex items-center justify-center">
+<span class="material-symbols-outlined text-text-muted text-[16px]">public</span>
+</div>
+<div class="bg-surface-dim border border-border-hairline px-2 py-1 flex flex-col items-center">
+<span class="font-mono-label text-[10px] text-text-muted">0x99a...beef</span>
+</div>
+</div>
+</div>
+<!-- Bottom-Left Legend -->
+<div class="absolute bottom-margin-base left-margin-base bg-surface-container-low border border-border-hairline p-4 w-[280px] flex flex-col gap-4 z-30 shadow-2xl">
+<div>
+<h4 class="font-ui-label text-ui-label text-text-muted uppercase mb-2 border-b border-border-hairline pb-1">Status Indicators</h4>
+<ul class="space-y-2 font-mono-label text-[11px]">
+<li class="flex items-center gap-2 text-text-muted"><span class="w-2 h-2 bg-text-muted"></span> IDLE</li>
+<li class="flex items-center gap-2 text-primary"><span class="w-2 h-2 bg-primary"></span> ARMED</li>
+<li class="flex items-center gap-2 text-status-error"><span class="w-2 h-2 bg-status-error"></span> TRIGGERED</li>
+</ul>
+</div>
+<div>
+<h4 class="font-ui-label text-ui-label text-text-muted uppercase mb-2 border-b border-border-hairline pb-1">Graph Key</h4>
+<div class="space-y-2 font-mono-label text-[11px] text-text-muted">
+<div class="flex items-center justify-between"><span>Node Size</span> <span>Volume (USD)</span></div>
+<div class="flex items-center justify-between"><span>Edge Width</span> <span>Tx Frequency</span></div>
+<div class="flex items-center justify-between">
+<span class="flex items-center gap-1"><div class="w-4 h-4 border-dashed-custom border"></div> Compounds</span>
+<span>Clustered Entity</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT DRAWER (Inspection Panel) -->
+<aside class="w-[360px] min-w-[360px] h-full bg-surface-container-low border-l border-border-hairline flex flex-col z-30 transform transition-transform duration-150 right-0">
+<div class="p-panel-padding border-b border-border-hairline bg-surface-variant/50">
+<h3 class="font-headline-sm text-headline-sm uppercase text-primary">EVIDENCE_RAIL</h3>
+<p class="font-mono-label text-[10px] text-text-muted mt-1 uppercase">NODE_INSPECTION_v4</p>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+<!-- Selected Node Identity -->
+<div>
+<div class="flex items-start justify-between mb-2">
+<h4 class="font-mono-data text-headline-sm text-on-surface">vitalik.eth</h4>
+<span class="px-2 py-1 bg-primary/10 border border-primary text-primary font-mono-label text-[10px] uppercase flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Armed
+                            </span>
+</div>
+<div class="flex items-center gap-2 font-mono-label text-[11px] text-text-muted cursor-pointer hover:text-on-surface mb-4">
+                            0xd8da6bf26964af9d7eed9e03e53415d37aa96045
+                            <span class="material-symbols-outlined text-[14px]">content_copy</span>
+</div>
+<div class="grid grid-cols-2 gap-2 mb-4">
+<div class="bg-surface border border-border-hairline p-2 flex flex-col">
+<span class="font-ui-label text-[10px] text-text-muted uppercase mb-1">Chain</span>
+<span class="font-mono-label text-xs text-on-surface">BASE</span>
+</div>
+<div class="bg-surface border border-border-hairline p-2 flex flex-col">
+<span class="font-ui-label text-[10px] text-text-muted uppercase mb-1">Cluster</span>
+<span class="font-mono-label text-xs text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> #04
+                                </span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface border border-border-hairline font-mono-label text-[10px] text-on-surface uppercase">SMART-RIDER [W]</span>
+<span class="px-2 py-1 bg-surface border border-border-hairline font-mono-label text-[10px] text-text-muted uppercase">FOUNDER</span>
+</div>
+</div>
+<div class="w-full h-px bg-border-hairline"></div>
+<!-- Key Stats -->
+<div>
+<h5 class="font-ui-label text-ui-label text-text-muted uppercase mb-3">Key Metrics (30D)</h5>
+<div class="flex flex-col gap-1 font-mono-data text-sm">
+<div class="flex justify-between items-center py-1 border-b border-border-hairline/50">
+<span class="text-text-muted">Total TXs</span>
+<span class="text-on-surface">1,420</span>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-border-hairline/50">
+<span class="text-text-muted">Inflow Vol</span>
+<span class="text-status-success">+$84,200.00</span>
+</div>
+<div class="flex justify-between items-center py-1 border-b border-border-hairline/50">
+<span class="text-text-muted">Outflow Vol</span>
+<span class="text-status-error">-$58,300.00</span>
+</div>
+<div class="flex justify-between items-center py-1 bg-surface p-2 border border-border-hairline mt-2">
+<span class="text-text-muted font-ui-label uppercase">Net USDC Balance</span>
+<span class="text-primary font-bold">$142,500.00</span>
+</div>
+</div>
+</div>
+<div class="w-full h-px bg-border-hairline"></div>
+<!-- Independence Verdict -->
+<div>
+<div class="flex justify-between items-center mb-3">
+<h5 class="font-mono-label text-mono-label text-text-muted uppercase">Independence Verdict</h5>
+<span class="font-mono-label text-[10px] text-status-error bg-status-error/10 border border-status-error px-1">FR-3.6</span>
+</div>
+<ul class="flex flex-col gap-2 font-mono-data text-[11px] text-on-surface">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-status-error text-[14px] mt-0.5">warning</span>
+<span>High connectivity to flagged contract 0x71c...a1b2 (TRIGGERED).</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-[14px] mt-0.5">info</span>
+<span class="text-text-muted">Frequent batch transfers detected via intermediate router.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-text-muted text-[14px] mt-0.5">check_circle</span>
+<span class="text-text-muted">Gas funding source verified independent (Binance Hot Wallet 4).</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="p-4 border-t border-border-hairline bg-surface">
+<button class="w-full h-10 border border-border-hairline text-on-surface font-ui-label text-ui-label uppercase hover:bg-surface-container active:translate-y-px transition-all flex items-center justify-center gap-2">
+                        Open Full Profile
+                        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</aside>
+</div>
+</main>
+</body></html>
