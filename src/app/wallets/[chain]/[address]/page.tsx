@@ -33,7 +33,7 @@ function shortenAddress(addr: string): string {
 
 export default function WalletDetailPage({ params }: PageProps) {
   const resolvedParams = use(params);
-  const chain = resolvedParams.chain as ChainSlug;
+  const chain = (resolvedParams.chain as string).toLowerCase() as ChainSlug;
   const address = resolvedParams.address.toLowerCase();
 
   const [copied, setCopied] = useState(false);
@@ -95,6 +95,14 @@ export default function WalletDetailPage({ params }: PageProps) {
     }
   }, [wallet]);
 
+  // Must be declared before any conditional returns to respect React's rules of hooks
+  const addMutation = trpc.wallet.add.useMutation({
+    onSuccess: () => {
+      utils.wallet.get.invalidate({ address, chain });
+      utils.wallet.list.invalidate();
+    },
+  });
+
   const explorerBase = CHAIN_REGISTRY[chain]?.explorerBaseUrl ?? "https://basescan.org";
 
   const handleCopy = () => {
@@ -131,21 +139,55 @@ export default function WalletDetailPage({ params }: PageProps) {
 
   if (walletError || !wallet) {
     return (
-      <div className="min-h-screen bg-[#101214] text-[#E8ECEF] p-8 max-w-4xl mx-auto">
-        <div className="p-6 bg-[#171A1D] border border-[#D87870] text-[#E8ECEF]">
-          <div className="font-bold text-[14px] text-[#D87870] uppercase tracking-wider mb-2 font-['Geist']">
-            Wallet Record Not Found
+      <div className="min-h-screen bg-[#101214] text-[#E8ECEF] p-8 max-w-4xl mx-auto flex flex-col justify-center">
+        <div className="p-6 bg-[#171A1D] border border-[#30373D] text-[#E8ECEF]">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-2.5 h-2.5 rounded-none bg-[#D7A84B]" />
+            <h1 className="font-bold text-[16px] text-[#E8ECEF] uppercase tracking-wider font-['Geist']">
+              Wallet Not In Registry
+            </h1>
           </div>
-          <div className="text-[12px] font-mono text-[#929BA3] mb-4">
-            Could not find address <span className="text-[#E8ECEF]">{address}</span> on chain{" "}
-            <span className="text-[#E8ECEF] uppercase">{chain}</span>.
+          <p className="text-[13px] font-mono text-[#929BA3] mb-4">
+            The address <span className="text-[#E8ECEF] font-semibold">{address}</span> is not yet being tracked on chain <span className="text-[#D7A84B] font-semibold uppercase">{chain}</span>.
+          </p>
+          <div className="p-4 bg-[#101214] border border-[#30373D] mb-6 space-y-2 font-mono text-[12px] text-[#929BA3]">
+            <p>• To generate profile statistics, heatmaps, and recursive funding trees, this wallet must first be registered in your local Watchtower database.</p>
+            <p>• You can click <strong className="text-[#E8ECEF]">Register &amp; Track Now</strong> below, or batch import up to 10 wallets from the Intake console.</p>
           </div>
-          <Link
-            href="/wallets"
-            className="inline-block px-4 py-2 bg-[#D7A84B] text-[#101214] text-[11px] font-bold uppercase tracking-wider font-['Geist']"
-          >
-            ← Return to Wallets Registry
-          </Link>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              disabled={addMutation.isPending}
+              onClick={() =>
+                addMutation.mutate({
+                  address,
+                  chain,
+                  watchPriority: "NORMAL",
+                  isSelf: false,
+                })
+              }
+              className="px-5 py-2.5 bg-[#D7A84B] text-[#101214] text-[12px] font-bold uppercase tracking-wider font-['Geist'] hover:brightness-110 active:translate-y-[1px] transition-all flex items-center gap-2"
+            >
+              <span>{addMutation.isPending ? "Registering..." : "+ Register & Track Now"}</span>
+            </button>
+            <Link
+              href="/wallets/new"
+              className="px-4 py-2 bg-transparent border border-[#30373D] text-[#E8ECEF] text-[12px] font-semibold uppercase tracking-wider font-['Geist'] hover:bg-[#1E2327] transition-colors"
+            >
+              Open Intake Console
+            </Link>
+            <Link
+              href="/wallets"
+              className="px-4 py-2 text-[#929BA3] hover:text-[#E8ECEF] text-[12px] font-semibold uppercase tracking-wider font-['Geist'] transition-colors"
+            >
+              ← Return to Wallets
+            </Link>
+          </div>
+          {addMutation.isError && (
+            <p className="mt-3 text-[12px] font-mono text-[#D87870]">
+              Failed to register: {addMutation.error.message}
+            </p>
+          )}
         </div>
       </div>
     );

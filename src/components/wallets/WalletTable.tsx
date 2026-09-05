@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -141,6 +141,7 @@ export function WalletTable({
               chain={wallet.chain}
               clusterColor={clusterColor}
               truncate={true}
+              internalLink={true}
             />
             {wallet.watchPriority === "HIGH" && (
               <span
