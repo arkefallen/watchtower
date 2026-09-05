@@ -29,9 +29,29 @@ export async function GET(request: Request): Promise<Response> {
     const rows = await Promise.all(Object.entries(QUEUES).map(async ([key, name]) => {
       const queue = queues[key as keyof typeof queues];
       const counts = await queue.getJobCounts("waiting", "active", "completed", "failed", "delayed", "paused");
-      return `<tr><th scope="row">${escapeHtml(name)}</th><td>${counts.waiting}</td><td>${counts.active}</td><td>${counts.completed}</td><td>${counts.failed}</td><td>${counts.delayed}</td><td>${counts.paused}</td></tr>`;
+      return `<tr><th scope="row">${escapeHtml(name)}</th>${["waiting", "active", "completed", "failed", "delayed", "paused"].map((state) => `<td data-label="${state}"${state === "failed" && counts[state] > 0 ? ' class="ops-danger"' : ""}>${(counts[state] ?? 0).toLocaleString("en-US")}</td>`).join("")}</tr>`;
     }));
-    const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bull Board · Watchtower</title><style>body{margin:0;padding:32px;background:#0b0d0f;color:#e5e7e6;font:14px system-ui,sans-serif}main{max-width:1100px;margin:auto}h1{color:#67e8f9}table{width:100%;border-collapse:collapse;background:#111827}th,td{padding:12px;border:1px solid #273244;text-align:right}th:first-child,td:first-child{text-align:left}thead{color:#94a3b8}</style></head><body><main><p>WATCHTOWER / OPERATIONS</p><h1>Bull Board</h1><p>Local queue state. This page is loopback-only.</p><table><thead><tr><th scope="col">Queue</th><th scope="col">Waiting</th><th scope="col">Active</th><th scope="col">Completed</th><th scope="col">Failed</th><th scope="col">Delayed</th><th scope="col">Paused</th></tr></thead><tbody>${rows.join("")}</tbody></table></main></body></html>`;
+    const checkedAt = new Date().toISOString();
+    const html = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bull Board · Watchtower</title>
+<link rel="stylesheet" href="/watchtower-operations.css"></head>
+<body class="ops-board">
+  <aside class="ops-board-nav"><a class="ops-brand" href="/health">WATCHTOWER</a><p class="ops-brand-note ops-mono">ONCHAIN INTELLIGENCE</p><nav aria-label="Operations navigation"><a href="/health">System health</a><a href="/api/bull-board" aria-current="page">Bull Board</a></nav></aside>
+  <main class="ops-console">
+    <header class="ops-topbar"><div class="ops-breadcrumb"><a href="/health">Watchtower</a><span aria-hidden="true">/</span><strong>Bull Board</strong></div><a class="ops-button" href="/api/bull-board"><span aria-hidden="true">↻</span> Refresh queues</a></header>
+    <div class="ops-workspace"><div class="ops-content">
+      <div class="ops-page-heading"><div><p class="ops-eyebrow">Operations / 02</p><h1>Bull Board</h1><p class="ops-description">Queue activity &amp; worker backlog</p></div><span class="ops-badge ops-amber"><span aria-hidden="true">●</span> Loopback only</span></div>
+      <section aria-labelledby="queues-heading"><div class="ops-section-heading"><h2 class="ops-section-title" id="queues-heading">Queue overview</h2><span class="ops-mono ops-muted">${rows.length} QUEUES</span></div>
+        <table class="ops-table"><caption class="ops-sr-only">Local queue counts by job state</caption><thead><tr><th scope="col">Queue</th><th scope="col">Waiting</th><th scope="col">Active</th><th scope="col">Completed</th><th scope="col">Failed</th><th scope="col">Delayed</th><th scope="col">Paused</th></tr></thead><tbody>${rows.join("")}</tbody></table>
+        <p class="ops-note">Counts reflect this snapshot. Refresh to read the latest queue state.</p>
+      </section><footer class="ops-content-footer"><span>Local runtime observation</span><span>Read-only queue inspection</span></footer>
+    </div><aside class="ops-evidence" aria-label="Queue metadata"><h2 class="ops-rail-title">Queue metadata</h2><div class="ops-rail-content">
+      <div><h3 class="ops-section-title">Access boundary</h3><p class="ops-value ops-mono">LOCAL / LOOPBACK</p><p class="ops-note">This page is loopback-only.</p></div>
+      <div><h3 class="ops-section-title">Last checked · UTC</h3><p class="ops-value ops-mono"><time datetime="${checkedAt}">${checkedAt.replace("T", " ").slice(0, 19)} UTC</time></p></div>
+      <div class="ops-rail-tools"><h3 class="ops-section-title">Tools</h3><a class="ops-tool-link" href="/health"><span>Back to system health</span><span aria-hidden="true">↗</span></a><p class="ops-note">Review infrastructure and provider usage.</p></div>
+    </div></aside></div>
+  </main>
+</body></html>`;
     return new Response(html, { status: 200, headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" } });
   } catch {
     return NextResponse.json({ error: "Bull Board unavailable" }, { status: 503 });

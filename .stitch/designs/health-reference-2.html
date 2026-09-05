@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watchtower Health Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "on-surface": "#e2e2e5",
+                        "on-primary-container": "#583e00",
+                        "inverse-primary": "#7b5800",
+                        "surface-variant": "#333537",
+                        "outline": "#9b8f7d",
+                        "on-tertiary-container": "#404246",
+                        "on-tertiary": "#2e3134",
+                        "tertiary-fixed-dim": "#c5c6ca",
+                        "on-secondary-container": "#b1b6bb",
+                        "on-background": "#e2e2e5",
+                        "on-secondary-fixed": "#171c20",
+                        "primary-fixed-dim": "#f0bf5f",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#2f3133",
+                        "surface-container": "#1e2022",
+                        "inverse-surface": "#e2e2e5",
+                        "surface-dim": "#121416",
+                        "outline-variant": "#4f4637",
+                        "primary-container": "#d7a84b",
+                        "on-primary": "#412d00",
+                        "secondary-container": "#42474c",
+                        "secondary-fixed": "#dfe3e8",
+                        "on-primary-fixed": "#271900",
+                        "surface-bright": "#38393c",
+                        "on-secondary": "#2c3135",
+                        "on-secondary-fixed-variant": "#42474c",
+                        "secondary-fixed-dim": "#c2c7cc",
+                        "border-hairline": "#30373D",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "on-tertiary-fixed-variant": "#44474a",
+                        "tertiary-container": "#adafb3",
+                        "primary-fixed": "#ffdea6",
+                        "surface-container-low": "#1a1c1e",
+                        "text-muted": "#929BA3",
+                        "tertiary-fixed": "#e1e2e6",
+                        "surface-tint": "#f0bf5f",
+                        "status-success": "#79B79A",
+                        "tertiary": "#c9cace",
+                        "secondary": "#c2c7cc",
+                        "surface-container-high": "#282a2c",
+                        "status-error": "#D87870",
+                        "primary": "#f5c363",
+                        "background": "#121416",
+                        "surface-container-lowest": "#0c0e10",
+                        "on-tertiary-fixed": "#191c1f",
+                        "surface": "#121416",
+                        "surface-container-highest": "#333537",
+                        "on-surface-variant": "#d2c5b1",
+                        "text-primary": "#E8ECEF",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "panel-padding": "12px",
+                        "gutter": "16px",
+                        "sidebar-width": "240px",
+                        "margin-base": "24px",
+                        "max-width": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Geist"],
+                        "ui-label": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-sm": ["Geist"],
+                        "mono-label": ["Geist Mono"],
+                        "headline-md": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "mono-data": ["Geist Mono"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["20px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "ui-label": ["12px", { "lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "mono-label": ["12px", { "lineHeight": "1", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "mono-data": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Geist', sans-serif; background-color: #101214; color: #E8ECEF; }
+        .geist-mono { font-family: 'Geist Mono', monospace; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #121416; }
+        ::-webkit-scrollbar-thumb { background: #30373D; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #42474c; }
+    </style>
+</head>
+<body class="bg-background text-text-primary antialiased h-screen overflow-hidden flex selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar (from JSON) -->
+<nav class="hidden md:flex bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary font-ui-label text-ui-label fixed left-0 top-0 h-full w-[240px] border-r border-border-hairline flex-col h-full py-margin-base z-50">
+<div class="px-gutter mb-8">
+<div class="font-headline-sm text-headline-sm font-bold text-primary tracking-tighter">WATCHTOWER</div>
+<div class="text-text-muted mt-1">Onchain Intelligence</div>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="space-y-1">
+<li><a class="flex items-center gap-3 px-panel-padding py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface active:translate-y-[-1px] transition-all duration-100" href="#"><span class="material-symbols-outlined" data-weight="fill">dashboard</span> Dashboard</a></li>
+<li><a class="flex items-center gap-3 px-panel-padding py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface active:translate-y-[-1px] transition-all duration-100" href="#"><span class="material-symbols-outlined" data-weight="fill">account_balance_wallet</span> Wallets</a></li>
+<li><a class="flex items-center gap-3 px-panel-padding py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface active:translate-y-[-1px] transition-all duration-100" href="#"><span class="material-symbols-outlined" data-weight="fill">hub</span> Clusters</a></li>
+<li><a class="flex items-center gap-3 px-panel-padding py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface active:translate-y-[-1px] transition-all duration-100" href="#"><span class="material-symbols-outlined" data-weight="fill">account_tree</span> Graph</a></li>
+<li><a class="flex items-center gap-3 px-panel-padding py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface active:translate-y-[-1px] transition-all duration-100" href="#"><span class="material-symbols-outlined" data-weight="fill">radar</span> Radar</a></li>
+<li><a class="flex items-center gap-3 px-panel-padding py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface active:translate-y-[-1px] transition-all duration-100" href="#"><span class="material-symbols-outlined" data-weight="fill">notifications_active</span> Alerts</a></li>
+<li><a class="flex items-center gap-3 px-panel-padding py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface active:translate-y-[-1px] transition-all duration-100" href="#"><span class="material-symbols-outlined" data-weight="fill">my_location</span> Self-tracking</a></li>
+<li><a class="flex items-center gap-3 px-panel-padding py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface active:translate-y-[-1px] transition-all duration-100" href="#"><span class="material-symbols-outlined" data-weight="fill">search</span> Token lookup</a></li>
+<li><a class="flex items-center gap-3 px-panel-padding py-2 bg-surface-container-high text-primary border-r-2 border-primary active:translate-y-[-1px] transition-all duration-100" href="#"><span class="material-symbols-outlined" data-weight="fill">settings</span> Settings</a></li>
+</ul>
+</div>
+<div class="mt-auto px-gutter pt-4 border-t border-border-hairline">
+<div class="text-primary-container font-mono-label text-mono-label mb-4 flex items-center gap-2">● SYSTEM OK</div>
+<ul class="space-y-1">
+<li><a class="flex items-center gap-3 px-panel-padding py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface active:translate-y-[-1px] transition-all duration-100" href="#"><span class="material-symbols-outlined" data-weight="fill">description</span> Docs</a></li>
+<li><a class="flex items-center gap-3 px-panel-padding py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface active:translate-y-[-1px] transition-all duration-100" href="#"><span class="material-symbols-outlined" data-weight="fill">help</span> Support</a></li>
+</ul>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 md:ml-[240px] h-full overflow-y-auto bg-background">
+<!-- Header -->
+<header class="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border-hairline px-gutter py-4 flex items-center justify-between">
+<div class="flex items-center gap-2 font-mono-label text-mono-label text-text-muted uppercase tracking-widest">
+<a class="hover:text-primary transition-colors" href="#">WATCHTOWER</a>
+<span>/</span>
+<span class="text-primary">HEALTH</span>
+</div>
+<div class="flex bg-surface-container rounded border border-border-hairline overflow-hidden p-0.5">
+<button class="px-3 py-1 font-mono-label text-mono-label text-on-surface-variant hover:text-text-primary transition-colors">LOCAL</button>
+<button class="px-3 py-1 font-mono-label text-mono-label bg-surface-variant text-text-primary rounded-sm shadow-sm">UTC</button>
+<button class="px-3 py-1 font-mono-label text-mono-label text-on-surface-variant hover:text-text-primary transition-colors">BLK</button>
+</div>
+</header>
+<div class="p-gutter max-w-max-width mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-gutter">
+<!-- Left Column (Wide) -->
+<div class="lg:col-span-3 space-y-gutter">
+<!-- Core Infrastructure Section -->
+<section class="bg-[#171A1D] border border-border-hairline p-panel-padding">
+<h2 class="font-ui-label text-ui-label text-text-muted uppercase tracking-widest mb-4">Core Infrastructure</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Database -->
+<div class="border border-border-hairline p-3 bg-surface-dim hover:border-outline-variant transition-colors group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-ui-label text-ui-label text-text-primary">Database</span>
+<span class="material-symbols-outlined text-text-muted text-[16px] group-hover:text-primary transition-colors">database</span>
+</div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-status-success text-[10px]">●</span>
+<span class="font-mono-label text-mono-label text-status-success uppercase">OK</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-muted text-right mt-4 border-t border-border-hairline pt-2">
+                                    12ms latency
+                                </div>
+</div>
+<!-- Redis -->
+<div class="border border-border-hairline p-3 bg-surface-dim hover:border-outline-variant transition-colors group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-ui-label text-ui-label text-text-primary">Redis</span>
+<span class="material-symbols-outlined text-text-muted text-[16px] group-hover:text-primary transition-colors">memory</span>
+</div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-status-success text-[10px]">●</span>
+<span class="font-mono-label text-mono-label text-status-success uppercase">OK</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-muted text-right mt-4 border-t border-border-hairline pt-2">
+                                    2ms latency
+                                </div>
+</div>
+<!-- BullMQ -->
+<div class="border border-border-hairline p-3 bg-surface-dim hover:border-outline-variant transition-colors group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-ui-label text-ui-label text-text-primary">BullMQ</span>
+<span class="material-symbols-outlined text-text-muted text-[16px] group-hover:text-primary transition-colors">queue</span>
+</div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-status-success text-[10px]">●</span>
+<span class="font-mono-label text-mono-label text-status-success uppercase">OK</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-muted text-right mt-4 border-t border-border-hairline pt-2">
+                                    0 pending jobs
+                                </div>
+</div>
+</div>
+</section>
+<!-- Provider Quotas Section -->
+<section class="bg-[#171A1D] border border-border-hairline p-panel-padding">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-ui-label text-ui-label text-text-muted uppercase tracking-widest">Provider Quotas <span class="text-on-surface-variant font-mono-label">(244)</span></h2>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-border-hairline bg-surface-dim sticky top-0">
+<th class="py-2 px-3 font-ui-label text-ui-label text-text-muted font-normal w-1/4">PROVIDER</th>
+<th class="py-2 px-3 font-ui-label text-ui-label text-text-muted font-normal text-right">CALLS TODAY</th>
+<th class="py-2 px-3 font-ui-label text-ui-label text-text-muted font-normal text-right">RATE LIMITS</th>
+<th class="py-2 px-3 font-ui-label text-ui-label text-text-muted font-normal text-right w-1/4">REMAINING</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-border-hairline hover:bg-surface-container transition-colors">
+<td class="py-3 px-3 font-body-sm text-body-sm text-text-primary">Etherscan</td>
+<td class="py-3 px-3 font-mono-data text-mono-data text-text-primary text-right">4,500</td>
+<td class="py-3 px-3 font-mono-data text-mono-data text-status-success text-right">0 errors</td>
+<td class="py-3 px-3 font-mono-data text-mono-data text-text-primary text-right">100,000</td>
+</tr>
+<tr class="border-b border-border-hairline hover:bg-surface-container transition-colors bg-error-container/10">
+<td class="py-3 px-3 font-body-sm text-body-sm text-text-primary">
+<div class="flex items-center gap-2">
+<span>Robinhood</span>
+<span class="text-status-error text-[10px]">●</span>
+<span class="font-mono-label text-mono-label text-status-error uppercase text-[10px]">DEGRADED</span>
+</div>
+<div class="font-mono-data text-mono-data text-status-error text-[11px] mt-1 opacity-80">Provider response unavailable. Retrying in 45s.</div>
+</td>
+<td class="py-3 px-3 font-mono-data text-mono-data text-text-muted text-right">--</td>
+<td class="py-3 px-3 font-mono-data text-mono-data text-status-error text-right">Timeout</td>
+<td class="py-3 px-3 font-mono-data text-mono-data text-text-muted text-right">--</td>
+</tr>
+<tr class="border-b border-border-hairline hover:bg-surface-container transition-colors">
+<td class="py-3 px-3 font-body-sm text-body-sm text-text-primary">DexScreener</td>
+<td class="py-3 px-3 font-mono-data text-mono-data text-text-primary text-right">8,900</td>
+<td class="py-3 px-3 font-mono-data text-mono-data text-status-success text-right">0 errors</td>
+<td class="py-3 px-3 font-mono-data text-mono-data text-text-muted text-right italic">UNKNOWN</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Right Column (Narrow - System Metadata) -->
+<div class="lg:col-span-1 border border-border-hairline bg-[#171A1D] h-fit">
+<div class="p-3 border-b border-border-hairline bg-surface-dim">
+<h2 class="font-ui-label text-ui-label text-text-muted uppercase tracking-widest">SYSTEM METADATA</h2>
+</div>
+<div class="p-panel-padding space-y-6">
+<div>
+<div class="font-ui-label text-ui-label text-text-muted mb-1">MIGRATION_VERSION</div>
+<div class="font-mono-data text-mono-data text-text-primary bg-surface-container px-2 py-1 border border-border-hairline break-all cursor-pointer hover:border-primary-container transition-colors relative group" onclick="this.querySelector('.copy-feedback').classList.remove('hidden'); setTimeout(() =&gt; this.querySelector('.copy-feedback').classList.add('hidden'), 1000)">
+                                0001_phase0_initial
+                                <span class="copy-feedback hidden absolute right-2 top-1/2 -translate-y-1/2 text-primary-container text-[10px] uppercase font-bold tracking-wider">Copied</span>
+</div>
+</div>
+<div>
+<div class="font-ui-label text-ui-label text-text-muted mb-1">TOOLS</div>
+<a class="flex items-center justify-between font-mono-data text-mono-data text-primary hover:text-primary-container transition-colors group" href="#">
+<span>Bull Board (Local)</span>
+<span class="material-symbols-outlined text-[16px] opacity-70 group-hover:opacity-100">open_in_new</span>
+</a>
+</div>
+<div class="pt-4 border-t border-border-hairline">
+<div class="font-ui-label text-ui-label text-text-muted mb-1">LAST CHECK</div>
+<div class="font-mono-data text-mono-data text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>2023-10-27T14:32:01Z</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watchtower Health</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "text-primary": "#E8ECEF",
+                "outline": "#9b8f7d",
+                "primary": "#f5c363",
+                "surface-container-lowest": "#0c0e10",
+                "inverse-surface": "#e2e2e5",
+                "surface-tint": "#f0bf5f",
+                "on-surface-variant": "#d2c5b1",
+                "surface-container-highest": "#333537",
+                "secondary-fixed-dim": "#c2c7cc",
+                "tertiary-fixed-dim": "#c5c6ca",
+                "surface-container-low": "#1a1c1e",
+                "on-primary-container": "#583e00",
+                "on-error": "#690005",
+                "primary-container": "#d7a84b",
+                "tertiary-container": "#adafb3",
+                "inverse-primary": "#7b5800",
+                "surface-variant": "#333537",
+                "secondary-container": "#42474c",
+                "primary-fixed-dim": "#f0bf5f",
+                "surface-container-high": "#282a2c",
+                "on-tertiary-container": "#404246",
+                "on-tertiary-fixed-variant": "#44474a",
+                "on-primary": "#412d00",
+                "tertiary": "#c9cace",
+                "tertiary-fixed": "#e1e2e6",
+                "surface": "#121416",
+                "secondary-fixed": "#dfe3e8",
+                "on-primary-fixed-variant": "#5d4200",
+                "secondary": "#c2c7cc",
+                "on-surface": "#e2e2e5",
+                "primary-fixed": "#ffdea6",
+                "border-hairline": "#30373D",
+                "surface-bright": "#38393c",
+                "background": "#121416",
+                "text-muted": "#929BA3",
+                "on-tertiary-fixed": "#191c1f",
+                "on-secondary-fixed": "#171c20",
+                "status-success": "#79B79A",
+                "status-error": "#D87870",
+                "outline-variant": "#4f4637",
+                "on-secondary-container": "#b1b6bb",
+                "on-primary-fixed": "#271900",
+                "on-secondary-fixed-variant": "#42474c",
+                "on-error-container": "#ffdad6",
+                "error": "#ffb4ab",
+                "on-tertiary": "#2e3134",
+                "surface-container": "#1e2022",
+                "inverse-on-surface": "#2f3133",
+                "surface-dim": "#121416",
+                "error-container": "#93000a",
+                "on-background": "#e2e2e5",
+                "on-secondary": "#2c3135"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "panel-padding": "12px",
+                "max-width": "1440px",
+                "margin-base": "24px",
+                "sidebar-width": "240px",
+                "gutter": "16px"
+              },
+              "fontFamily": {
+                "headline-sm": [
+                  "Geist"
+                ],
+                "body-sm": [
+                  "Geist"
+                ],
+                "headline-md": [
+                  "Geist"
+                ],
+                "body-lg": [
+                  "Geist"
+                ],
+                "ui-label": [
+                  "Geist"
+                ],
+                "headline-lg": [
+                  "Geist"
+                ],
+                "mono-label": [
+                  "Geist Mono"
+                ],
+                "mono-data": [
+                  "Geist Mono"
+                ]
+              },
+              "fontSize": {
+                "headline-sm": [
+                  "20px",
+                  {
+                    "lineHeight": "1.2",
+                    "fontWeight": "600"
+                  }
+                ],
+                "body-sm": [
+                  "14px",
+                  {
+                    "lineHeight": "1.5",
+                    "fontWeight": "400"
+                  }
+                ],
+                "headline-md": [
+                  "24px",
+                  {
+                    "lineHeight": "1.2",
+                    "letterSpacing": "-0.01em",
+                    "fontWeight": "600"
+                  }
+                ],
+                "body-lg": [
+                  "16px",
+                  {
+                    "lineHeight": "1.5",
+                    "fontWeight": "400"
+                  }
+                ],
+                "ui-label": [
+                  "12px",
+                  {
+                    "lineHeight": "1",
+                    "letterSpacing": "0.02em",
+                    "fontWeight": "600"
+                  }
+                ],
+                "headline-lg": [
+                  "32px",
+                  {
+                    "lineHeight": "1.1",
+                    "letterSpacing": "-0.02em",
+                    "fontWeight": "700"
+                  }
+                ],
+                "mono-label": [
+                  "12px",
+                  {
+                    "lineHeight": "1",
+                    "fontWeight": "500"
+                  }
+                ],
+                "mono-data": [
+                  "14px",
+                  {
+                    "lineHeight": "1.4",
+                    "fontWeight": "400"
+                  }
+                ]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.text-primary');
+            margin: 0;
+            overflow-x: hidden;
+        }
+        
+        /* Custom scrollbar for Evidence Rail */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.border-hairline');
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.text-muted');
+        }
+
+        .click-to-copy {
+            cursor: pointer;
+            position: relative;
+        }
+        .click-to-copy.copied::after {
+            content: "COPIED";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: theme('colors.primary-container');
+            color: theme('colors.background');
+            font-family: "Geist Mono", monospace;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 2px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col md:flex-row">
+<!-- SideNavBar (Predicted JSON) -->
+<nav class="hidden md:flex w-[240px] h-screen fixed left-0 top-0 bg-surface-container-low dark:bg-surface-container-low border-r border-border-hairline flex-col py-panel-padding z-50">
+<div class="px-gutter mb-8">
+<div class="font-headline-sm text-headline-sm font-bold text-primary tracking-tighter">WATCHTOWER</div>
+<div class="font-body-sm text-body-sm text-text-muted mt-1">Onchain Intelligence</div>
+</div>
+<ul class="flex flex-col gap-1 px-2 flex-grow">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 font-body-sm text-body-sm text-on-surface-variant hover:text-text-primary hover:bg-surface-container-high transition-colors duration-150 rounded" href="#">
+<span class="material-symbols-outlined" style="font-size: 18px;">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 font-body-sm text-body-sm text-on-surface-variant hover:text-text-primary hover:bg-surface-container-high transition-colors duration-150 rounded" href="#">
+<span class="material-symbols-outlined" style="font-size: 18px;">account_balance_wallet</span>
+                    Wallets
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 font-body-sm text-body-sm text-on-surface-variant hover:text-text-primary hover:bg-surface-container-high transition-colors duration-150 rounded" href="#">
+<span class="material-symbols-outlined" style="font-size: 18px;">hub</span>
+                    Clusters
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 font-body-sm text-body-sm text-on-surface-variant hover:text-text-primary hover:bg-surface-container-high transition-colors duration-150 rounded" href="#">
+<span class="material-symbols-outlined" style="font-size: 18px;">account_tree</span>
+                    Graph
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 font-body-sm text-body-sm text-on-surface-variant hover:text-text-primary hover:bg-surface-container-high transition-colors duration-150 rounded" href="#">
+<span class="material-symbols-outlined" style="font-size: 18px;">radar</span>
+                    Radar
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 font-body-sm text-body-sm bg-surface-container-highest text-primary border-l-2 border-primary rounded-r transition-transform active:translate-y-[-1px]" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">notifications_active</span>
+                    Alerts
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 font-body-sm text-body-sm text-on-surface-variant hover:text-text-primary hover:bg-surface-container-high transition-colors duration-150 rounded" href="#">
+<span class="material-symbols-outlined" style="font-size: 18px;">gps_fixed</span>
+                    Self-tracking
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 font-body-sm text-body-sm text-on-surface-variant hover:text-text-primary hover:bg-surface-container-high transition-colors duration-150 rounded" href="#">
+<span class="material-symbols-outlined" style="font-size: 18px;">search</span>
+                    Token lookup
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 font-body-sm text-body-sm text-on-surface-variant hover:text-text-primary hover:bg-surface-container-high transition-colors duration-150 rounded mt-auto" href="#">
+<span class="material-symbols-outlined" style="font-size: 18px;">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+</nav>
+<!-- TopAppBar (Predicted JSON) -->
+<header class="hidden md:flex h-10 fixed top-0 right-0 left-[240px] bg-surface dark:bg-surface border-b border-border-hairline z-40 flex items-center justify-between px-gutter">
+<div class="flex items-center h-full">
+<span class="font-mono-label text-mono-label font-bold text-text-primary mr-6">WATCHTOWER / HEALTH</span>
+<nav class="flex h-full">
+<a class="h-full flex items-center px-4 font-mono-label text-mono-label text-text-muted hover:text-on-surface hover:bg-surface-variant transition-colors active:scale-95 duration-100" href="#">LOCAL</a>
+<a class="h-full flex items-center px-4 font-mono-label text-mono-label text-primary font-bold border-b-2 border-primary active:scale-95 duration-100" href="#">UTC</a>
+<a class="h-full flex items-center px-4 font-mono-label text-mono-label text-text-muted hover:text-on-surface hover:bg-surface-variant transition-colors active:scale-95 duration-100" href="#">BLK</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-text-muted hover:text-on-surface transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined" style="font-size: 20px;">account_circle</span>
+</button>
+<button class="text-text-muted hover:text-on-surface transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined" style="font-size: 20px;">tune</span>
+</button>
+</div>
+</header>
+<!-- Mobile Nav Wrapper (simplified for this task context) -->
+<header class="md:hidden flex h-14 border-b border-border-hairline items-center px-4 justify-between bg-surface-container-low fixed top-0 w-full z-50">
+<div class="font-headline-sm text-headline-sm font-bold text-primary tracking-tighter">WATCHTOWER</div>
+<span class="material-symbols-outlined">menu</span>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 md:ml-[240px] md:mt-10 mt-14 flex flex-col md:flex-row min-h-[calc(100vh-40px)] w-full max-w-[1440px] mx-auto bg-background">
+<!-- Left Column: Primary Content -->
+<div class="flex-1 flex flex-col p-6 overflow-y-auto w-full md:border-r border-border-hairline">
+<!-- Page Header -->
+<div class="mb-8 border-b border-border-hairline pb-4">
+<h1 class="font-headline-md text-headline-md text-text-primary">System Health</h1>
+<p class="font-mono-data text-mono-data text-text-muted mt-2">Core Infrastructure &amp; Provider Status</p>
+</div>
+<!-- Core Infrastructure Grid -->
+<div class="mb-12">
+<h2 class="font-ui-label text-ui-label text-text-muted uppercase tracking-widest mb-4">Core Infrastructure</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1 -->
+<div class="border border-border-hairline bg-surface p-4 flex flex-col gap-2 rounded-sm group hover:border-text-muted transition-colors">
+<div class="flex justify-between items-center mb-2">
+<span class="font-mono-label text-mono-label text-text-primary">Database</span>
+<span class="material-symbols-outlined text-text-muted text-sm">database</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-success"></div>
+<span class="font-mono-data text-mono-data text-status-success uppercase font-bold">OK</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-muted mt-auto">Latency: <span class="text-text-primary">12ms</span></div>
+</div>
+<!-- Card 2 -->
+<div class="border border-border-hairline bg-surface p-4 flex flex-col gap-2 rounded-sm group hover:border-text-muted transition-colors">
+<div class="flex justify-between items-center mb-2">
+<span class="font-mono-label text-mono-label text-text-primary">Redis</span>
+<span class="material-symbols-outlined text-text-muted text-sm">memory</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-success"></div>
+<span class="font-mono-data text-mono-data text-status-success uppercase font-bold">OK</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-muted mt-auto">Latency: <span class="text-text-primary">2ms</span></div>
+</div>
+<!-- Card 3 -->
+<div class="border border-border-hairline bg-surface p-4 flex flex-col gap-2 rounded-sm group hover:border-text-muted transition-colors">
+<div class="flex justify-between items-center mb-2">
+<span class="font-mono-label text-mono-label text-text-primary">BullMQ</span>
+<span class="material-symbols-outlined text-text-muted text-sm">queue</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-success"></div>
+<span class="font-mono-data text-mono-data text-status-success uppercase font-bold">OK</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-muted mt-auto">Pending: <span class="text-text-primary">0 jobs</span></div>
+</div>
+</div>
+</div>
+<!-- Provider Quotas -->
+<div>
+<h2 class="font-ui-label text-ui-label text-text-muted uppercase tracking-widest mb-4">Provider Quotas (24H)</h2>
+<div class="w-full border border-border-hairline rounded-sm overflow-hidden bg-surface">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-border-hairline">
+<tr>
+<th class="py-3 px-4 font-ui-label text-ui-label text-text-muted">Provider</th>
+<th class="py-3 px-4 font-ui-label text-ui-label text-text-muted text-right">Calls Today</th>
+<th class="py-3 px-4 font-ui-label text-ui-label text-text-muted text-right">Errors</th>
+<th class="py-3 px-4 font-ui-label text-ui-label text-text-muted text-right">Remaining</th>
+<th class="py-3 px-4 font-ui-label text-ui-label text-text-muted">Status / Action</th>
+</tr>
+</thead>
+<tbody class="font-mono-data text-mono-data">
+<!-- Row 1 -->
+<tr class="border-b border-border-hairline hover:bg-surface-variant transition-colors">
+<td class="py-3 px-4 text-text-primary">Etherscan</td>
+<td class="py-3 px-4 text-right">4,500</td>
+<td class="py-3 px-4 text-right text-text-muted">0</td>
+<td class="py-3 px-4 text-right">100,000</td>
+<td class="py-3 px-4 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-success"></div>
+<span class="text-status-success">OK</span>
+</td>
+</tr>
+<!-- Row 2 (Alert) -->
+<tr class="border-b border-border-hairline bg-surface-container-highest hover:bg-surface-variant transition-colors">
+<td class="py-3 px-4 text-text-primary font-bold">Robinhood</td>
+<td class="py-3 px-4 text-right text-primary">10,000</td>
+<td class="py-3 px-4 text-right text-status-error">42</td>
+<td class="py-3 px-4 text-right text-primary">0</td>
+<td class="py-3 px-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+<span class="text-primary-container font-bold">RATE LIMITED</span>
+</div>
+<div class="text-text-muted text-[10px]">Resets in: 04:22:15</div>
+<button class="mt-1 h-8 w-max px-3 bg-primary-container text-background font-ui-label text-ui-label rounded-sm active:translate-y-[-1px] transition-transform">
+                                            Retry with secondary key
+                                        </button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-variant transition-colors">
+<td class="py-3 px-4 text-text-primary">DexScreener</td>
+<td class="py-3 px-4 text-right">8,900</td>
+<td class="py-3 px-4 text-right text-text-muted">0</td>
+<td class="py-3 px-4 text-right text-text-muted">UNKNOWN</td>
+<td class="py-3 px-4 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-success"></div>
+<span class="text-status-success">OK</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Column: Evidence Rail -->
+<aside class="w-full md:w-[320px] bg-surface-container-low border-l border-border-hairline flex flex-col p-4 overflow-y-auto sticky top-10 h-[calc(100vh-40px)]">
+<h3 class="font-ui-label text-ui-label text-text-muted uppercase tracking-widest mb-6 border-b border-border-hairline pb-2">System Metadata</h3>
+<div class="flex flex-col gap-6">
+<!-- Meta Block 1 -->
+<div>
+<div class="font-mono-label text-mono-label text-text-muted mb-1">Migration Version</div>
+<div class="font-mono-data text-mono-data text-text-primary click-to-copy border border-border-hairline bg-surface p-2 rounded-sm truncate" onclick="handleCopy(this)">
+                        0001_phase0_initial
+                    </div>
+</div>
+<!-- Meta Block 2 -->
+<div>
+<div class="font-mono-label text-mono-label text-text-muted mb-1">Last Check</div>
+<div class="font-mono-data text-mono-data text-primary border border-primary/30 bg-primary/5 p-2 rounded-sm">
+                        2026-09-04 13:56:19 Z
+                    </div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-border-hairline w-full my-2"></div>
+<!-- Tools List -->
+<div>
+<div class="font-ui-label text-ui-label text-text-muted uppercase tracking-widest mb-3">External Tools</div>
+<a class="flex items-center justify-between p-3 border border-border-hairline bg-surface rounded-sm hover:border-text-muted transition-colors group" href="#">
+<span class="font-mono-label text-mono-label text-text-primary">Bull Board (Local)</span>
+<span class="material-symbols-outlined text-text-muted text-sm group-hover:text-primary transition-colors">open_in_new</span>
+</a>
+</div>
+</div>
+</aside>
+</main>
+<script>
+        function handleCopy(el) {
+            el.classList.add('copied');
+            setTimeout(() => {
+                el.classList.remove('copied');
+            }, 1000);
+        }
+    </script>
+</body></html>

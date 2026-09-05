@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watchtower | Health</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#121416",
+                        "primary": "#f5c363",
+                        "on-tertiary": "#2e3134",
+                        "tertiary-fixed": "#e1e2e6",
+                        "outline-variant": "#4f4637",
+                        "surface-variant": "#333537",
+                        "surface-dim": "#121416",
+                        "on-primary-fixed": "#271900",
+                        "surface-container-highest": "#333537",
+                        "outline": "#9b8f7d",
+                        "on-error-container": "#ffdad6",
+                        "text-primary": "#E8ECEF",
+                        "primary-container": "#d7a84b",
+                        "on-background": "#e2e2e5",
+                        "surface-container-high": "#282a2c",
+                        "surface-container": "#1e2022",
+                        "tertiary-fixed-dim": "#c5c6ca",
+                        "background": "#121416",
+                        "border-hairline": "#30373D",
+                        "on-secondary-container": "#b1b6bb",
+                        "on-primary": "#412d00",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "surface-bright": "#38393c",
+                        "status-success": "#79B79A",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#191c1f",
+                        "secondary-container": "#42474c",
+                        "on-primary-container": "#583e00",
+                        "secondary": "#c2c7cc",
+                        "on-surface-variant": "#d2c5b1",
+                        "error-container": "#93000a",
+                        "text-muted": "#929BA3",
+                        "surface-tint": "#f0bf5f",
+                        "primary-fixed": "#ffdea6",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#dfe3e8",
+                        "on-secondary-fixed-variant": "#42474c",
+                        "surface-container-low": "#1a1c1e",
+                        "surface-container-lowest": "#0c0e10",
+                        "status-error": "#D87870",
+                        "tertiary-container": "#adafb3",
+                        "inverse-on-surface": "#2f3133",
+                        "on-tertiary-container": "#404246",
+                        "inverse-surface": "#e2e2e5",
+                        "primary-fixed-dim": "#f0bf5f",
+                        "secondary-fixed-dim": "#c2c7cc",
+                        "inverse-primary": "#7b5800",
+                        "on-tertiary-fixed-variant": "#44474a",
+                        "on-surface": "#e2e2e5",
+                        "on-secondary": "#2c3135",
+                        "on-secondary-fixed": "#171c20",
+                        "tertiary": "#c9cace"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "panel-padding": "12px",
+                        "max-width": "1440px",
+                        "sidebar-width": "240px",
+                        "gutter": "16px",
+                        "margin-base": "24px"
+                    },
+                    "fontFamily": {
+                        "mono-data": ["Geist Mono"],
+                        "ui-label": ["Geist"],
+                        "mono-label": ["Geist Mono"],
+                        "headline-md": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "headline-sm": ["Geist"],
+                        "body-sm": ["Geist"],
+                        "headline-lg": ["Geist"]
+                    },
+                    "fontSize": {
+                        "mono-data": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "ui-label": ["12px", { "lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "mono-label": ["12px", { "lineHeight": "1", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.surface'); color: theme('colors.text-primary'); overflow-x: hidden; }
+        .grid-8 { background-size: 8px 8px; background-image: linear-gradient(to right, theme('colors.border-hairline') 1px, transparent 1px), linear-gradient(to bottom, theme('colors.border-hairline') 1px, transparent 1px); opacity: 0.1; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: theme('colors.surface'); }
+        ::-webkit-scrollbar-thumb { background: theme('colors.surface-container-high'); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: theme('colors.secondary-container'); }
+        .focus-ring:focus-within { outline: 2px solid theme('colors.primary-container'); outline-offset: -2px; }
+    </style>
+</head>
+<body class="font-body-sm text-body-sm h-screen flex antialiased bg-surface text-text-primary selection:bg-primary-container selection:text-surface">
+<div class="fixed inset-0 grid-8 pointer-events-none z-0"></div>
+<!-- SideNavBar (Shared Component) -->
+<nav class="fixed left-0 top-0 h-full w-[240px] bg-surface-container-low dark:bg-surface-container-low border-r border-border-hairline flex flex-col py-panel-padding space-y-2 z-10 flex-shrink-0">
+<div class="px-4 mb-6 flex items-center space-x-3">
+<div class="w-8 h-8 rounded bg-primary-container text-surface flex items-center justify-center font-bold font-headline-sm text-headline-sm tracking-tighter">W</div>
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-primary tracking-tighter uppercase leading-none">WATCHTOWER</div>
+<div class="font-mono-label text-mono-label text-text-muted text-[10px] tracking-widest mt-1">ONCHAIN INTEL</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto font-ui-label text-ui-label uppercase tracking-wider">
+<a class="flex items-center text-text-muted hover:text-text-primary pl-4 py-2 hover:bg-surface-container-high transition-colors duration-150" href="#">
+                Dashboard
+            </a>
+<a class="flex items-center text-text-muted hover:text-text-primary pl-4 py-2 hover:bg-surface-container-high transition-colors duration-150" href="#">
+                Wallets
+            </a>
+<a class="flex items-center text-text-muted hover:text-text-primary pl-4 py-2 hover:bg-surface-container-high transition-colors duration-150" href="#">
+                Clusters
+            </a>
+<a class="flex items-center text-text-muted hover:text-text-primary pl-4 py-2 hover:bg-surface-container-high transition-colors duration-150" href="#">
+                Graph
+            </a>
+<a class="flex items-center text-text-muted hover:text-text-primary pl-4 py-2 hover:bg-surface-container-high transition-colors duration-150" href="#">
+                Radar
+            </a>
+<a class="flex items-center text-text-muted hover:text-text-primary pl-4 py-2 hover:bg-surface-container-high transition-colors duration-150" href="#">
+                Alerts
+            </a>
+<a class="flex items-center text-text-muted hover:text-text-primary pl-4 py-2 hover:bg-surface-container-high transition-colors duration-150" href="#">
+                Self-tracking
+            </a>
+<a class="flex items-center text-text-muted hover:text-text-primary pl-4 py-2 hover:bg-surface-container-high transition-colors duration-150" href="#">
+                Token lookup
+            </a>
+<a class="flex items-center text-text-muted hover:text-text-primary pl-4 py-2 hover:bg-surface-container-high transition-colors duration-150" href="#">
+                Settings
+            </a>
+<div class="mt-8">
+<a class="flex items-center text-primary font-bold border-l-2 border-primary pl-3 py-2 bg-surface-variant translate-y-[-1px] transition-transform duration-100" href="#">
+<span class="text-status-success mr-2">●</span> HEALTH: OK
+                </a>
+</div>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="ml-[240px] flex-1 flex flex-col h-full relative z-10 w-full max-w-[calc(1440px-240px)] mx-auto border-r border-border-hairline bg-surface">
+<!-- Header -->
+<header class="h-14 border-b border-border-hairline flex items-center justify-between px-6 bg-surface-container-low shrink-0">
+<div class="flex items-center space-x-2 font-ui-label text-ui-label">
+<span class="text-text-muted">WATCHTOWER</span>
+<span class="text-border-hairline">/</span>
+<span class="text-text-primary">HEALTH</span>
+</div>
+<div class="flex items-center space-x-4">
+<div class="flex items-center border border-border-hairline rounded bg-surface-container">
+<button class="px-3 py-1 font-mono-label text-mono-label text-primary bg-surface-variant border-r border-border-hairline focus:outline-none focus:ring-2 focus:ring-primary-container focus:ring-inset">LOCAL</button>
+<button class="px-3 py-1 font-mono-label text-mono-label text-text-muted hover:text-text-primary focus:outline-none focus:ring-2 focus:ring-primary-container focus:ring-inset border-r border-border-hairline">UTC</button>
+<button class="px-3 py-1 font-mono-label text-mono-label text-text-muted hover:text-text-primary focus:outline-none focus:ring-2 focus:ring-primary-container focus:ring-inset">BLK</button>
+</div>
+<div class="font-mono-data text-mono-data text-text-muted flex items-center">
+<span class="material-symbols-outlined text-[16px] mr-1">sync</span>
+<span id="local-time"></span>
+</div>
+</div>
+</header>
+<!-- 2-Column Grid -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Wide Status Area -->
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- System Status Section -->
+<section>
+<h2 class="font-ui-label text-ui-label text-text-muted uppercase tracking-wider mb-3">Core Infrastructure</h2>
+<div class="grid grid-cols-3 gap-4 border-t border-l border-border-hairline bg-surface-container-low">
+<div class="border-b border-r border-border-hairline p-4 flex flex-col justify-between h-24 hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between items-start">
+<span class="font-ui-label text-ui-label text-text-primary uppercase tracking-wider">Database</span>
+<span class="font-mono-label text-mono-label text-status-success flex items-center"><span class="mr-1 text-[8px]">●</span> OK</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-muted mt-2 text-right">
+                                12ms latency
+                            </div>
+</div>
+<div class="border-b border-r border-border-hairline p-4 flex flex-col justify-between h-24 hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between items-start">
+<span class="font-ui-label text-ui-label text-text-primary uppercase tracking-wider">Redis</span>
+<span class="font-mono-label text-mono-label text-status-success flex items-center"><span class="mr-1 text-[8px]">●</span> OK</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-muted mt-2 text-right">
+                                2ms latency
+                            </div>
+</div>
+<div class="border-b border-r border-border-hairline p-4 flex flex-col justify-between h-24 hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between items-start">
+<span class="font-ui-label text-ui-label text-text-primary uppercase tracking-wider">BullMQ</span>
+<span class="font-mono-label text-mono-label text-status-success flex items-center"><span class="mr-1 text-[8px]">●</span> OK</span>
+</div>
+<div class="font-mono-data text-mono-data text-text-muted mt-2 text-right">
+                                0 pending jobs
+                            </div>
+</div>
+</div>
+</section>
+<!-- Provider Quotas -->
+<section>
+<div class="flex justify-between items-end mb-3">
+<h2 class="font-ui-label text-ui-label text-text-muted uppercase tracking-wider">Provider Quotas (24h)</h2>
+</div>
+<div class="w-full border border-border-hairline bg-surface-container-lowest">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-border-hairline bg-surface-container-low font-ui-label text-ui-label text-text-muted uppercase tracking-wider">
+<th class="py-2 px-3 font-normal">Provider</th>
+<th class="py-2 px-3 font-normal text-right">Calls Today</th>
+<th class="py-2 px-3 font-normal text-right">Rate Limits</th>
+<th class="py-2 px-3 font-normal text-right">Remaining</th>
+</tr>
+</thead>
+<tbody class="font-mono-data text-mono-data">
+<tr class="border-b border-border-hairline hover:bg-surface-container-high transition-colors">
+<td class="py-2 px-3 text-text-primary">Etherscan</td>
+<td class="py-2 px-3 text-right">4,500</td>
+<td class="py-2 px-3 text-right text-status-success">0</td>
+<td class="py-2 px-3 text-right text-text-muted">100,000</td>
+</tr>
+<tr class="border-b border-border-hairline hover:bg-surface-container-high transition-colors">
+<td class="py-2 px-3 text-text-primary">Robinhood</td>
+<td class="py-2 px-3 text-right">120</td>
+<td class="py-2 px-3 text-right text-status-error">2</td>
+<td class="py-2 px-3 text-right text-text-muted">UNKNOWN</td>
+</tr>
+<tr class="border-b border-border-hairline hover:bg-surface-container-high transition-colors">
+<td class="py-2 px-3 text-text-primary">DexScreener</td>
+<td class="py-2 px-3 text-right">8,900</td>
+<td class="py-2 px-3 text-right text-status-success">0</td>
+<td class="py-2 px-3 text-right text-text-muted">UNKNOWN</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Narrow Evidence Rail (300px) -->
+<aside class="w-[300px] border-l border-border-hairline bg-surface-container-lowest flex flex-col shrink-0">
+<div class="h-10 border-b border-border-hairline flex items-center px-4 bg-surface-container-low font-ui-label text-ui-label text-text-muted uppercase tracking-wider">
+                    System Metadata
+                </div>
+<div class="p-4 space-y-6 flex-1 overflow-y-auto">
+<div class="space-y-1">
+<div class="font-ui-label text-ui-label text-text-muted uppercase tracking-wider">Migration Version</div>
+<div class="font-mono-data text-mono-data text-text-primary bg-surface-container p-2 border border-border-hairline cursor-pointer hover:bg-surface-container-high" onclick="copyToClipboard(this, '0001_phase0_initial')">
+                            0001_phase0_initial
+                        </div>
+</div>
+<div class="space-y-1">
+<div class="font-ui-label text-ui-label text-text-muted uppercase tracking-wider">Tools</div>
+<a class="block font-mono-data text-mono-data text-primary hover:text-primary-container bg-surface-container p-2 border border-border-hairline flex items-center justify-between group transition-colors" href="#">
+<span>Bull Board (Local)</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">open_in_new</span>
+</a>
+</div>
+<div class="space-y-1">
+<div class="font-ui-label text-ui-label text-text-muted uppercase tracking-wider">Last Check</div>
+<div class="font-mono-data text-mono-data text-text-muted text-right">
+<span id="rail-time"></span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<script>
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toISOString().replace('T', ' ').substring(0, 19) + ' Z';
+            document.getElementById('local-time').textContent = timeStr;
+            document.getElementById('rail-time').textContent = timeStr;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        function copyToClipboard(element, text) {
+            navigator.clipboard.writeText(text);
+            const originalText = element.textContent;
+            element.textContent = 'COPIED';
+            element.classList.add('text-primary', 'border-primary');
+            setTimeout(() => {
+                element.textContent = text;
+                element.classList.remove('text-primary', 'border-primary');
+            }, 1000);
+        }
+    </script>
+</body></html>
