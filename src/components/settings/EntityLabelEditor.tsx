@@ -92,7 +92,7 @@ export function EntityLabelEditor({
     <div className="bg-[#171A1D] border border-[#30373D] p-4 text-[#E8ECEF]">
       <div className="flex items-center justify-between pb-3 border-b border-[#30373D] mb-4">
         <div>
-          <div className="text-[12px] font-semibold tracking-wider text-[#D7A84B] uppercase font-['Geist']">
+          <div className="text-[12px] font-semibold tracking-wider text-[#D7A84B] uppercase font-sans">
             Custom Entity Label
           </div>
           <div className="text-[10px] font-mono text-[#929BA3] mt-0.5 truncate max-w-[240px]">
@@ -113,7 +113,7 @@ export function EntityLabelEditor({
       <form onSubmit={handleSubmit} className="space-y-3 font-mono text-[12px]">
         {/* Name input */}
         <div>
-          <label className="block text-[10px] uppercase font-semibold text-[#929BA3] mb-1 font-['Geist']">
+          <label className="block text-[10px] uppercase font-semibold text-[#929BA3] mb-1 font-sans">
             Entity / Entity Cluster Name *
           </label>
           <input
@@ -127,7 +127,7 @@ export function EntityLabelEditor({
 
         {/* Kind selector */}
         <div>
-          <label className="block text-[10px] uppercase font-semibold text-[#929BA3] mb-1 font-['Geist']">
+          <label className="block text-[10px] uppercase font-semibold text-[#929BA3] mb-1 font-sans">
             Entity Kind
           </label>
           <div className="grid grid-cols-3 gap-1">
@@ -151,7 +151,7 @@ export function EntityLabelEditor({
         {/* Terminal Toggle */}
         <div className="flex items-center justify-between p-2 bg-[#101214] border border-[#30373D]">
           <div>
-            <div className="text-[11px] font-semibold text-[#E8ECEF] font-['Geist']">
+            <div className="text-[11px] font-semibold text-[#E8ECEF] font-sans">
               Terminal Entity Leaf
             </div>
             <div className="text-[10px] text-[#929BA3]">
@@ -174,7 +174,7 @@ export function EntityLabelEditor({
 
         {/* Notes input */}
         <div>
-          <label className="block text-[10px] uppercase font-semibold text-[#929BA3] mb-1 font-['Geist']">
+          <label className="block text-[10px] uppercase font-semibold text-[#929BA3] mb-1 font-sans">
             Investigation Notes
           </label>
           <textarea
@@ -202,7 +202,7 @@ export function EntityLabelEditor({
           <button
             type="submit"
             disabled={setMutation.isPending}
-            className="w-full py-2 bg-[#D7A84B] text-[#101214] hover:bg-[#f5c363] font-bold uppercase tracking-wider text-[11px] transition-colors font-['Geist']"
+            className="w-full py-2 bg-[#D7A84B] text-[#101214] hover:bg-[#f5c363] font-bold uppercase tracking-wider text-[11px] transition-colors font-sans"
           >
             {setMutation.isPending ? "Saving..." : "Save Custom Entity Label"}
           </button>
