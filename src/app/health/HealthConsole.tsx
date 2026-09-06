@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { QuotaMeter } from "@/components/shared/QuotaMeter";
 import { StatusCard } from "@/components/shared/StatusCard";
+import { MaintenancePanel } from "@/components/settings/MaintenancePanel";
 import { trpc } from "@/lib/trpc/client";
 
 export function HealthConsole({ timeZone }: { timeZone: string }) {
@@ -61,6 +62,9 @@ export function HealthConsole({ timeZone }: { timeZone: string }) {
           {providers?.length === 0 && <p className="ops-notice">No enabled providers in this snapshot.</p>}
           {exhausted.map((provider) => <div className="ops-notice ops-amber" key={provider.provider}><strong>{provider.provider}: daily quota exhausted</strong><p>Wait for the next budget window. Resets {formatTime(provider.windowResetsAt)} ({timeMode === "UTC" ? "UTC" : timeZone}).</p></div>)}
           <p className="ops-note">Unknown limits remain unestimated. Limit events are recorded events today, not a live provider availability check.</p>
+        </section>
+        <section aria-label="Maintenance and Data Retention" className="mt-8">
+          <MaintenancePanel />
         </section>
         <footer className="ops-content-footer"><span>Local runtime observation</span><span>Refreshes every 30s</span></footer>
       </div>

@@ -81,6 +81,24 @@ export const OBSERVATORY_GRAPH_STYLES: StylesheetStyle[] = [
     } as any,
   },
 
+  // ── 2b. Escalated Cluster-ARMED Boundary Parent Node ──────────
+  {
+    selector: "node[?isCompound][?isClusterArmed]",
+    style: {
+      "background-color": "#D7A84B",
+      "background-opacity": 0.08,
+      "border-width": 3,
+      "border-style": "solid",
+      "border-color": "#D7A84B",
+      "border-opacity": 0.9,
+      color: "#D7A84B",
+      "font-weight": 700,
+      "shadow-blur": 24,
+      "shadow-color": "#D7A84B",
+      "shadow-opacity": 0.5,
+    } as any,
+  },
+
   // ── 3. Hovered / Active Node State ────────────────────────────
   {
     selector: "node[!isCompound]:active, node[!isCompound].hover",

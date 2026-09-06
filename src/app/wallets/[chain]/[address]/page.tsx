@@ -10,6 +10,9 @@ import { ParkingTimeline } from "@/components/wallets/ParkingTimeline";
 import { FundingTree } from "@/components/funding/FundingTree";
 import { type TreeNodeData } from "@/components/funding/FundingNode";
 import { EntityLabelEditor } from "@/components/settings/EntityLabelEditor";
+import { StateBadge } from "@/components/shared/StateBadge";
+import { ClusterChip } from "@/components/clusters/ClusterChip";
+import { GradeCard } from "@/components/wallets/GradeCard";
 
 interface PageProps {
   params: Promise<{
@@ -61,6 +64,18 @@ export default function WalletDetailPage({ params }: PageProps) {
   const { data: parkingData, isLoading: parkingLoading } = trpc.wallet.parking.useQuery({
     address,
     chain,
+  });
+
+  const { data: gradeData, isLoading: isGradeLoading } = trpc.wallet.grade.useQuery({
+    address,
+    chain,
+  });
+
+  const recomputeGradeMutation = trpc.wallet.recomputeGrade.useMutation({
+    onSuccess: () => {
+      utils.wallet.grade.invalidate({ address, chain });
+      utils.wallet.get.invalidate({ address, chain });
+    },
   });
 
   // Re-sync mutation
@@ -291,18 +306,25 @@ export default function WalletDetailPage({ params }: PageProps) {
 
               {/* Cluster Chip */}
               {cluster ? (
-                <Link
-                  href={`/clusters/${cluster.id}`}
-                  className="px-2 py-0.5 border border-[#D7A84B] bg-[#D7A84B] text-[#101214] uppercase font-bold flex items-center gap-1 hover:bg-[#f5c363] transition-colors"
-                >
-                  <span>HUB:</span>
-                  <span>{cluster.name || `Cluster #${cluster.id.slice(0, 4)}`}</span>
-                </Link>
+                <ClusterChip
+                  cluster={{
+                    id: cluster.id,
+                    name: cluster.name,
+                    colorHex: cluster.colorHex,
+                    isArmed: cluster.isArmed,
+                  }}
+                />
               ) : (
                 <span className="px-2 py-0.5 border border-[#30373D] bg-[#101214] text-[#929BA3] uppercase">
                   No Cluster
                 </span>
               )}
+
+              {/* Alert State Badge (P4-T10) */}
+              <StateBadge
+                state={wallet.alertState?.state || "IDLE"}
+                subText={wallet.alertState?.stateReason ?? undefined}
+              />
 
               {/* Sync Status Badge */}
               <span className="px-2 py-0.5 border border-[#30373D] bg-[#101214] text-[#E8ECEF] uppercase flex items-center gap-1.5">
@@ -541,6 +563,16 @@ export default function WalletDetailPage({ params }: PageProps) {
                 : "No recent activity"}
             </div>
           </div>
+        </section>
+
+        {/* Auto-Grade Card (P6-T01, FR-1.4) */}
+        <section aria-label="Wallet Auto-Grade">
+          <GradeCard
+            grade={gradeData ?? (wallet?.profile?.gradeJson as any)}
+            isLoading={isGradeLoading}
+            onRecompute={() => recomputeGradeMutation.mutate({ address, chain })}
+            isRecomputing={recomputeGradeMutation.isPending}
+          />
         </section>
 
         {/* View Switcher / Tabs */}

@@ -32,7 +32,37 @@ export function createEtherscanV2Adapter(deps: EtherscanV2AdapterDeps): ChainAda
     async getBalances(address, tokenAddresses) { const native = await deps.client.fetchPage<Record<string, unknown>>({ chainId: deps.chainId, module: "account", action: "balance", params: { address, tag: "latest" }, page: 1, offset: 1, priority: "INTERACTIVE", cacheTtlMs: 0 }); const resultRows: RawBalance[] = [{ tokenAddress: null, balanceRaw: String(native.rows[0] ?? "0"), decimals: deps.nativeDecimals, symbol: deps.nativeSymbol }]; for (const tokenAddress of tokenAddresses) { const row = await deps.client.fetchPage<Record<string, unknown>>({ chainId: deps.chainId, module: "account", action: "tokenbalance", params: { address, contractaddress: tokenAddress, tag: "latest" }, page: 1, offset: 1, priority: "INTERACTIVE", cacheTtlMs: 0 }); resultRows.push({ tokenAddress, balanceRaw: String(row.rows[0] ?? "0"), decimals: null, symbol: null }); } return resultRows; },
     async getLatestBlock() { const r = await deps.client.fetchPage<string>({ chainId: deps.chainId, module: "proxy", action: "eth_blockNumber", params: {}, page: 1, offset: 1, priority: "INTERACTIVE", cacheTtlMs: 0 }); return BigInt(r.rows[0] ?? "0"); },
     async getBlockNumberByTimestamp(at) { const r = await deps.client.fetchPage<string>({ chainId: deps.chainId, module: "block", action: "getblocknobytime", params: { timestamp: Math.floor(at.getTime() / 1000), closest: "before" }, page: 1, offset: 1, priority: "INTERACTIVE", cacheTtlMs: 0 }); return BigInt(r.rows[0] ?? "0"); },
-    async getTokenHolderSummary(_tokenAddress): Promise<TokenHolderSummary | null> { return null; },
+    async getTokenHolderSummary(tokenAddress: Address): Promise<TokenHolderSummary | null> {
+      try {
+        const r = await deps.client.fetchPage<Record<string, unknown>>({
+          chainId: deps.chainId,
+          module: "token",
+          action: "tokenholderlist",
+          params: { contractaddress: tokenAddress, page: "1", offset: "10" },
+          page: 1,
+          offset: 10,
+          priority: "INTERACTIVE",
+          cacheTtlMs: 3600_000,
+        });
+        if (!r.rows || r.rows.length === 0) {
+          return null;
+        }
+        const topHolders = r.rows.map((row) => ({
+          address: asAddress(text(row, "TokenHolderAddress")),
+          shareRaw: text(row, "TokenHolderQuantity"),
+          sharePct: optionalText(row, "TokenHolderShare") ? parseFloat(text(row, "TokenHolderShare")) : null,
+        }));
+        const totalShare = topHolders.reduce((acc, h) => acc + (h.sharePct ?? 0), 0);
+        return {
+          holderCount: null,
+          top10SharePct: totalShare > 0 ? Math.round(totalShare * 100) / 100 : null,
+          topHolders,
+          source: "ETHERSCAN",
+        };
+      } catch {
+        return null;
+      }
+    },
     explorerTxUrl: (hash) => `${deps.explorerBaseUrl}/tx/${hash}`,
     explorerAddressUrl: (address) => `${deps.explorerBaseUrl}/address/${address}`,
   };

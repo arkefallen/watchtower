@@ -6,7 +6,8 @@ import { DataTable, type Column } from "@/components/shared/DataTable";
 import { AddressChip } from "@/components/shared/AddressChip";
 import { UsdCell } from "@/components/shared/UsdCell";
 import { TimeCell } from "@/components/shared/TimeCell";
-import { StateBadge } from "@/components/shared/StateBadge";
+import { StateBadge, getAlertStateStyle } from "@/components/shared/StateBadge";
+import { ClusterChip } from "@/components/clusters/ClusterChip";
 import { LabelPreview } from "./LabelPreview";
 import type { TimeFormat } from "./WalletFilters";
 
@@ -45,6 +46,7 @@ export interface WalletRecord {
       id: string;
       name?: string | null;
       color?: string | null;
+      isArmed?: boolean;
     } | null;
   }>;
 }
@@ -189,19 +191,18 @@ export function WalletTable({
       header: "Cluster",
       render: (wallet) => {
         const link = wallet.clusterLinks?.[0];
-        if (!link) {
+        if (!link || !link.cluster) {
           return <span className="text-[#929BA3] font-mono text-[12px]">—</span>;
         }
-        const name = link.cluster?.name || `#${link.clusterId.slice(0, 4)}`;
-        const color = link.cluster?.color || "#D7A84B";
         return (
-          <div className="inline-flex items-center gap-1.5 font-mono text-[12px]">
-            <span
-              className="w-2 h-2 rounded-none shrink-0"
-              style={{ backgroundColor: color }}
-            />
-            <span className="text-[#E8ECEF]">{name}</span>
-          </div>
+          <ClusterChip
+            cluster={{
+              id: link.clusterId,
+              name: link.cluster.name,
+              color: link.cluster.color,
+              isArmed: link.cluster.isArmed,
+            }}
+          />
         );
       },
     },
@@ -332,11 +333,12 @@ export function WalletTable({
   ];
 
   const getBorderColor = (wallet: WalletRecord) => {
-    const alertSt = wallet.alertState?.state?.toUpperCase();
-    if (alertSt === "TRIGGERED") return "#D87870";
-    if (alertSt === "ARMED") return "#D7A84B";
     const isSelected = selectedKeys.has(`${wallet.chain}:${wallet.address}`);
     if (isSelected) return "#D7A84B";
+    const stateStyle = getAlertStateStyle(wallet.alertState?.state);
+    if (stateStyle.state !== "IDLE") {
+      return stateStyle.borderColor;
+    }
     return undefined;
   };
 

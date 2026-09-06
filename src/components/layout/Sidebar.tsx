@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { UnreadBadge } from "@/components/alerts/UnreadBadge";
 
 interface NavItem {
   href: string;
@@ -58,10 +59,14 @@ export function Sidebar() {
                 </span>
                 <span>{item.label}</span>
               </div>
-              {item.badge && (
-                <span className="px-1.5 py-0.5 text-[9px] font-mono border border-[#30373D] bg-[#101214] text-[#D7A84B] rounded-none">
-                  {item.badge}
-                </span>
+              {item.href === "/alerts" ? (
+                <UnreadBadge />
+              ) : (
+                item.badge && (
+                  <span className="px-1.5 py-0.5 text-[9px] font-mono border border-[#30373D] bg-[#101214] text-[#D7A84B] rounded-none">
+                    {item.badge}
+                  </span>
+                )
               )}
             </Link>
           </li>

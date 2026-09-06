@@ -251,4 +251,41 @@ export const walletRouter = router({
       const service = createEntityService({ entityLabel: prisma.entityLabel });
       return service.lookup(input.address, input.chain);
     }),
+
+  grade: publicProcedure
+    .input(
+      z.object({
+        address: z.string().min(1),
+        chain: chainSchema,
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { computeAndPersistWalletGrade } = await import("@/server/services/wallet/grade");
+      return computeAndPersistWalletGrade(
+        {
+          walletAddress: input.address,
+          chain: input.chain,
+        },
+        ctx.prisma ?? dbClient
+      );
+    }),
+
+  recomputeGrade: publicProcedure
+    .input(
+      z.object({
+        address: z.string().min(1),
+        chain: chainSchema,
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { computeAndPersistWalletGrade } = await import("@/server/services/wallet/grade");
+      return computeAndPersistWalletGrade(
+        {
+          walletAddress: input.address,
+          chain: input.chain,
+        },
+        ctx.prisma ?? dbClient
+      );
+    }),
 });
+

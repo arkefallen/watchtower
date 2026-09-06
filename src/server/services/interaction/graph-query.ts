@@ -53,6 +53,7 @@ export interface CompoundClusterPayload {
   name: string;
   colorHex: string;
   memberNodeIds: string[];
+  isArmed?: boolean;
 }
 
 export interface GraphLoadResponse {
@@ -96,6 +97,7 @@ export async function loadGraphData(
     where: walletWhere,
     include: {
       profile: true,
+      alertState: true,
       clusterLinks: {
         include: {
           cluster: true,
@@ -113,6 +115,8 @@ export async function loadGraphData(
       ? Number(w.profile.stableBalanceUsd)
       : 0;
 
+    const alertSt = (w.alertState?.state as "IDLE" | "ARMED" | "TRIGGERED") ?? "IDLE";
+
     nodesMap.set(nodeId, {
       id: nodeId,
       address: w.address.toLowerCase(),
@@ -121,7 +125,7 @@ export async function loadGraphData(
       label: w.label,
       sizeTag: w.size ?? null,
       stableBalanceUsd: stableBal,
-      alertState: "IDLE", // default until Phase 4 alert evaluator
+      alertState: alertSt,
       clusterId: clusterLink?.clusterId ?? null,
       clusterName: clusterLink?.cluster?.name ?? null,
       clusterColor: clusterLink?.cluster?.colorHex ?? null,
@@ -252,11 +256,13 @@ export async function loadGraphData(
     if (node.clusterId && node.clusterColor) {
       let c = clustersMap.get(node.clusterId);
       if (!c) {
+        const matchedCluster = trackedWallets.find((w) => w.clusterLinks[0]?.clusterId === node.clusterId)?.clusterLinks[0]?.cluster;
         c = {
           id: node.clusterId,
           name: node.clusterName ?? `Cluster ${node.clusterId.slice(0, 6)}`,
           colorHex: node.clusterColor,
           memberNodeIds: [],
+          isArmed: matchedCluster?.isArmed ?? false,
         };
         clustersMap.set(node.clusterId, c);
       }

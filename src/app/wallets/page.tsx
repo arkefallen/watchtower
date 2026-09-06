@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import { WalletFilters, type WalletFilterState } from "@/components/wallets/Wall
 import { WalletTable, type WalletRecord } from "@/components/wallets/WalletTable";
 import { BulkActionBar } from "@/components/wallets/BulkActionBar";
 import { TagEditor } from "@/components/wallets/TagEditor";
+import { SelfWalletCard } from "@/components/wallets/SelfWalletCard";
 
 export default function WalletsPage() {
   const [filters, setFilters] = useState<WalletFilterState>({
@@ -266,6 +267,48 @@ export default function WalletsPage() {
             onCancel={() => setEditingWallet(null)}
           />
         </div>
+      )}
+
+      {/* Self Wallets Section (FR-6.1, P5-T01) */}
+      {filteredWallets.some((w) => w.isSelf) && (
+        <section className="space-y-2">
+          <div className="flex items-center justify-between">
+            <h3 className="text-[12px] font-mono font-semibold uppercase text-[#D7A84B] flex items-center gap-2">
+              <span className="inline-block w-2 h-2 bg-[#D7A84B]"></span>
+              REGISTERED SELF WALLETS ({filteredWallets.filter((w) => w.isSelf).length})
+            </h3>
+            <Link
+              href="/self"
+              className="text-[11px] font-mono text-[#D7A84B] hover:underline"
+            >
+              OPEN SELF DASHBOARD →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {filteredWallets
+              .filter((w) => w.isSelf)
+              .map((w) => (
+                <SelfWalletCard
+                  key={`${w.chain}-${w.address}`}
+                  wallet={w}
+                  onToggleSelf={async (address, chain, isSelf) => {
+                    await updateMutation.mutateAsync({
+                      address,
+                      chain: chain as any,
+                      isSelf,
+                    });
+                  }}
+                  onResync={async (address, chain) => {
+                    await addMutation.mutateAsync({
+                      address,
+                      chain: chain as any,
+                      forceFullResync: true,
+                    });
+                  }}
+                />
+              ))}
+          </div>
+        </section>
       )}
 
       {/* Main Table */}

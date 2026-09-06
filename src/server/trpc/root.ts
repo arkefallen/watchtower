@@ -9,6 +9,9 @@ import { graphRouter } from "./routers/graph";
 import { radarRouter } from "./routers/radar";
 import { alertRouter } from "./routers/alert";
 import { settingsRouter } from "./routers/settings";
+import { selfRouter } from "./routers/self";
+import { tokenRouter } from "./routers/token";
+import { maintenanceRouter } from "./routers/maintenance";
 
 export const appRouter = router({
   health: healthRouter,
@@ -20,6 +23,9 @@ export const appRouter = router({
   radar: radarRouter,
   alert: alertRouter,
   settings: settingsRouter,
+  self: selfRouter,
+  token: tokenRouter,
+  maintenance: maintenanceRouter,
 });
 
 export type AppRouter = typeof appRouter;

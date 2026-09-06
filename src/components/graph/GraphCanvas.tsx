@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import cytoscape, { type Core, type NodeSingular } from "cytoscape";
 import { registerCytoscapeExtensions, FCOSE_LAYOUT_OPTIONS } from "./cytoscape-setup";
 import { OBSERVATORY_GRAPH_STYLES } from "./graph-styles";
+import { getAlertStateStyle } from "@/components/shared/StateBadge";
 import type {
   GraphNodePayload,
   GraphEdgePayload,
@@ -257,14 +258,9 @@ export function GraphCanvas({
     if (isSecondary) {
       return { borderColor: defaultColor, borderWidth: 2 };
     }
-    switch (state) {
-      case "ARMED":
-        return { borderColor: "#D7A84B", borderWidth: 3.5 };
-      case "TRIGGERED":
-        return { borderColor: "#D87870", borderWidth: 4 };
-      default:
-        return { borderColor: defaultColor, borderWidth: 3 };
-    }
+    const stateStyle = getAlertStateStyle(state);
+    const borderColor = stateStyle.state === "IDLE" ? defaultColor : stateStyle.borderColor;
+    return { borderColor, borderWidth: stateStyle.borderWidth };
   };
 
   const getEdgeWidth = (totalUsd: number): number => {
@@ -282,12 +278,16 @@ export function GraphCanvas({
 
     // 1. Compound Parent Nodes (for clusters)
     for (const c of clusters) {
+      const isArmed = !!c.isArmed;
+      const clusterStyle = getAlertStateStyle(undefined, isArmed);
       elements.push({
         data: {
           id: `cluster_parent_${c.id}`,
-          label: c.name.toUpperCase(),
-          borderColor: c.colorHex,
+          label: isArmed ? `${c.name.toUpperCase()} [ARMED CLUSTER]` : c.name.toUpperCase(),
+          borderColor: isArmed ? clusterStyle.borderColor : c.colorHex,
+          borderWidth: isArmed ? clusterStyle.borderWidth : 1,
           isCompound: true,
+          isClusterArmed: isArmed,
         },
       });
     }
