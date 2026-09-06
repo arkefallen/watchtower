@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watchtower - Alerts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#2e3134",
+                        "background": "#121416",
+                        "on-tertiary-container": "#404246",
+                        "on-primary-fixed": "#271900",
+                        "outline-variant": "#4f4637",
+                        "surface": "#121416",
+                        "primary-container": "#d7a84b",
+                        "on-secondary": "#2c3135",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#44474a",
+                        "inverse-primary": "#7b5800",
+                        "surface-container-lowest": "#0c0e10",
+                        "text-muted": "#929BA3",
+                        "primary-fixed-dim": "#f0bf5f",
+                        "surface-variant": "#333537",
+                        "secondary": "#c2c7cc",
+                        "on-background": "#e2e2e5",
+                        "error": "#ffb4ab",
+                        "on-secondary-container": "#b1b6bb",
+                        "inverse-surface": "#e2e2e5",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "secondary-fixed": "#dfe3e8",
+                        "primary": "#f5c363",
+                        "text-primary": "#E8ECEF",
+                        "tertiary-container": "#adafb3",
+                        "status-error": "#D87870",
+                        "on-surface-variant": "#d2c5b1",
+                        "surface-container-highest": "#333537",
+                        "on-surface": "#e2e2e5",
+                        "secondary-fixed-dim": "#c2c7cc",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#c5c6ca",
+                        "on-secondary-fixed": "#171c20",
+                        "surface-container-high": "#282a2c",
+                        "inverse-on-surface": "#2f3133",
+                        "status-success": "#79B79A",
+                        "border-hairline": "#30373D",
+                        "surface-bright": "#38393c",
+                        "on-primary": "#412d00",
+                        "secondary-container": "#42474c",
+                        "on-tertiary-fixed": "#191c1f",
+                        "primary-fixed": "#ffdea6",
+                        "on-secondary-fixed-variant": "#42474c",
+                        "outline": "#9b8f7d",
+                        "on-primary-container": "#583e00",
+                        "surface-tint": "#f0bf5f",
+                        "surface-container-low": "#1a1c1e",
+                        "tertiary-fixed": "#e1e2e6",
+                        "tertiary": "#c9cace",
+                        "surface-dim": "#121416",
+                        "surface-container": "#1e2022",
+                        "on-error": "#690005",
+                        "signal-amber": "#D7A84B",
+                        "graphite": "#171A1D",
+                        "level2": "#1E2327"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-base": "24px",
+                        "gutter": "16px",
+                        "panel-padding": "12px",
+                        "sidebar-width": "240px",
+                        "max-width": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Geist", "sans-serif"],
+                        "headline-md": ["Geist", "sans-serif"],
+                        "body-lg": ["Geist", "sans-serif"],
+                        "body-sm": ["Geist", "sans-serif"],
+                        "ui-label": ["Geist", "sans-serif"],
+                        "mono-label": ["Geist Mono", "monospace"],
+                        "mono-data": ["Geist Mono", "monospace"],
+                        "headline-lg": ["Geist", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["20px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "ui-label": ["12px", { "lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "mono-label": ["12px", { "lineHeight": "1", "fontWeight": "500" }],
+                        "mono-data": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #101214; /* Level 0 Background */
+            color: #E8ECEF;
+            font-family: 'Geist', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        /* Focus Ring */
+        *:focus-visible {
+            outline: 2px solid #D7A84B;
+            outline-offset: 2px;
+        }
+
+        /* Mechanical Button Press */
+        .btn-mechanical:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Table Layout Density */
+        .data-table th, .data-table td {
+            padding: 8px 12px;
+        }
+        
+        /* Custom Scrollbar for dense areas */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101214; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #30373D; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #404246; 
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-low dark:bg-surface-container-low border-r border-border-hairline flex flex-col py-panel-padding z-50">
+<!-- Header -->
+<div class="px-margin-base mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-variant flex items-center justify-center overflow-hidden">
+<img alt="User Avatar" class="w-full h-full object-cover opacity-80 mix-blend-screen" data-alt="A macro shot of a sleek, dark metallic sensor lens or optical component, heavily textured, minimal, military-grade aesthetics, sharp focus, monochromatic with subtle amber light reflections." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzJoWfQXAsYmBD_S_UQJBxpsr1IUrk8GcutvmPSOhsdUJVtBnHWCCUACU2qJklX1yoPtyTuJUiDNp8SUIY4I67kn0aJrHPjZLZPudMqoNEihKqj-fTKEQE11QZpQRyCQQMDzJczLhH-xWZ3Rai9PxHlgPYC8-MR9pAmhK7ol1aC75H7pLLmRRjZgFARU4p8FTiX1al2iEWM_y2xHl2vgKOTcfsz932muh9c17fxPg610AZbBWvJH27AH8ouLYfT8OnmsUZKm9Ptbcw"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary">Watchtower</h1>
+<p class="font-mono-label text-mono-label text-text-muted mt-1 uppercase tracking-widest">Onchain Intel</p>
+</div>
+</div>
+<!-- CTA -->
+<div class="px-margin-base mb-6">
+<button class="w-full h-10 bg-primary-container text-graphite font-ui-label text-ui-label flex items-center justify-center gap-2 rounded-sm btn-mechanical transition-transform">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">add</span>
+                Add Watchlist
+            </button>
+</div>
+<!-- Main Tabs -->
+<ul class="flex-1 flex flex-col gap-1 px-panel-padding">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-sm text-text-muted hover:bg-surface-container-highest transition-colors font-headline-sm text-headline-sm" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-sm text-text-muted hover:bg-surface-container-highest transition-colors font-headline-sm text-headline-sm" href="#">
+<span class="material-symbols-outlined">wallet</span>
+                    Wallets
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-sm text-text-muted hover:bg-surface-container-highest transition-colors font-headline-sm text-headline-sm" href="#">
+<span class="material-symbols-outlined">group_work</span>
+                    Clusters
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-sm text-text-muted hover:bg-surface-container-highest transition-colors font-headline-sm text-headline-sm" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+                    Graph
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-sm text-text-muted hover:bg-surface-container-highest transition-colors font-headline-sm text-headline-sm" href="#">
+<span class="material-symbols-outlined">radar</span>
+                    Radar
+                </a>
+</li>
+<!-- Active Tab -->
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-sm bg-secondary-container text-primary border-r-2 border-primary active:translate-y-[-1px] font-headline-sm text-headline-sm" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notifications</span>
+                    Alerts
+                </a>
+</li>
+</ul>
+<!-- Footer Tabs -->
+<ul class="mt-auto flex flex-col gap-1 px-panel-padding pt-4 border-t border-border-hairline">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-sm text-text-muted hover:bg-surface-container-highest transition-colors font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+                    Settings
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-sm text-text-muted hover:bg-surface-container-highest transition-colors font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span>
+                    Support
+                </a>
+</li>
+</ul>
+</nav>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-sidebar-width h-16 bg-background dark:bg-background border-b border-border-hairline flex justify-between items-center px-margin-base w-full z-40">
+<!-- Search/Left -->
+<div class="flex-1 flex items-center">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-[18px]">search</span>
+<input class="w-full bg-surface-container-low border border-border-hairline rounded-sm py-1.5 pl-9 pr-3 font-mono-data text-mono-data text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-colors placeholder:text-surface-variant" placeholder="Search entity or hash..." type="text"/>
+</div>
+</div>
+<!-- Navigation Links (Center-ish) -->
+<nav class="hidden md:flex gap-6 absolute left-1/2 -translate-x-1/2 h-full">
+<a class="h-full flex items-center text-text-muted hover:text-on-surface transition-colors font-headline-sm text-headline-sm" href="#">Overview</a>
+<a class="h-full flex items-center text-primary border-b-2 border-primary pb-[2px] font-headline-sm text-headline-sm active:translate-y-[-1px]" href="#">History</a>
+<a class="h-full flex items-center text-text-muted hover:text-on-surface transition-colors font-headline-sm text-headline-sm" href="#">Logs</a>
+</nav>
+<!-- Right Actions -->
+<div class="flex items-center gap-4">
+<button class="text-text-muted hover:text-on-surface transition-colors p-1 rounded-sm btn-mechanical">
+<span class="material-symbols-outlined">refresh</span>
+</button>
+<button class="text-text-muted hover:text-on-surface transition-colors p-1 rounded-sm btn-mechanical">
+<span class="material-symbols-outlined">download</span>
+</button>
+<div class="w-px h-6 bg-border-hairline mx-2"></div>
+<button class="h-10 px-4 border border-border-hairline text-primary font-ui-label text-ui-label rounded-sm hover:bg-surface-container-highest transition-colors btn-mechanical">
+                Execute Query
+            </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-sidebar-width mt-16 p-margin-base w-full h-[calc(100vh-64px)] overflow-hidden flex gap-6">
+<!-- Alerts Workspace -->
+<div class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- Header & Toolbar -->
+<div class="flex justify-between items-end mb-6 shrink-0">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary-container tracking-tight">ALERT_CENTER</h2>
+<p class="font-mono-data text-mono-data text-text-muted mt-1 uppercase">Monitoring Active Triage Queue</p>
+</div>
+<div class="flex gap-2">
+<button class="h-8 px-3 border border-border-hairline bg-surface-container-low text-text-muted hover:text-on-surface font-mono-label text-mono-label rounded-sm btn-mechanical transition-colors">ALL</button>
+<button class="h-8 px-3 border border-border-hairline bg-surface-container-low text-text-muted hover:text-on-surface font-mono-label text-mono-label rounded-sm btn-mechanical transition-colors">ARMED</button>
+<button class="h-8 px-3 border border-primary-container bg-surface-container-highest text-primary-container font-mono-label text-mono-label rounded-sm btn-mechanical transition-colors">TRIGGERED</button>
+<button class="h-8 px-3 border border-border-hairline bg-surface-container-low text-text-muted hover:text-on-surface font-mono-label text-mono-label rounded-sm btn-mechanical transition-colors">EXIT_RISK</button>
+</div>
+</div>
+<!-- Data Table Container (Scrollable) -->
+<div class="flex-1 border border-border-hairline bg-surface-container-lowest overflow-auto relative">
+<table class="w-full text-left border-collapse data-table">
+<thead class="sticky top-0 bg-surface-container-low border-b border-border-hairline z-10 shadow-sm">
+<tr>
+<th class="font-ui-label text-ui-label text-text-muted uppercase w-48">Timestamp</th>
+<th class="font-ui-label text-ui-label text-text-muted uppercase">Entity</th>
+<th class="font-ui-label text-ui-label text-text-muted uppercase w-32">Risk_Level</th>
+<th class="font-ui-label text-ui-label text-text-muted uppercase">Trigger_Type</th>
+<th class="font-ui-label text-ui-label text-text-muted uppercase text-right w-24">Evidence</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-hairline font-body-sm text-body-sm">
+<!-- Row 1 (Triggered - Selected) -->
+<tr class="bg-level2 hover:bg-level2 transition-colors cursor-pointer border-l-2 border-primary-container">
+<td class="font-mono-data text-mono-data text-text-muted text-right pr-4">2023-10-27T14:32:01Z</td>
+<td class="font-headline-sm text-headline-sm text-on-surface">AlphaFund_Wallet_A</td>
+<td>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-status-error"></span>
+<span class="font-mono-label text-mono-label text-status-error uppercase">Critical</span>
+</div>
+</td>
+<td><span class="bg-surface-variant text-on-surface px-2 py-0.5 rounded-sm font-mono-label text-mono-label uppercase">Volume_Anomaly</span></td>
+<td class="text-right"><span class="material-symbols-outlined text-primary-container text-[18px]">visibility</span></td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high transition-colors cursor-pointer">
+<td class="font-mono-data text-mono-data text-text-muted text-right pr-4">2023-10-27T14:15:22Z</td>
+<td class="font-headline-sm text-headline-sm text-on-surface">Cluster_X9_Beta</td>
+<td>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-mono-label text-mono-label text-primary-container uppercase">Elevated</span>
+</div>
+</td>
+<td><span class="bg-surface-variant text-on-surface px-2 py-0.5 rounded-sm font-mono-label text-mono-label uppercase">New_Root_Funder</span></td>
+<td class="text-right"><span class="material-symbols-outlined text-text-muted text-[18px]">visibility</span></td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high transition-colors cursor-pointer">
+<td class="font-mono-data text-mono-data text-text-muted text-right pr-4">2023-10-27T13:45:10Z</td>
+<td class="font-headline-sm text-headline-sm text-on-surface">Whale_0x77...1a2b</td>
+<td>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-mono-label text-mono-label text-primary-container uppercase">Elevated</span>
+</div>
+</td>
+<td><span class="bg-surface-variant text-on-surface px-2 py-0.5 rounded-sm font-mono-label text-mono-label uppercase">Velocity_Spike</span></td>
+<td class="text-right"><span class="material-symbols-outlined text-text-muted text-[18px]">visibility</span></td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-high transition-colors cursor-pointer">
+<td class="font-mono-data text-mono-data text-text-muted text-right pr-4">2023-10-27T12:10:05Z</td>
+<td class="font-headline-sm text-headline-sm text-on-surface">Exchange_Hot_3</td>
+<td>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-status-success"></span>
+<span class="font-mono-label text-mono-label text-status-success uppercase">Normal</span>
+</div>
+</td>
+<td><span class="bg-surface-variant text-on-surface px-2 py-0.5 rounded-sm font-mono-label text-mono-label uppercase">Routine_Sweep</span></td>
+<td class="text-right"><span class="material-symbols-outlined text-text-muted text-[18px]">visibility</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Evidence Rail (Specialized narrow column) -->
+<aside class="w-80 h-full border border-border-hairline bg-surface-container-low flex flex-col shrink-0">
+<!-- Rail Header -->
+<div class="p-4 border-b border-border-hairline bg-surface-container-highest">
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase tracking-wider">EVIDENCE_RAIL</h3>
+<p class="font-mono-label text-mono-label text-text-muted mt-1">Focus: AlphaFund_Wallet_A</p>
+</div>
+<!-- Rail Content -->
+<div class="flex-1 p-4 overflow-y-auto flex flex-col gap-6">
+<!-- Status/Thresholds -->
+<div class="space-y-3">
+<h4 class="font-ui-label text-ui-label text-text-muted uppercase border-b border-border-hairline pb-1 mb-2">Threshold Conditions</h4>
+<div class="flex justify-between items-center bg-surface-variant p-2 rounded-sm border border-border-hairline">
+<span class="font-mono-data text-mono-data text-on-surface">VAL &gt; $100k</span>
+<span class="font-mono-label text-mono-label text-status-error uppercase bg-[#93000a] px-1.5 py-0.5 rounded-sm">MET</span>
+</div>
+<div class="flex justify-between items-center bg-surface-variant p-2 rounded-sm border border-border-hairline">
+<span class="font-mono-data text-mono-data text-on-surface">NEW_ROOT_FUNDER</span>
+<span class="font-mono-label text-mono-label text-status-error uppercase bg-[#93000a] px-1.5 py-0.5 rounded-sm">MET</span>
+</div>
+</div>
+<!-- Transaction Detail -->
+<div class="space-y-3">
+<h4 class="font-ui-label text-ui-label text-text-muted uppercase border-b border-border-hairline pb-1 mb-2">Trigger Transaction</h4>
+<div>
+<label class="block font-ui-label text-ui-label text-text-muted mb-1">TX HASH</label>
+<div class="flex items-center gap-2 bg-surface-container-lowest border border-border-hairline p-2 rounded-sm cursor-pointer hover:border-primary-container transition-colors group relative" onclick="this.querySelector('.copy-feedback').classList.remove('hidden'); setTimeout(() =&gt; this.querySelector('.copy-feedback').classList.add('hidden'), 1000)">
+<span class="font-mono-data text-mono-data text-primary-container truncate flex-1">0xabc123def456...7890xyz</span>
+<span class="material-symbols-outlined text-text-muted group-hover:text-primary-container text-[16px]">content_copy</span>
+<!-- Copy Feedback Overlay -->
+<div class="copy-feedback hidden absolute inset-0 bg-primary-container text-graphite font-mono-label text-mono-label flex items-center justify-center rounded-sm z-10">
+                                COPIED
+                            </div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block font-ui-label text-ui-label text-text-muted mb-1">BLOCK</label>
+<span class="font-mono-data text-mono-data text-on-surface">18459201</span>
+</div>
+<div>
+<label class="block font-ui-label text-ui-label text-text-muted mb-1">VALUE</label>
+<span class="font-mono-data text-mono-data text-on-surface">$142,500.00</span>
+</div>
+</div>
+</div>
+<!-- Context Image/Graph snippet (Abstract) -->
+<div class="mt-2 border border-border-hairline rounded-sm overflow-hidden h-32 relative">
+<img alt="Data Flow Graph" class="w-full h-full object-cover opacity-60 mix-blend-screen" data-alt="A highly abstract, dark, dense data visualization graph showing node clusters and transaction flow lines. Minimalist, technical industrial aesthetic. Thin glowing amber lines connecting sharp geometric nodes against an almost black (#101214) background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABSMf97ajwcWmDgtf6K9THKjQfbioNLrGslTwTZbb8fqCmlzTRiBhMkD9VfdnfO4GMaG9SffVwjLVI2CGgiKVbK2-WTRUB3IAlGmOq4z3oV7-Kg7ASLnIYUGci0hfn0tEULEsQw6tSTvydE5RC1yddsaymYDZEXML-5cKUOjuD62Rgj8-_rkAYt6tLOeiPptfa6wyFiNllYwxnagonA94RON3zXGoM05M4gknoKU-lHi10DVesjrOiTmVE91Xjx40Xpc9aC0TlLHlC"/>
+<div class="absolute bottom-2 left-2 bg-surface-container-high px-2 py-1 rounded-sm border border-border-hairline">
+<span class="font-mono-label text-mono-label text-text-muted uppercase text-[10px]">Graph Snapshot</span>
+</div>
+</div>
+</div>
+<!-- Rail Actions -->
+<div class="p-4 border-t border-border-hairline bg-surface-container-highest flex gap-2">
+<button class="flex-1 h-10 bg-primary-container text-graphite font-ui-label text-ui-label uppercase rounded-sm btn-mechanical">
+                    ACKNOWLEDGE
+                </button>
+<button class="flex-1 h-10 border border-border-hairline text-on-surface font-ui-label text-ui-label uppercase rounded-sm hover:bg-surface-variant transition-colors btn-mechanical">
+                    DISMISS
+                </button>
+</div>
+</aside>
+</main>
+</body></html>

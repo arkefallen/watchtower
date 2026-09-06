@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watchtower Settings</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts (Geist & Geist Mono) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&amp;family=Geist:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "tertiary-fixed-dim": "#c5c6ca",
+              "primary-container": "#d7a84b",
+              "on-primary": "#412d00",
+              "inverse-primary": "#7b5800",
+              "status-error": "#D87870",
+              "primary-fixed": "#ffdea6",
+              "on-primary-container": "#583e00",
+              "text-primary": "#E8ECEF",
+              "on-surface": "#e2e2e5",
+              "tertiary": "#c9cace",
+              "surface-container-highest": "#333537",
+              "surface": "#121416",
+              "outline-variant": "#4f4637",
+              "tertiary-container": "#adafb3",
+              "on-secondary-container": "#b1b6bb",
+              "surface-variant": "#333537",
+              "on-secondary-fixed-variant": "#42474c",
+              "primary-fixed-dim": "#f0bf5f",
+              "status-success": "#79B79A",
+              "surface-container-lowest": "#0c0e10",
+              "secondary-fixed-dim": "#c2c7cc",
+              "on-tertiary-container": "#404246",
+              "primary": "#f5c363",
+              "inverse-on-surface": "#2f3133",
+              "on-surface-variant": "#d2c5b1",
+              "error": "#ffb4ab",
+              "surface-container": "#1e2022",
+              "secondary": "#c2c7cc",
+              "surface-container-high": "#282a2c",
+              "surface-container-low": "#1a1c1e",
+              "on-tertiary": "#2e3134",
+              "on-secondary-fixed": "#171c20",
+              "on-tertiary-fixed": "#191c1f",
+              "on-background": "#e2e2e5",
+              "on-error": "#690005",
+              "error-container": "#93000a",
+              "surface-bright": "#38393c",
+              "inverse-surface": "#e2e2e5",
+              "surface-dim": "#121416",
+              "outline": "#9b8f7d",
+              "on-tertiary-fixed-variant": "#44474a",
+              "secondary-fixed": "#dfe3e8",
+              "tertiary-fixed": "#e1e2e6",
+              "text-muted": "#929BA3",
+              "on-primary-fixed": "#271900",
+              "on-error-container": "#ffdad6",
+              "border-hairline": "#30373D",
+              "surface-tint": "#f0bf5f",
+              "background": "#121416",
+              "secondary-container": "#42474c",
+              "on-secondary": "#2c3135",
+              "on-primary-fixed-variant": "#5d4200"
+            },
+            "borderRadius": {
+              "DEFAULT": "0.25rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "full": "9999px"
+            },
+            "spacing": {
+              "panel-padding": "12px",
+              "max-width": "1440px",
+              "sidebar-width": "240px",
+              "margin-base": "24px",
+              "gutter": "16px"
+            },
+            "fontFamily": {
+              "ui-label": ["Geist"],
+              "mono-label": ["Geist Mono"],
+              "headline-lg": ["Geist"],
+              "mono-data": ["Geist Mono"],
+              "body-sm": ["Geist"],
+              "headline-sm": ["Geist"],
+              "body-lg": ["Geist"],
+              "headline-md": ["Geist"]
+            },
+            "fontSize": {
+              "ui-label": ["12px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600"}],
+              "mono-label": ["12px", {"lineHeight": "1", "fontWeight": "500"}],
+              "headline-lg": ["32px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+              "mono-data": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+              "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+              "headline-sm": ["20px", {"lineHeight": "1.2", "fontWeight": "600"}],
+              "body-lg": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+              "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        /* Base styles for the Observatory technical aesthetic */
+        body {
+            background-color: #101214; /* Enforcing Level 0 */
+        }
+        
+        /* Custom scrollbar for density */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121416;
+            border-left: 1px solid #30373D;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #30373D;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4f4637;
+        }
+
+        /* Minimal input styling */
+        input[type="text"], input[type="number"], select {
+            background-color: #121416;
+            border: 1px solid #30373D;
+            color: #E8ECEF;
+            font-family: 'Geist Mono', monospace;
+            padding: 6px 8px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+            border-color: #d7a84b;
+            box-shadow: 0 0 0 1px #d7a84b;
+        }
+        
+        /* Field Group Label */
+        .field-label {
+            font-family: 'Geist Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #d2c5b1;
+            margin-bottom: 4px;
+            display: block;
+        }
+    </style>
+</head>
+<body class="text-on-surface font-body-sm antialiased selection:bg-primary-container selection:text-on-primary">
+<!-- Shared Component: SideNavBar -->
+<nav class="w-sidebar-width h-full fixed left-0 top-0 border-r border-border-hairline bg-surface-dim z-50 flex flex-col">
+<!-- Header -->
+<div class="p-4 border-b border-border-hairline flex flex-col gap-1 mb-4">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Watchtower</span>
+<span class="font-mono-label text-text-muted text-[10px] uppercase tracking-widest">Onchain Intelligence</span>
+</div>
+<!-- Navigation Tabs -->
+<ul class="flex flex-col flex-1 px-2 gap-1">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium hover:bg-surface-container-low hover:text-on-surface transition-colors font-ui-label text-ui-label" href="#">
+<span class="material-symbols-outlined text-[18px]">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium hover:bg-surface-container-low hover:text-on-surface transition-colors font-ui-label text-ui-label" href="#">
+<span class="material-symbols-outlined text-[18px]">monitoring</span>
+                    Monitoring
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium hover:bg-surface-container-low hover:text-on-surface transition-colors font-ui-label text-ui-label" href="#">
+<span class="material-symbols-outlined text-[18px]">query_stats</span>
+                    Intelligence
+                </a>
+</li>
+<!-- Active Tab -->
+<li>
+<a class="flex items-center gap-3 px-3 py-2 text-primary font-bold bg-surface-container border-r-2 border-primary font-ui-label text-ui-label translate-y-[-1px] transition-all" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">settings</span>
+                    Settings
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-medium hover:bg-surface-container-low hover:text-on-surface transition-colors font-ui-label text-ui-label" href="#">
+<span class="material-symbols-outlined text-[18px]">history</span>
+                    History
+                </a>
+</li>
+</ul>
+<!-- CTA & Footer -->
+<div class="p-4 border-t border-border-hairline flex flex-col gap-4">
+<button class="w-full bg-surface-container border border-border-hairline text-text-primary py-2 font-ui-label hover:border-primary-container hover:text-primary-container transition-colors active:translate-y-[-1px]">
+                New Monitor
+            </button>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-2 text-text-muted hover:text-on-surface transition-colors font-mono-label text-[11px] uppercase tracking-wide" href="#">
+<span class="material-symbols-outlined text-[14px]">description</span> Docs
+                </a>
+<a class="flex items-center gap-2 text-text-muted hover:text-on-surface transition-colors font-mono-label text-[11px] uppercase tracking-wide" href="#">
+<span class="material-symbols-outlined text-[14px]">logout</span> Logout
+                </a>
+</div>
+</div>
+</nav>
+<!-- Main Workspace wrapper -->
+<div class="ml-sidebar-width flex flex-col min-h-screen bg-background">
+<!-- Shared Component: TopAppBar -->
+<header class="flex justify-between items-center h-16 px-gutter bg-surface-dim border-b border-border-hairline docked full-width top-0 sticky z-40">
+<!-- Brand/Path -->
+<div class="font-headline-sm text-headline-sm font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+                Watchtower / Settings
+            </div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-6">
+<div class="font-mono-label text-mono-label text-status-success uppercase flex items-center gap-2">
+<span class="text-status-success">●</span> SETTINGS LOADED FROM LOCAL DB
+                </div>
+<div class="flex items-center gap-3 border-l border-border-hairline pl-6">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="bg-primary-container text-on-primary font-ui-label text-ui-label h-[40px] px-4 hover:bg-primary transition-colors active:translate-y-[-1px] font-bold">
+                        Save Configuration
+                    </button>
+</div>
+</div>
+</header>
+<!-- Scrollable Content Canvas -->
+<main class="p-margin-base flex-1 grid grid-cols-1 gap-8 max-w-[1440px]">
+<!-- SECTION 1: Alert Thresholds & Rules -->
+<section class="flex flex-col gap-4">
+<header class="border-b border-border-hairline pb-2">
+<h2 class="font-headline-md text-headline-md text-text-primary">Alert Thresholds &amp; Rules</h2>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+<!-- A1 Card -->
+<div class="bg-surface-container-low border border-border-hairline p-panel-padding flex flex-col gap-4 relative group">
+<div class="absolute top-0 left-0 w-1 h-full bg-border-hairline group-hover:bg-primary-container transition-colors"></div>
+<div class="flex justify-between items-start pl-2">
+<h3 class="font-ui-label text-ui-label text-on-surface">A1: Stablecoin Arming</h3>
+<span class="font-mono-label text-[10px] text-text-muted px-1.5 py-0.5 border border-border-hairline bg-surface">CORE</span>
+</div>
+<div class="grid grid-cols-2 gap-3 pl-2">
+<div>
+<label class="field-label">Floor USD</label>
+<input class="w-full text-right" type="text" value="1000"/>
+</div>
+<div>
+<label class="field-label">Median Multiplier</label>
+<div class="flex items-center border border-border-hairline bg-surface">
+<input class="w-full text-right border-none" type="text" value="3"/>
+<span class="px-2 text-text-muted font-mono-data text-[12px]">x</span>
+</div>
+</div>
+</div>
+</div>
+<!-- A2 Card -->
+<div class="bg-surface-container-low border border-border-hairline p-panel-padding flex flex-col gap-4 relative group">
+<div class="absolute top-0 left-0 w-1 h-full bg-border-hairline group-hover:bg-primary-container transition-colors"></div>
+<div class="flex justify-between items-start pl-2">
+<h3 class="font-ui-label text-ui-label text-on-surface">A2: Gas Arming</h3>
+</div>
+<div class="grid grid-cols-2 gap-3 pl-2">
+<div>
+<label class="field-label">Floor GWEI</label>
+<input class="w-full text-right" type="text" value="100"/>
+</div>
+<div>
+<label class="field-label">Multiplier</label>
+<div class="flex items-center border border-border-hairline bg-surface">
+<input class="w-full text-right border-none" type="text" value="3"/>
+<span class="px-2 text-text-muted font-mono-data text-[12px]">x</span>
+</div>
+</div>
+</div>
+<div class="pl-2 mt-auto">
+<p class="font-mono-label text-[10px] text-text-muted leading-tight border-l border-primary-container/30 pl-2">
+                                Cold-start: historical median calculated on first 50 tx
+                            </p>
+</div>
+</div>
+<!-- A3 Card -->
+<div class="bg-surface-container-low border border-border-hairline p-panel-padding flex flex-col gap-4 relative group">
+<div class="absolute top-0 left-0 w-1 h-full bg-border-hairline group-hover:bg-primary-container transition-colors"></div>
+<div class="flex justify-between items-start pl-2">
+<h3 class="font-ui-label text-ui-label text-on-surface">A3: CEX Withdrawal</h3>
+</div>
+<div class="pl-2">
+<label class="field-label">Min Withdrawal USD</label>
+<input class="w-full text-right" type="text" value="1000"/>
+</div>
+</div>
+<!-- A4 Card -->
+<div class="bg-surface-container-low border border-border-hairline p-panel-padding flex flex-col gap-4 relative group">
+<div class="absolute top-0 left-0 w-1 h-full bg-border-hairline group-hover:bg-primary-container transition-colors"></div>
+<div class="flex justify-between items-start pl-2">
+<h3 class="font-ui-label text-ui-label text-on-surface">A4: Dormancy</h3>
+</div>
+<div class="grid grid-cols-2 gap-3 pl-2">
+<div>
+<label class="field-label">Duration</label>
+<div class="flex items-center border border-border-hairline bg-surface">
+<input class="w-full text-right border-none" type="text" value="30"/>
+<span class="px-2 text-text-muted font-mono-data text-[12px]">d</span>
+</div>
+</div>
+<div>
+<label class="field-label">Threshold USD</label>
+<input class="w-full text-right" type="text" value="500"/>
+</div>
+</div>
+</div>
+<!-- A5 Card -->
+<div class="bg-surface-container-low border border-border-hairline p-panel-padding flex flex-col gap-4 relative group">
+<div class="absolute top-0 left-0 w-1 h-full bg-border-hairline group-hover:bg-primary-container transition-colors"></div>
+<div class="flex justify-between items-start pl-2">
+<h3 class="font-ui-label text-ui-label text-on-surface">A5: Cluster Arming</h3>
+</div>
+<div class="grid grid-cols-2 gap-3 pl-2">
+<div>
+<label class="field-label">Time Window</label>
+<div class="flex items-center border border-border-hairline bg-surface">
+<input class="w-full text-right border-none" type="text" value="48"/>
+<span class="px-2 text-text-muted font-mono-data text-[12px]">h</span>
+</div>
+</div>
+<div>
+<label class="field-label">Min Wallets</label>
+<input class="w-full text-right" type="text" value="2"/>
+</div>
+</div>
+</div>
+<!-- T1 Card -->
+<div class="bg-surface-container-low border border-border-hairline p-panel-padding flex flex-col gap-4 relative group">
+<div class="absolute top-0 left-0 w-1 h-full bg-border-hairline group-hover:bg-primary-container transition-colors"></div>
+<div class="flex justify-between items-start pl-2">
+<h3 class="font-ui-label text-ui-label text-on-surface">T1: Armed Entry</h3>
+<span class="font-mono-label text-[10px] text-text-muted px-1.5 py-0.5 border border-border-hairline bg-surface">TRIGGER</span>
+</div>
+<div class="grid grid-cols-2 gap-3 pl-2">
+<div>
+<label class="field-label">Max Token Age</label>
+<div class="flex items-center border border-border-hairline bg-surface">
+<input class="w-full text-right border-none" type="text" value="7"/>
+<span class="px-2 text-text-muted font-mono-data text-[12px]">d</span>
+</div>
+</div>
+<div>
+<label class="field-label">Min Value USD</label>
+<input class="w-full text-right" type="text" value="500"/>
+</div>
+</div>
+</div>
+<!-- T2 Card (Wider) -->
+<div class="bg-surface-container-low border border-border-hairline p-panel-padding flex flex-col gap-4 relative group md:col-span-2 xl:col-span-2">
+<div class="absolute top-0 left-0 w-1 h-full bg-border-hairline group-hover:bg-primary-container transition-colors"></div>
+<div class="flex justify-between items-start pl-2">
+<h3 class="font-ui-label text-ui-label text-on-surface">T2: Independent Co-entry</h3>
+<span class="font-mono-label text-[10px] text-text-muted px-1.5 py-0.5 border border-border-hairline bg-surface">TRIGGER</span>
+</div>
+<div class="grid grid-cols-3 gap-3 pl-2 items-end">
+<div>
+<label class="field-label">Time Window</label>
+<div class="flex items-center border border-border-hairline bg-surface">
+<input class="w-full text-right border-none" type="text" value="24"/>
+<span class="px-2 text-text-muted font-mono-data text-[12px]">h</span>
+</div>
+</div>
+<div>
+<label class="field-label">Min Wallets</label>
+<input class="w-full text-right" type="text" value="2"/>
+</div>
+<div>
+<label class="field-label">Evaluation Mode</label>
+<select class="w-full appearance-none rounded-none cursor-pointer">
+<option>ANY_TAG_OR_COMPUTED</option>
+<option>EDGE_TAG_ONLY</option>
+</select>
+</div>
+</div>
+</div>
+<!-- C3 Card -->
+<div class="bg-surface-container-low border border-border-hairline p-panel-padding flex flex-col gap-4 relative group">
+<div class="absolute top-0 left-0 w-1 h-full bg-border-hairline group-hover:bg-primary-container transition-colors"></div>
+<div class="flex justify-between items-start pl-2">
+<h3 class="font-ui-label text-ui-label text-on-surface">C3: Moon Discipline</h3>
+<span class="font-mono-label text-[10px] text-text-muted px-1.5 py-0.5 border border-border-hairline bg-surface">CONTEXT</span>
+</div>
+<div class="grid grid-cols-2 gap-3 pl-2 mb-2">
+<div>
+<label class="field-label">Return Target</label>
+<div class="flex items-center border border-border-hairline bg-surface">
+<input class="w-full text-right border-none" type="text" value="10"/>
+<span class="px-2 text-text-muted font-mono-data text-[12px]">x</span>
+</div>
+</div>
+<div>
+<label class="field-label">Holding Time</label>
+<div class="flex items-center border border-border-hairline bg-surface">
+<input class="w-full text-right border-none" type="text" value="3"/>
+<span class="px-2 text-text-muted font-mono-data text-[12px]">d</span>
+</div>
+</div>
+</div>
+<div class="pl-2 mt-auto border-t border-border-hairline pt-3 flex items-center justify-between">
+<span class="font-mono-label text-[10px] text-on-surface-variant uppercase tracking-wide">c3SelfOnly Enforcement</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-8 h-4 bg-surface border border-border-hairline peer-focus:outline-none peer-checked:bg-primary-container/20 peer-checked:border-primary-container after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-text-muted after:border-border-hairline after:border after:h-[10px] after:w-[10px] after:transition-all peer-checked:after:translate-x-[18px] peer-checked:after:border-primary-container peer-checked:after:bg-primary-container"></div>
+</label>
+</div>
+</div>
+<!-- De-arm Card -->
+<div class="bg-surface-container-low border border-border-hairline p-panel-padding flex flex-col gap-4 relative group">
+<div class="absolute top-0 left-0 w-1 h-full bg-border-hairline group-hover:bg-primary-container transition-colors"></div>
+<div class="flex justify-between items-start pl-2">
+<h3 class="font-ui-label text-ui-label text-on-surface">System De-arm</h3>
+</div>
+<div class="grid grid-cols-2 gap-3 pl-2">
+<div>
+<label class="field-label">Baseline Thresh.</label>
+<div class="flex items-center border border-border-hairline bg-surface">
+<input class="w-full text-right border-none" type="text" value="120"/>
+<span class="px-2 text-text-muted font-mono-data text-[12px]">%</span>
+</div>
+</div>
+<div>
+<label class="field-label">Consecutive</label>
+<div class="flex items-center border border-border-hairline bg-surface">
+<input class="w-full text-right border-none" type="text" value="7"/>
+<span class="px-2 text-text-muted font-mono-data text-[12px]">d</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Row: Cadence & System + Telegram -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- SECTION 2: Cadence & System -->
+<section class="flex flex-col gap-4">
+<header class="border-b border-border-hairline pb-2">
+<h2 class="font-headline-md text-headline-md text-text-primary">Cadence &amp; System</h2>
+</header>
+<div class="bg-surface-container-low border border-border-hairline p-margin-base grid grid-cols-2 gap-6 h-full items-start">
+<div>
+<label class="field-label mb-2">Radar Sweep Cadence</label>
+<div class="flex items-center border border-border-hairline bg-surface max-w-[150px]">
+<input class="w-full text-right border-none text-[16px] py-2" type="text" value="5"/>
+<span class="px-3 text-text-muted font-mono-data border-l border-border-hairline bg-surface-container-low">m</span>
+</div>
+<p class="font-mono-label text-[10px] text-text-muted mt-2">Interval between chain queries.</p>
+</div>
+<div>
+<label class="field-label mb-2">RPC Quota Reserve</label>
+<div class="flex items-center border border-border-hairline bg-surface max-w-[150px]">
+<input class="w-full text-right border-none text-[16px] py-2" type="text" value="10"/>
+<span class="px-3 text-text-muted font-mono-data border-l border-border-hairline bg-surface-container-low">%</span>
+</div>
+<p class="font-mono-label text-[10px] text-text-muted mt-2">Failsafe margin for burst reads.</p>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Telegram Notifications -->
+<section class="flex flex-col gap-4">
+<header class="border-b border-border-hairline pb-2 flex justify-between items-end">
+<h2 class="font-headline-md text-headline-md text-text-primary">Telegram Webhook</h2>
+<label class="relative inline-flex items-center cursor-pointer mb-1 gap-2">
+<span class="font-mono-label text-[10px] text-primary-container uppercase tracking-wide">Enabled</span>
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-8 h-4 bg-surface border border-border-hairline peer-focus:outline-none peer-checked:bg-primary-container/20 peer-checked:border-primary-container after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-text-muted after:border-border-hairline after:border after:h-[10px] after:w-[10px] after:transition-all peer-checked:after:-translate-x-[18px] peer-checked:after:border-primary-container peer-checked:after:bg-primary-container" style="direction: rtl;"></div>
+</label>
+</header>
+<div class="bg-surface-container-low border border-border-hairline p-margin-base flex flex-col gap-5 h-full">
+<div>
+<label class="field-label">Bot Token</label>
+<input class="w-full font-mono-data tracking-widest text-text-muted" type="password" value="****************************************"/>
+</div>
+<div>
+<label class="field-label">Target Chat ID</label>
+<input class="w-full" type="text" value="-1001234567890"/>
+</div>
+<div class="mt-auto pt-4 border-t border-border-hairline">
+<button class="border border-border-hairline text-text-primary font-ui-label text-ui-label h-[40px] px-4 hover:border-primary-container hover:text-primary-container transition-colors active:translate-y-[-1px] w-full flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">send</span>
+                                Send Test Message
+                            </button>
+</div>
+</div>
+</section>
+</div>
+<!-- SECTION 4: Maintenance & Backup -->
+<section class="flex flex-col gap-4 mb-8">
+<header class="border-b border-border-hairline pb-2">
+<h2 class="font-headline-md text-headline-md text-text-primary">Maintenance &amp; Data</h2>
+</header>
+<div class="bg-surface-container border border-border-hairline p-margin-base flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
+<div class="flex flex-col gap-2 flex-1">
+<div class="border-l-2 border-status-success pl-3 py-1 font-mono-data text-on-surface bg-surface-container-highest inline-block self-start">
+                            Last backup: 2 days ago — <span class="text-status-success">Healthy</span>
+</div>
+<p class="font-mono-label text-[11px] text-text-muted max-w-md">Local DB snapshots are stored in /var/lib/watchtower/backups. Retention policy is 30 days.</p>
+</div>
+<div class="flex items-center gap-4 border-l border-border-hairline pl-6">
+<button class="border border-border-hairline text-text-primary font-ui-label text-ui-label h-[40px] px-6 hover:border-primary-container hover:text-primary-container transition-colors active:translate-y-[-1px] whitespace-nowrap bg-surface">
+                            Run Manual Backup
+                        </button>
+<div class="relative group">
+<button class="border border-status-error/50 text-status-error font-ui-label text-ui-label h-[40px] px-6 hover:bg-status-error/10 transition-colors active:translate-y-[-1px] whitespace-nowrap bg-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">delete_sweep</span>
+                                Prune Token History
+                            </button>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+<div class="bg-surface-container-highest border border-status-error p-2 font-mono-label text-[10px] text-status-error uppercase tracking-wider">
+                                    Irreversible Operation
+                                </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>
